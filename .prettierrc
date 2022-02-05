@@ -6,5 +6,5 @@
     "tabWidth": 4,
     "jsxSingleQuote": true,
     "endOfLine": "auto",
-    "semi": false
+    "semi": true
 }
