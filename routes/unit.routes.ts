@@ -1,10 +1,10 @@
-import { Router } from 'express'
+import { Router } from 'express';
 import UnitsController from '../controller/UnitsController';
 
-const unitRouter = Router()
+const unitRouter = Router();
 
-unitRouter.get('/', UnitsController.getAll)
+unitRouter.get('/', UnitsController.getAll);
 
-unitRouter.get('/:id', UnitsController.getOne)
+unitRouter.get('/:id', UnitsController.getOne);
 
-export default unitRouter
+export default unitRouter;

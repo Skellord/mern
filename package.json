@@ -7,9 +7,7 @@
         "start": "node dist/index.js",
         "dev": "nodemon src/index.ts",
         "build": "tsc -p .",
-        "import:unset": "node db_scripts/import.js",
-        "import:unset_stats": "node db_scripts/importStats.js",
-        "import:delete": "node db_scripts/deleteNaval.js",
+        "import:merge": "node db_scripts/mergeCollections.js",
         "connect:close": "node db_scripts/closeConnection.js"
     },
     "repository": {
