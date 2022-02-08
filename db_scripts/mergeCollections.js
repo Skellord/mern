@@ -10,6 +10,88 @@ const first_collection = process.env.FIRST_IMPORT_COLLECTION_NAME || 'collection
 const second_collection = process.env.SECOND_IMPORT_COLLECTION_NAME || 'collection';
 const finalCollection = process.env.UNIT_COLLECTION || 'collection';
 
+const factions = [
+    {
+        name: 'skaven',
+        reg: 'skv',
+    },
+    {
+        name: 'tombKings',
+        reg: 'tmb',
+    },
+    {
+        name: 'darkElves',
+        reg: 'def',
+    },
+    {
+        name: 'highElves',
+        reg: 'hef',
+    },
+    {
+        name: 'vampireCoast',
+        reg: 'cst',
+    },
+    {
+        name: 'vampireCounts',
+        reg: 'vmp',
+    },
+    {
+        name: 'lizardmens',
+        reg: 'lzd',
+    },
+    {
+        name: 'empire',
+        reg: 'emp',
+    },
+    {
+        name: 'greenSkins',
+        reg: 'grn',
+    },
+    {
+        name: 'woodElves',
+        reg: 'wef',
+    },
+    {
+        name: 'beastmens',
+        reg: 'bst',
+    },
+    {
+        name: 'bretonnia',
+        reg: 'brt',
+    },
+    {
+        name: 'ogres',
+        reg: 'ogr',
+    },
+    {
+        name: 'chaos',
+        reg: 'chs',
+    },
+    {
+        name: 'norsca',
+        reg: 'nor',
+    },
+    {
+        name: 'dwarfs',
+        reg: 'dwf',
+    },
+];
+
+const startRegex = '^(?:[^_\n]+_){2}([';
+const endRegex = ']+)(?:_[^_\n]+)*$';
+
+async function addFactions(collection) {
+    const result = Promise.all(
+        factions.map(async item => {
+            const expression = `${startRegex}${item.reg}${endRegex}`;
+            const regex = new RegExp(expression, 'g');
+            console.log(regex);
+            return await collection.updateMany({ unit: { $regex: regex } }, { $set: { faction: item.name } });
+        })
+    );
+    return result;
+}
+
 async function mergeCollections() {
     try {
         await client.connect();
@@ -47,6 +129,8 @@ async function mergeCollections() {
                     vo_is_dinosaur: '',
                     porthole_composite_scene: '',
                     ui_unit_group_land: '',
+                    is_naval: '',
+                    naval_unit: '',
                 },
             }
         );
@@ -106,6 +190,7 @@ async function mergeCollections() {
 
         const newCollection = await db.collection(finalCollection).insertMany(items);
         console.log(newCollection);
+        await addFactions(db.collection(finalCollection));
     } catch (e) {
         console.log(e);
     }
