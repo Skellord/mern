@@ -85,7 +85,6 @@ async function addFactions(collection) {
         factions.map(async item => {
             const expression = `${startRegex}${item.reg}${endRegex}`;
             const regex = new RegExp(expression, 'g');
-            console.log(regex);
             return await collection.updateMany({ unit: { $regex: regex } }, { $set: { faction: item.name } });
         })
     );
