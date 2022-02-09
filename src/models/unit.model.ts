@@ -33,7 +33,7 @@ const subschema = new Schema({
     mounted_draughts: { type: String },
     sync_locomotion: { type: String },
     can_brace: { type: String },
-})
+});
 
 const schema = new Schema({
     id: { type: Types.ObjectId, required: true, unique: true },
@@ -55,7 +55,7 @@ const schema = new Schema({
     is_monstrous: { type: String },
     multiplayer_qb_cap: { type: String },
     faction: { type: String },
-    stats: { type: subschema }
+    stats: { type: subschema },
 });
 
-export const UnitModel = model('Unit', schema)
+export const UnitModel = model('Unit', schema);
