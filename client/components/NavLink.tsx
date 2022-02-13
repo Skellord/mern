@@ -1,6 +1,5 @@
 import { Center, GridItem, Link } from '@chakra-ui/react';
 import { FC } from 'react';
-import LinkButton from './LinkButton';
 import NextLink from 'next/link';
 
 interface Props {

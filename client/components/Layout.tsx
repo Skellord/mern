@@ -15,25 +15,16 @@ const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading = 'Page', children
             <Head>
                 <title>{title}</title>
             </Head>
-            <Box h='calc(100vh - 56px)'>
-                <Header />
-                <Box
-                    as='main'
-                    h='100%'
-                    bgImage="url('./img/tww3-background.jpg')"
-                    bgRepeat='no-repeat'
-                    bgPosition='center'
-                    bgSize='cover'
-                >
-                    <Nav />
-                    <Container maxW='container.xl' bgColor='gray.900' py='4'>
-                        <Heading as='h1' size='2xl' marginBottom='6'>
-                            {heading}
-                        </Heading>
-                        <Divider marginBottom='4' />
-                        {children}
-                    </Container>
-                </Box>
+            <Header />
+            <Box as='main'>
+                <Nav />
+                <Container maxW='container.xl' bgColor='gray.900' py='4'>
+                    <Heading as='h1' size='2xl' marginBottom='6'>
+                        {heading}
+                    </Heading>
+                    <Divider marginBottom='4' />
+                    {children}
+                </Container>
             </Box>
         </>
     );

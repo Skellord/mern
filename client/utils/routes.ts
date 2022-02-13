@@ -6,8 +6,8 @@ export const mainRoute: Route = {
 };
 
 export const unitsRoute: Route = {
-    name: 'Units',
-    href: '/units',
+    name: 'Factions',
+    href: '/factions',
 };
 
 export const mainNavRoutes: Route[] = [mainRoute, unitsRoute];
