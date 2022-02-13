@@ -1,38 +1,40 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { FC } from 'react';
-import { Container, Box } from '@chakra-ui/react';
+import { Container, Box, Heading, Divider } from '@chakra-ui/react';
 import Nav from './Nav';
 import Header from './Header';
 
 interface Layout {
     title?: string;
+    heading?: string;
 }
 
-const Layout: FC<Layout> = ({ title = 'TWW Datebase', children }) => {
+const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading = 'Page', children }) => {
     return (
         <>
             <Head>
                 <title>{title}</title>
-                <meta name='description' content='TWW Datebase' />
-                <link rel='icon' href='/favicon.ico' />
             </Head>
-            <main>
+            <Box h='calc(100vh - 56px)'>
                 <Header />
                 <Box
-                    h={'100%'}
+                    as='main'
+                    h='100%'
                     bgImage="url('./img/tww3-background.jpg')"
-                    bgRepeat={'no-repeat'}
-                    bgPosition={'center'}
-                    bgSize={'cover'}
+                    bgRepeat='no-repeat'
+                    bgPosition='center'
+                    bgSize='cover'
                 >
-                    {/* <Image src='../public/img/tww3-background.jpg'/> */}
-                    <Container maxW={'1328px'} h={'100%'} bgColor={'blue.900'}>
-                        <Nav />
+                    <Nav />
+                    <Container maxW='container.xl' bgColor='gray.900' py='4'>
+                        <Heading as='h1' size='2xl' marginBottom='6'>
+                            {heading}
+                        </Heading>
+                        <Divider marginBottom='4' />
                         {children}
                     </Container>
                 </Box>
-            </main>
+            </Box>
         </>
     );
 };
