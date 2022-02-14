@@ -11,4 +11,6 @@ unitRouter.get('/factions', UnitsController.getAllFactions);
 
 unitRouter.get('/factions/:faction', UnitsController.getOneFaction);
 
+unitRouter.get('/factions/:faction/:type', UnitsController.getOneFactionCaste);
+
 export default unitRouter;

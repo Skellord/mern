@@ -1,33 +1,50 @@
 import { SimpleGrid, Text, Box, Alert, Spinner } from '@chakra-ui/react';
-import { GetStaticProps, NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { FC } from 'react';
+import useSWR, { SWRConfig } from 'swr';
+import { ErrorAlert } from '../../components/ErrorAlert';
 import Layout from '../../components/Layout';
-import { useRequest } from '../../hooks/useRequest';
+import { apiRoutes, baseUrl, fetcher } from '../../utils/api.util';
 
-const factionRoute = '/units/factions';
+const url = baseUrl + apiRoutes.factions;
 
-const Units: NextPage = () => {
-    const { data, error } = useRequest(factionRoute);
-    if (error) return <Alert>Load error</Alert>;
+export const getServerSideProps: GetServerSideProps = async () => {
+    const data = await fetcher(url);
+    return {
+        props: {
+            fallback: {
+                [url]: data,
+            },
+        },
+    };
+};
+
+const Units: FC = () => {
+    const { data, error } = useSWR(url);
+    if (error) return <ErrorAlert />;
     if (!error && !data) return <Spinner />;
     return (
-        <Layout heading='Factions'>
-            <SimpleGrid>
-                {data.map((item: string) => (
-                    <Box key={item}>
-                        <Link href={`${factionRoute}/${item}`}>
-                            <a>{item}</a>
-                        </Link>
-                    </Box>
-                ))}
-            </SimpleGrid>
-        </Layout>
+        <>
+            {data.map((item: string) => (
+                <Box key={item}>
+                    <Link href={`factions/${item}`}>
+                        <a>{item}</a>
+                    </Link>
+                </Box>
+            ))}
+        </>
     );
 };
 
-// export const getStaticProps: GetStaticProps = async () => {
-//     const { data } = useRequest(fa)
-
-// }
-
-export default Units;
+export default function UnitsPage({ fallback }: any) {
+    return (
+        <SWRConfig value={{ fallback }}>
+            <Layout heading='Factions'>
+                <SimpleGrid>
+                    <Units />
+                </SimpleGrid>
+            </Layout>
+        </SWRConfig>
+    );
+}

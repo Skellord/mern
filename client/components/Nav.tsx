@@ -1,6 +1,6 @@
 import { Container, Grid } from '@chakra-ui/react';
 import { FC } from 'react';
-import { mainNavRoutes } from '../utils/routes';
+import { mainNavRoutes } from '../utils/routes.util';
 import NavLink from './NavLink';
 
 const Nav: FC = () => {

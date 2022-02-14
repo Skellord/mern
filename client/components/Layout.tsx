@@ -6,7 +6,7 @@ import Header from './Header';
 
 interface Layout {
     title?: string;
-    heading?: string;
+    heading?: string | string[];
 }
 
 const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading = 'Page', children }) => {
