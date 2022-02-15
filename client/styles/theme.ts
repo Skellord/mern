@@ -8,6 +8,7 @@ const theme = extendTheme({
                 color: 'white',
                 background: "url('./img/tww3-background.jpg')",
                 backgroundSize: 'cover',
+                backgroundAttachment: 'fixed',
             },
         },
     },

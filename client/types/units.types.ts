@@ -6,8 +6,10 @@ export type UnitCaste =
     | 'melee_infantry'
     | 'monster'
     | 'monstrous_infantry'
+    | 'monstrous_cavalry'
     | 'warmachine'
     | 'missile_infantry'
+    | 'missile_cavalry'
     | 'war_beast';
 
 interface UnitStats {
@@ -46,7 +48,7 @@ interface UnitStats {
 }
 
 export interface Unit {
-    id: string;
+    _id: string;
     unit: string;
     caste: string;
     land_unit: string;

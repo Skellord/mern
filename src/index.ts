@@ -10,6 +10,7 @@ const app: Application = express();
 
 app.use(cors());
 app.use('/units', unitRouter);
+app.use(express.static(__dirname + '/public'));
 
 const start = async () => {
     try {
