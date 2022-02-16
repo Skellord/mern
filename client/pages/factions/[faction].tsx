@@ -1,38 +1,56 @@
-import { Box, Heading, Spinner, HStack } from '@chakra-ui/react';
+import { Box, Heading, HStack } from '@chakra-ui/react';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { ErrorAlert } from '../../components/ErrorAlert';
+import { BASE_URL, client } from '../../api/api';
 import Layout from '../../components/Layout';
 import { UnitCardMini } from '../../components/UnitCardMini';
-import { useRequest } from '../../hooks/useRequest';
-import { Unit, UnitCaste } from '../../types/units.types';
-import { apiRoutes, baseUrl } from '../../utils/api.util';
+import { useFetchWithCache } from '../../hooks/useFetchWithCache';
+import { FactionsUnitsResponse } from '../../types/api.types';
+import { Unit } from '../../types/units.types';
+import { apiRoutes } from '../../utils/api.util';
+
+type UnitsGroup = Pick<Unit, 'unit' | '_id'>;
 
 interface Props {
-    faction: string;
-    type: UnitCaste;
+    units: UnitsGroup[];
     title: string;
 }
 
-const UnitsGroup: FC<Props> = ({ faction, type, title }) => {
-    const unitType = faction + '/' + type;
-    const { data, error }: { data: Unit[]; error: any } = useRequest(apiRoutes.factions, unitType);
+export const getStaticPaths: GetStaticPaths = async () => {
+    const factions = await client.getFactions();
 
-    if (error) return <ErrorAlert />;
-    if (!error && !data) return <Spinner />;
-    return !data.length ? (
-        <></>
-    ) : (
+    const paths = factions.map((item: string) => ({
+        params: { faction: item },
+    }));
+    return { paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps = async context => {
+    const { params } = context;
+    const { faction } = params as { faction: string };
+    const data = await client.getFaсtionUnits({
+        faction,
+    });
+    return {
+        props: {
+            data,
+        },
+    };
+};
+
+const UnitsGroup: FC<Props> = ({ units, title }) => {
+    return (
         <Box as='section' marginBottom='6'>
             <Heading marginBottom='4'>{title}</Heading>
             <HStack>
-                {data.map((item: Unit) => {
+                {units?.map(item => {
                     const newName = item.unit.split('_');
                     const name =
                         newName[newName.length - 1] === '0'
                             ? newName.slice(4, newName.length - 1).join(' ')
                             : newName.slice(4, newName.length).join(' ');
-                    const imgSrc = `${baseUrl}/units/${item.unit}.png`;
+                    const imgSrc = `${BASE_URL}/units/${item.unit}.png`;
                     return <UnitCardMini key={item.unit} name={name} imgSrc={imgSrc} href={item._id} />;
                 })}
             </HStack>
@@ -40,22 +58,38 @@ const UnitsGroup: FC<Props> = ({ faction, type, title }) => {
     );
 };
 
-export default function FactionPage() {
-    const router = useRouter();
-    const { faction } = router.query;
+const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
+    const { data: initialData } = props;
+    const {
+        query: { faction },
+    } = useRouter();
+
+    const { data, isFirstLoading } = useFetchWithCache<FactionsUnitsResponse>(
+        [apiRoutes.getFactionUnits, faction],
+        (_: any, faction: any) => client.getFaсtionUnits({ faction }),
+        {
+            fallbackData: initialData,
+        }
+    );
+
+    const groups = data?.map(item => item.caste);
+    const newGrops = ['lord', 'hero'].concat(
+        [...new Set(groups)].sort((a, b) => a.localeCompare(b)).filter(item => item !== 'hero' && item !== 'lord')
+    );
+
     return (
         <Layout heading={faction}>
-            <UnitsGroup faction={faction as string} title={'Lords'} type={'lord'} />
-            <UnitsGroup faction={faction as string} title={'Heroes'} type={'hero'} />
-            <UnitsGroup faction={faction as string} title={'Melee infantry'} type={'melee_infantry'} />
-            <UnitsGroup faction={faction as string} title={'Missile infantry'} type={'missile_infantry'} />
-            <UnitsGroup faction={faction as string} title={'Melee cavalry'} type={'melee_cavalry'} />
-            <UnitsGroup faction={faction as string} title={'Missile cavalry'} type={'missile_cavalry'} />
-            <UnitsGroup faction={faction as string} title={'Monster'} type={'monster'} />
-            <UnitsGroup faction={faction as string} title={'War beast'} type={'war_beast'} />
-            <UnitsGroup faction={faction as string} title={'Monstrous infantry'} type={'monstrous_infantry'} />
-            <UnitsGroup faction={faction as string} title={'Monstrous Cavalry'} type={'monstrous_cavalry'} />
-            <UnitsGroup faction={faction as string} title={'Warmachine'} type={'warmachine'} />
+            {data &&
+                newGrops?.map(item => {
+                    const newUnits: UnitsGroup[] = data
+                        .filter(unit => unit.caste === item)
+                        .map(unit => {
+                            return { unit: unit.unit, _id: unit._id };
+                        });
+                    return <UnitsGroup key={item} title={item} units={newUnits} />;
+                })}
         </Layout>
     );
-}
+};
+
+export default FactionPage;

@@ -15,7 +15,7 @@ export const UnitCardMini: FC<Props> = ({ name, imgSrc, href }) => {
         <NextLink href={link} as={link}>
             <Link>
                 <Box flexBasis='60px' flexWrap='wrap' position='relative' borderRadius='4px' overflow='hidden'>
-                    <Image loader={() => imgSrc} src={imgSrc} width={60} height={130} />
+                    <Image loader={() => imgSrc} src={imgSrc} width={60} height={130} placeholder='empty' />
                     <Text
                         position='absolute'
                         bottom='4'

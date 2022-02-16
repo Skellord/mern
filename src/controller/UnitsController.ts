@@ -43,7 +43,7 @@ class UnitsController {
         try {
             const faction = req.params.faction;
 
-            const units = await UnitModel.find({ faction: faction });
+            const units = await UnitModel.find({ faction: faction, unit: { $regex: regexZero } });
             res.json(units);
         } catch (e) {
             res.status(500).json(e);

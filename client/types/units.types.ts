@@ -50,7 +50,7 @@ interface UnitStats {
 export interface Unit {
     _id: string;
     unit: string;
-    caste: string;
+    caste: UnitCaste;
     land_unit: string;
     num_men: string;
     multiplayer_cap: string;

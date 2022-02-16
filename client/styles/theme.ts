@@ -6,7 +6,7 @@ const theme = extendTheme({
             body: {
                 fontSize: '16px',
                 color: 'white',
-                background: "url('./img/tww3-background.jpg')",
+                backgroundImage: "url('/img/tww3-background.jpg')",
                 backgroundSize: 'cover',
                 backgroundAttachment: 'fixed',
             },

@@ -1,50 +1,44 @@
-import { SimpleGrid, Text, Box, Alert, Spinner } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
+import { SimpleGrid, Box } from '@chakra-ui/react';
+import { GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
-import { FC } from 'react';
-import useSWR, { SWRConfig } from 'swr';
-import { ErrorAlert } from '../../components/ErrorAlert';
+import { client } from '../../api/api';
 import Layout from '../../components/Layout';
-import { apiRoutes, baseUrl, fetcher } from '../../utils/api.util';
+import { useFetchWithCache } from '../../hooks/useFetchWithCache';
+import { FactionsResponse } from '../../types/api.types';
+import { apiRoutes } from '../../utils/api.util';
 
-const url = baseUrl + apiRoutes.factions;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-    const data = await fetcher(url);
+export const getStaticProps: GetStaticProps = async () => {
+    const data = await client.getFactions();
     return {
         props: {
-            fallback: {
-                [url]: data,
-            },
+            data,
         },
     };
 };
 
-const Units: FC = () => {
-    const { data, error } = useSWR(url);
-    if (error) return <ErrorAlert />;
-    if (!error && !data) return <Spinner />;
+const Units: NextPage<{ data: FactionsResponse }> = props => {
+    const { data: initialData } = props;
+
+    const { data, isFirstLoading } = useFetchWithCache<FactionsResponse>(
+        [apiRoutes.getFactions],
+        () => client.getFactions(),
+        { fallbackData: initialData }
+    );
     return (
-        <>
-            {data.map((item: string) => (
-                <Box key={item}>
-                    <Link href={`factions/${item}`}>
-                        <a>{item}</a>
-                    </Link>
-                </Box>
-            ))}
-        </>
+        <Layout heading='Factions'>
+            <SimpleGrid>
+                {isFirstLoading
+                    ? '...loading'
+                    : data?.map((item: string) => (
+                          <Box key={item}>
+                              <Link href={`factions/${item}`}>
+                                  <a>{item}</a>
+                              </Link>
+                          </Box>
+                      ))}
+            </SimpleGrid>
+        </Layout>
     );
 };
 
-export default function UnitsPage({ fallback }: any) {
-    return (
-        <SWRConfig value={{ fallback }}>
-            <Layout heading='Factions'>
-                <SimpleGrid>
-                    <Units />
-                </SimpleGrid>
-            </Layout>
-        </SWRConfig>
-    );
-}
+export default Units;

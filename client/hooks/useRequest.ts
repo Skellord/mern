@@ -1,8 +1,8 @@
 import useSWR from 'swr';
-import { baseUrl } from '../utils/api.util';
+import { BASE_URL } from '../api/api';
 
 export const useRequest = (path: string, name?: string) => {
-    const url = name ? baseUrl + path + '/' + name : baseUrl + path;
+    const url = name ? BASE_URL + path + '/' + name : BASE_URL + path;
     const { data, error } = useSWR(url);
 
     return { data, error };
