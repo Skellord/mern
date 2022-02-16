@@ -9,7 +9,7 @@ interface Layout {
     heading?: string | string[];
 }
 
-const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading = 'Page', children }) => {
+const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading, children }) => {
     return (
         <>
             <Head>
@@ -19,10 +19,15 @@ const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading = 'Page', children
             <Box as='main'>
                 <Nav />
                 <Container maxW='container.xl' bgColor='gray.900' py='4'>
-                    <Heading as='h1' size='2xl' marginBottom='6'>
-                        {heading}
-                    </Heading>
-                    <Divider marginBottom='4' />
+                    {heading && (
+                        <>
+                            <Heading as='h1' size='2xl' marginBottom='6'>
+                                {heading}
+                            </Heading>
+                            <Divider marginBottom='4' />
+                        </>
+                    )}
+
                     {children}
                 </Container>
             </Box>
