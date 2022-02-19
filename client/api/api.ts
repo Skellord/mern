@@ -30,6 +30,10 @@ class Client {
         return fetcher<UnitResponse>(`${BASE_URL}${apiRoutes.getUnit}${params.id}`, { headers: this.headers });
     }
 
+    getUnitStats(params: UnitParams) {
+        return fetcher<UnitResponse>(`${BASE_URL}${apiRoutes.getUnit}${params.id}/stats`, { headers: this.headers });
+    }
+
     getUnits() {
         return fetcher<UnitsResponse>(`${BASE_URL}${apiRoutes.getUnits}`, { headers: this.headers });
     }

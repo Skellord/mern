@@ -1,8 +1,8 @@
-import { Unit } from './units.types';
+import { Unit, UnitWithStats } from './units.types';
 
 export type FactionsResponse = string[];
 export type FactionsUnitsResponse = Unit[];
-export type UnitResponse = Unit;
+export type UnitResponse = [UnitWithStats];
 export type UnitsResponse = Unit[];
 
 export interface FactionUnitsParams {

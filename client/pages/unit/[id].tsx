@@ -25,7 +25,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async context => {
     const { params } = context;
     const { id } = params as { id: string };
-    const data = await client.getUnit({
+    const data = await client.getUnitStats({
         id,
     });
     return {
@@ -55,8 +55,8 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
     } = useRouter();
 
     const { data, isFirstLoading } = useFetchWithCache<UnitResponse>(
-        [apiRoutes.getUnit, id],
-        (_: any, _id: any) => client.getUnit({ id: _id }),
+        [apiRoutes.getUnit, id, '/stats'],
+        (_: any, _id: any) => client.getUnitStats({ id: _id }),
         {
             fallbackData: initialData,
         }
@@ -65,13 +65,15 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
     if (!data) return <ErrorAlert />;
     if (isFirstLoading) return <Spinner />;
 
-    const imgSrc = `${BASE_URL}/units/${data.unit}.png`;
+    const unitStats = data[0];
+
+    const imgSrc = `${BASE_URL}/units/${unitStats.unit}.png`;
     console.log(data);
 
     return (
         <Layout>
             <Heading as='h1' marginBottom='6'>
-                {data.unit}
+                {unitStats.unit}
             </Heading>
             <Box w='400px' p='4' border='1px' borderColor='gray.400' borderRadius='2xl'>
                 <Heading fontSize='2xl' marginBottom='4'>
@@ -83,7 +85,7 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
                     </Box>
 
                     <Text fontSize='xl' fontWeight='bold' marginLeft='4'>
-                        {data.caste}
+                        {unitStats.caste}
                     </Text>
                 </Flex>
                 <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4' minH='120px'>
@@ -97,8 +99,8 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
                     marginBottom='4'
                     justify='space-evenly'
                 >
-                    <WrapItem>{data.num_men}</WrapItem>
-                    <WrapItem>{data.multiplayer_cost}</WrapItem>
+                    <WrapItem>{unitStats.num_men}</WrapItem>
+                    <WrapItem>{unitStats.multiplayer_cost}</WrapItem>
                 </Wrap>
                 <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
                     <WrapItem w='100%' justifyContent='center'>
@@ -112,21 +114,21 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
                                 fontWeight='bold'
                                 textShadow='dark-lg'
                             >
-                                {data.stats.bonus_hit_points}
+                                {unitStats.stats.bonus_hit_points}
                             </Text>
                         </Box>
                     </WrapItem>
                     <WrapItem justifyContent='space-between' w='100%'>
                         <Text>Armour</Text>
                         <Flex as='span' alignItems='center'>
-                            <Text marginRight='2'>{data.stats.armour.split('_').at(-1)}</Text>
+                            <Text marginRight='2'>{unitStats.stats.armour.split('_').at(-1)}</Text>
                             <Progress colorScheme='blackAlpha' w='50px' h='12px' value={50} />
                         </Flex>
                     </WrapItem>
                     <WrapItem justifyContent='space-between' w='100%'>
                         <Text>Leadership</Text>
                         <Flex as='span' alignItems='center'>
-                            <Text marginRight='2'>{data.stats.morale}</Text>
+                            <Text marginRight='2'>{unitStats.stats.morale}</Text>
                             <Progress colorScheme='blackAlpha' w='50px' h='12px' value={50} />
                         </Flex>
                     </WrapItem>
@@ -140,28 +142,28 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
                     <WrapItem justifyContent='space-between' w='100%'>
                         <Text>Melee attack</Text>
                         <Flex as='span' alignItems='center'>
-                            <Text marginRight='2'>{data.stats.melee_attack}</Text>
+                            <Text marginRight='2'>{unitStats.stats.melee_attack}</Text>
                             <Progress colorScheme='blackAlpha' w='50px' h='12px' value={50} />
                         </Flex>
                     </WrapItem>
                     <WrapItem justifyContent='space-between' w='100%'>
                         <Text>Melee defence</Text>
                         <Flex as='span' alignItems='center'>
-                            <Text marginRight='2'>{data.stats.melee_defence}</Text>
+                            <Text marginRight='2'>{unitStats.stats.melee_defence}</Text>
                             <Progress colorScheme='blackAlpha' w='50px' h='12px' value={50} />
                         </Flex>
                     </WrapItem>
                     <WrapItem justifyContent='space-between' w='100%'>
                         <Text>Melee defence</Text>
                         <Flex as='span' alignItems='center'>
-                            <Text marginRight='2'>{data.stats.melee_defence}</Text>
+                            <Text marginRight='2'>{unitStats.stats.melee_defence}</Text>
                             <Progress colorScheme='blackAlpha' w='50px' h='12px' value={50} />
                         </Flex>
                     </WrapItem>
                     <WrapItem justifyContent='space-between' w='100%'>
                         <Text>Charge bonus</Text>
                         <Flex as='span' alignItems='center'>
-                            <Text marginRight='2'>{data.stats.charge_bonus}</Text>
+                            <Text marginRight='2'>{unitStats.stats.charge_bonus}</Text>
                             <Progress colorScheme='blackAlpha' w='50px' h='12px' value={50} />
                         </Flex>
                     </WrapItem>
