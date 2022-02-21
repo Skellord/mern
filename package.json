@@ -7,7 +7,7 @@
         "start": "node build/index.js",
         "build": "babel --extensions .ts ./src --out-dir build --source-maps inline",
         "dev": "concurrently \"nodemon src/index.ts\" \"cd ./client && pnpm dev\"",
-        "db:prepare": "cross-env NODE_ENV=default node db_scripts/completeDataCollection.js",
+        "db:prepare": "node db_scripts/completeDataCollection.js",
         "connect:close": "node db_scripts/closeConnection.js"
     },
     "repository": {

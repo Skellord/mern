@@ -85,6 +85,17 @@ async function addFactions(collection) {
     return result;
 }
 
+async function deleteDuplicates(collection, removeFromCollection) {
+    // collection.forEach(function (doc) {
+    //     doc.dups.shift();
+    //     removeFromCollection.deleteMany({ _id: { $in: doc.dups } });
+    // });
+    for (const doc of collection) {
+        doc.dups.shift();
+        await removeFromCollection.deleteMany({ _id: { $in: doc.dups } });
+    }
+}
+
 async function completeData() {
     try {
         await client.connect();
@@ -97,6 +108,7 @@ async function completeData() {
         const projectilesCollection = db.collection(process.env.PROJECTILE_COLLECTION);
         const entityCollection = db.collection(process.env.ENTITY_COLLECTION);
         const mountsCollection = db.collection(process.env.MOUNTS_COLLECTION);
+        const permissionCollection = db.collection(process.env.PERMISSION_COLLECTION);
 
         await mainCollection.updateMany(
             {},
@@ -278,6 +290,50 @@ async function completeData() {
                 },
             }
         );
+
+        await permissionCollection.deleteMany({
+            general_portrait: { $exists: false },
+        });
+        const ids = permissionCollection.aggregate([
+            {
+                $group: {
+                    _id: {
+                        unit: '$unit',
+                    },
+                    _idsNeedsToBeDeleted: {
+                        $push: '$$ROOT._id',
+                    },
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    _idsNeedsToBeDeleted: {
+                        $slice: [
+                            '$_idsNeedsToBeDeleted',
+                            1,
+                            {
+                                $size: '$_idsNeedsToBeDeleted',
+                            },
+                        ],
+                    },
+                },
+            },
+            {
+                $unwind: {
+                    path: '$_idsNeedsToBeDeleted',
+                },
+            },
+            {
+                $group: {
+                    _id: '',
+                    _idsNeedsToBeDeleted: {
+                        $push: '$_idsNeedsToBeDeleted',
+                    },
+                },
+            },
+        ]);
+        await permissionCollection.deleteMany({ _id: { $in: [ids] } });
     } catch (e) {
         console.log(e);
     }

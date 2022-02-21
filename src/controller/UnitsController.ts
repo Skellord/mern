@@ -44,7 +44,44 @@ class UnitsController {
         try {
             const faction = req.params.faction;
 
-            const units = await UnitModel.find({ faction: faction, unit: { $regex: regexZero } });
+            // const units = await UnitModel.find({ faction: faction, unit: { $regex: regexZero } });
+            const units = await UnitModel.aggregate([
+                {
+                    $match: { faction: faction, unit: { $regex: regexZero } },
+                },
+                {
+                    $lookup: {
+                        from: 'permission',
+                        localField: 'unit',
+                        foreignField: 'unit',
+                        as: 'lord_portrait',
+                        pipeline: [
+                            {
+                                $project: { general_portrait: 1 },
+                            },
+                        ],
+                    },
+                },
+                {
+                    $set: { lord_portrait: { $arrayElemAt: ['$lord_portrait.general_portrait', 0] } },
+                },
+                {
+                    $lookup: {
+                        from: 'unit_variants',
+                        localField: 'unit',
+                        foreignField: 'unit',
+                        as: 'unit_portrait',
+                        pipeline: [
+                            {
+                                $project: { unit_card: 1 },
+                            },
+                        ],
+                    },
+                },
+                {
+                    $set: { unit_portrait: { $arrayElemAt: ['$unit_portrait.unit_card', 0] } },
+                },
+            ]);
             res.json(units);
         } catch (e) {
             res.status(500).json(e);
@@ -150,6 +187,20 @@ class UnitsController {
                     },
                     {
                         $unwind: { path: '$mount_entity', preserveNullAndEmptyArrays: true },
+                    },
+                    {
+                        $project: {
+                            img: {
+                                $cond: [
+                                    {
+                                        $eq: ['caste', 'lord'],
+                                    },
+                                    {
+                                        $lookup: {},
+                                    },
+                                ],
+                            },
+                        },
                     },
                 ],
                 {
