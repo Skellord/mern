@@ -1,28 +1,32 @@
-import express, { Application, Request, Response } from 'express';
-import cors from 'cors';
 import mongoose from 'mongoose';
 import 'dotenv/config';
-import unitRouter from './routes/unit.routes';
+import app from './app';
+import { logger } from './utils/logger.util';
 
 const PORT = process.env.PORT || 5000;
 
-const app: Application = express();
-
-app.use(cors());
-app.use('/units', unitRouter);
-app.use(express.static(__dirname + '/public'));
+const exitHandler = (e: unknown) => {
+    if (process.env.NODE_ENV === 'development') {
+        console.log('Server error', e);
+        process.exit(1);
+    } else {
+        logger.info(e);
+        process.exit(1);
+    }
+};
 
 const start = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI || '');
-        app.listen(PORT, () => console.log(`Server start on port ${PORT}`));
+        logger.info('Connected to MongoDB');
+        app.listen(PORT, () => {
+            return process.env.NODE_ENV === 'development'
+                ? console.log(`Server start on port ${PORT}`)
+                : logger.info(`Server start on port ${PORT}`);
+        });
     } catch (e) {
-        console.log('Server error', e);
-        process.exit(1);
+        exitHandler(e);
     }
 };
-app.get('/', (req: Request, res: Response) => {
-    res.send('Start server');
-});
 
 start();

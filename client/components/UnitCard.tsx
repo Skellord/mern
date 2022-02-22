@@ -40,7 +40,9 @@ const StasItem: FC<StatsItemProps> = ({ title, text, progress }) => {
 };
 
 export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
-    const imgSrc = `${BASE_URL}/units/${unitStats.unit}.png`;
+    const imgSrc = unitStats.lord_portrait
+        ? `${BASE_URL}/units/${unitStats.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
+        : `${BASE_URL}/units/${unitStats.unit_portrait}.png`;
 
     const hp = (parseInt(unitStats.stats.bonus_hit_points, 10) * parseInt(unitStats.num_men, 10)).toString();
     const shieldVal = unitStats.stats.shield === 'none' ? '0' : unitStats.stats.shield.split('_').at(-2);
@@ -59,7 +61,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
             </Heading>
             <Flex marginBottom='4'>
                 <Box borderRadius='4' overflow='hidden'>
-                    <Image loader={() => imgSrc} src={imgSrc} width={60} height={130} />
+                    <Image loader={() => imgSrc} src={imgSrc} width={60} height={130} unoptimized />
                 </Box>
 
                 <Text fontSize='xl' fontWeight='bold' marginLeft='4'>
@@ -198,6 +200,15 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                 )}
 
                 <StasItem title={'Mass'} text={massVal} />
+            </Wrap>
+
+            <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
+                {unitStats.stats.attribute_group
+                    .split('_')
+                    ?.slice(1)
+                    ?.map(item => {
+                        return <WrapItem w='100%'>{item}</WrapItem>;
+                    })}
             </Wrap>
         </Box>
     );

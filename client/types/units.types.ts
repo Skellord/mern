@@ -36,6 +36,8 @@ export interface Unit {
     is_monstrous: string;
     multiplayer_qb_cap: string;
     faction: string;
+    unit_portrait?: string;
+    lord_portrait?: string;
 }
 
 interface UnitStats {

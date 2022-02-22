@@ -10,7 +10,7 @@ import { FactionsUnitsResponse } from '../../types/api.types';
 import { Unit } from '../../types/units.types';
 import { apiRoutes } from '../../utils/api.util';
 
-type UnitsGroup = Pick<Unit, 'unit' | '_id'>;
+type UnitsGroup = Pick<Unit, 'unit' | '_id' | 'lord_portrait' | 'unit_portrait'>;
 
 interface Props {
     units: UnitsGroup[];
@@ -50,7 +50,9 @@ const UnitsGroup: FC<Props> = ({ units, title }) => {
                         newName[newName.length - 1] === '0'
                             ? newName.slice(4, newName.length - 1).join(' ')
                             : newName.slice(4, newName.length).join(' ');
-                    const imgSrc = `${BASE_URL}/units/${item.unit}.png`;
+                    const imgSrc = item.lord_portrait
+                        ? `${BASE_URL}/units/${item.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
+                        : `${BASE_URL}/units/${item.unit_portrait}.png`;
                     return <UnitCardMini key={item.unit} name={name} imgSrc={imgSrc} href={item._id} />;
                 })}
             </HStack>
@@ -76,7 +78,6 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
     const newGrops = ['lord', 'hero'].concat(
         [...new Set(groups)].sort((a, b) => a.localeCompare(b)).filter(item => item !== 'hero' && item !== 'lord')
     );
-
     return (
         <Layout heading={faction}>
             {data &&
@@ -84,7 +85,12 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
                     const newUnits: UnitsGroup[] = data
                         .filter(unit => unit.caste === item)
                         .map(unit => {
-                            return { unit: unit.unit, _id: unit._id };
+                            return {
+                                unit: unit.unit,
+                                _id: unit._id,
+                                lord_portrait: unit.lord_portrait,
+                                unit_portrait: unit.unit_portrait,
+                            };
                         });
                     return <UnitsGroup key={item} title={item} units={newUnits} />;
                 })}

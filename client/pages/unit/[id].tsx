@@ -53,8 +53,6 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
     if (isFirstLoading) return <Spinner />;
 
     const unitStats = data[0];
-
-    const imgSrc = `${BASE_URL}/units/${unitStats.unit}.png`;
     console.log(data);
 
     return (
