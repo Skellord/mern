@@ -73,16 +73,30 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
             fallbackData: initialData,
         }
     );
+    console.log(data);
 
     const groups = data?.map(item => item.caste);
-    const newGrops = ['lord', 'hero'].concat(
+    const newGroups = ['lord', 'hero'].concat(
         [...new Set(groups)].sort((a, b) => a.localeCompare(b)).filter(item => item !== 'hero' && item !== 'lord')
     );
+    const campaignUnits: UnitsGroup[] | undefined =
+        data &&
+        data
+            .filter(unit => unit.campaign_exclusive === 'true')
+            .map(unit => {
+                return {
+                    unit: unit.unit,
+                    _id: unit._id,
+                    lord_portrait: unit.lord_portrait,
+                    unit_portrait: unit.unit_portrait,
+                };
+            });
     return (
         <Layout heading={faction}>
             {data &&
-                newGrops?.map(item => {
+                newGroups?.map(item => {
                     const newUnits: UnitsGroup[] = data
+                        .filter(unit => unit.campaign_exclusive === 'false')
                         .filter(unit => unit.caste === item)
                         .map(unit => {
                             return {
@@ -94,6 +108,9 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
                         });
                     return <UnitsGroup key={item} title={item} units={newUnits} />;
                 })}
+            {campaignUnits && campaignUnits!.length > 0 && (
+                <UnitsGroup title={'campaign_exclusive'} units={campaignUnits} />
+            )}
         </Layout>
     );
 };

@@ -15,6 +15,7 @@ export type UnitCaste =
 export interface Unit {
     _id: string;
     unit: string;
+    campaign_exclusive?: string;
     caste: UnitCaste;
     create_time: string;
     is_naval: string;
@@ -119,4 +120,5 @@ export interface UnitWithStats extends Unit {
     melee_damage: MeleeDamage;
     missile_damage: MissileDamage | undefined;
     stats: UnitStats;
+    specials: string[];
 }

@@ -134,7 +134,6 @@ async function completeData() {
                     vo_is_dragon: '',
                     vo_is_dinosaur: '',
                     porthole_composite_scene: '',
-                    ui_unit_group_land: '',
                 },
             }
         );

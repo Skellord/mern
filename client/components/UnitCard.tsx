@@ -69,7 +69,9 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                 </Text>
             </Flex>
             <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4' minH='120px'>
-                <WrapItem>pros</WrapItem>
+                {unitStats.specials?.map(item => (
+                    <WrapItem>{item}</WrapItem>
+                ))}
             </Wrap>
             <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4' justify='space-evenly'>
                 <WrapItem>{unitStats.num_men}</WrapItem>

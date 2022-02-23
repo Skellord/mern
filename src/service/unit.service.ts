@@ -1,7 +1,8 @@
 import { Types } from 'mongoose';
 import { UnitModel } from '../models/unit.model';
 
-const regexZero = /0$/g;
+const regexZero =
+    /(?:1$)|(?:2$)|(?:4$)|(?:3$)|(?:9$)|(?:10$)|(?:summoned\b)|(?:summoned_0\b)|(?:_boss\b)|(?:qb\b)|(?:_boss_0\b)|(?:waaagh_0\b)/g;
 
 class UnitService {
     async getAllUnits() {
@@ -16,7 +17,11 @@ class UnitService {
         return await UnitModel.aggregate(
             [
                 {
-                    $match: { faction: faction, unit: { $regex: regexZero } },
+                    $match: {
+                        faction: faction,
+                        unit: { $not: { $regex: regexZero } },
+                        caste: { $not: { $eq: 'generic' } },
+                    },
                 },
                 {
                     $lookup: {
@@ -49,6 +54,22 @@ class UnitService {
                 },
                 {
                     $set: { unit_portrait: { $arrayElemAt: ['$unit_portrait.unit_card', 0] } },
+                },
+                {
+                    $lookup: {
+                        from: 'battle_permission',
+                        localField: 'unit',
+                        foreignField: 'unit',
+                        as: 'campaign_exclusive',
+                        pipeline: [
+                            {
+                                $project: { campaign_exclusive: 1 },
+                            },
+                        ],
+                    },
+                },
+                {
+                    $set: { campaign_exclusive: { $arrayElemAt: ['$campaign_exclusive.campaign_exclusive', 0] } },
                 },
             ],
             { allowDiskUse: true }
@@ -169,6 +190,26 @@ class UnitService {
                 },
                 {
                     $set: { unit_portrait: { $arrayElemAt: ['$unit_portrait.unit_card', 0] } },
+                },
+                {
+                    $lookup: {
+                        from: 'bullet_point_overrides',
+                        localField: 'unit',
+                        foreignField: 'unit_key',
+                        as: 'specials',
+                        pipeline: [
+                            {
+                                $group: {
+                                    _id: null,
+                                    specials: { $addToSet: '$bullet_point' },
+                                },
+                            },
+                        ],
+                    },
+                },
+
+                {
+                    $set: { specials: { $arrayElemAt: ['$specials.specials', 0] } },
                 },
             ],
             {
