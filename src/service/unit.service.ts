@@ -2,7 +2,7 @@ import { Types } from 'mongoose';
 import { UnitModel } from '../models/unit.model';
 
 const regexZero =
-    /(?:1$)|(?:2$)|(?:4$)|(?:3$)|(?:9$)|(?:10$)|(?:summoned\b)|(?:summoned_0\b)|(?:_boss\b)|(?:qb\b)|(?:_boss_0\b)|(?:waaagh_0\b)/g;
+    /(?:1$)|(?:2$)|(?:4$)|(?:5$)|(?:3$)|(?:9$)|(?:10$)|(?:6$)|(?:summoned\b)|(?:summoned_0\b)|(?:_boss\b)|(?:qb\b)|(?:_boss_0\b)|(?:waaagh_0\b)|(?:_1_mp\b)/g;
 
 class UnitService {
     async getAllUnits() {
@@ -25,7 +25,7 @@ class UnitService {
                 },
                 {
                     $lookup: {
-                        from: 'permission',
+                        from: 'battle_permission',
                         localField: 'unit',
                         foreignField: 'unit',
                         as: 'lord_portrait',
@@ -161,7 +161,7 @@ class UnitService {
                 },
                 {
                     $lookup: {
-                        from: 'permission',
+                        from: 'battle_permission',
                         localField: 'unit',
                         foreignField: 'unit',
                         as: 'lord_portrait',
