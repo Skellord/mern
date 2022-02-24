@@ -71,6 +71,22 @@ class UnitService {
                 {
                     $set: { campaign_exclusive: { $arrayElemAt: ['$campaign_exclusive.campaign_exclusive', 0] } },
                 },
+                {
+                    $lookup: {
+                        from: 'ui_unit_icons',
+                        localField: 'ui_unit_group_land',
+                        foreignField: 'key',
+                        as: 'icon',
+                        pipeline: [
+                            {
+                                $project: { icon: 1 },
+                            },
+                        ],
+                    },
+                },
+                {
+                    $set: { icon: { $arrayElemAt: ['$icon.icon', 0] } },
+                },
             ],
             { allowDiskUse: true }
         );
@@ -210,6 +226,22 @@ class UnitService {
 
                 {
                     $set: { specials: { $arrayElemAt: ['$specials.specials', 0] } },
+                },
+                {
+                    $lookup: {
+                        from: 'ui_unit_icons',
+                        localField: 'ui_unit_group_land',
+                        foreignField: 'key',
+                        as: 'icon',
+                        pipeline: [
+                            {
+                                $project: { icon: 1 },
+                            },
+                        ],
+                    },
+                },
+                {
+                    $set: { icon: { $arrayElemAt: ['$icon.icon', 0] } },
                 },
             ],
             {

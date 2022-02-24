@@ -10,7 +10,7 @@ import { FactionsUnitsResponse } from '../../types/api.types';
 import { Unit } from '../../types/units.types';
 import { apiRoutes } from '../../utils/api.util';
 
-type UnitsGroup = Pick<Unit, 'unit' | '_id' | 'lord_portrait' | 'unit_portrait'>;
+type UnitsGroup = Pick<Unit, 'unit' | '_id' | 'lord_portrait' | 'unit_portrait' | 'icon'>;
 
 interface Props {
     units: UnitsGroup[];
@@ -53,7 +53,8 @@ const UnitsGroup: FC<Props> = ({ units, title }) => {
                     const imgSrc = item.lord_portrait
                         ? `${BASE_URL}/units/${item.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
                         : `${BASE_URL}/units/${item.unit_portrait}.png`;
-                    return <UnitCardMini key={item.unit} name={name} imgSrc={imgSrc} href={item._id} />;
+                    const iconSrc = `${BASE_URL}/unit_category_icons/${item.icon}.png`;
+                    return <UnitCardMini key={item.unit} name={name} imgSrc={imgSrc} href={item._id} icon={iconSrc} />;
                 })}
             </HStack>
         </Box>
@@ -73,7 +74,6 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
             fallbackData: initialData,
         }
     );
-    console.log(data);
 
     const groups = data?.map(item => item.caste);
     const newGroups = ['lord', 'hero'].concat(
@@ -89,6 +89,7 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
                     _id: unit._id,
                     lord_portrait: unit.lord_portrait,
                     unit_portrait: unit.unit_portrait,
+                    icon: unit.icon,
                 };
             });
     return (
@@ -104,9 +105,10 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
                                 _id: unit._id,
                                 lord_portrait: unit.lord_portrait,
                                 unit_portrait: unit.unit_portrait,
+                                icon: unit.icon,
                             };
                         });
-                    return <UnitsGroup key={item} title={item} units={newUnits} />;
+                    return newUnits.length > 0 && <UnitsGroup key={item} title={item} units={newUnits} />;
                 })}
             {campaignUnits && campaignUnits!.length > 0 && (
                 <UnitsGroup title={'campaign_exclusive'} units={campaignUnits} />

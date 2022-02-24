@@ -8,42 +8,25 @@ interface FactionParams {
 
 class UnitsController {
     async getAllUnits(req: Request, res: Response) {
-        try {
-            const units = await unitService.getAllUnits();
-            res.json(units);
-        } catch (e) {
-            res.status(500).json(e);
-        }
+        const units = await unitService.getAllUnits();
+        res.json(units);
     }
 
     async getAllFactions(req: Request, res: Response) {
-        try {
-            const factions = await unitService.getAllFactions();
-            res.json(factions);
-        } catch (e) {
-            res.status(500).json(e);
-        }
+        const factions = await unitService.getAllFactions();
+        res.json(factions);
     }
 
     async getOneFaction(req: Request<FactionParams>, res: Response) {
-        try {
-            const faction = req.params.faction;
-            const units = await unitService.getOneFaction(faction);
-            res.json(units);
-        } catch (e) {
-            res.status(500).json(e);
-        }
+        const faction = req.params.faction;
+        const units = await unitService.getOneFaction(faction);
+        res.json(units);
     }
 
     async getUnitStats(req: Request, res: Response) {
-        try {
-            const id = new mongoose.Types.ObjectId(req.params.id);
-            const unitStats = await unitService.getUnitWithStats(id);
-
-            res.json(unitStats);
-        } catch (e) {
-            res.status(500).json(e);
-        }
+        const id = new mongoose.Types.ObjectId(req.params.id);
+        const unitStats = await unitService.getUnitWithStats(id);
+        res.json(unitStats);
     }
 }
 

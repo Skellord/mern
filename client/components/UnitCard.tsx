@@ -10,12 +10,15 @@ import {
     AccordionItem,
     AccordionButton,
     AccordionPanel,
+    Center,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { UnitWithStats } from '../types/units.types';
 import Image from 'next/image';
 import { BASE_URL } from '../api/api';
 import styles from '../styles/styles.module.css';
+import casteCircleUrl from '../assets/img/unit_cat_holder_round.png';
+import casteCircleRorUrl from '../assets/img/unit_cat_holder_round_renown.png';
 
 interface UnitCardProps {
     unitStats: UnitWithStats;
@@ -53,6 +56,8 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
         unitStats.missile_damage &&
         (parseInt(unitStats.missile_damage.damage) + parseInt(unitStats.missile_damage.ap_damage, 10)).toString();
     const massVal = unitStats.mountEntity ? unitStats.mountEntity.mass : unitStats.entity.mass;
+    const isUnitRor = unitStats.unit.split('_').includes('ror');
+    const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
 
     return (
         <Box w='400px' p='4' border='1px' borderColor='gray.400' borderRadius='2xl'>
@@ -64,7 +69,16 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     <Image loader={() => imgSrc} src={imgSrc} width={60} height={130} unoptimized />
                 </Box>
 
-                <Text fontSize='xl' fontWeight='bold' marginLeft='4'>
+                <Center
+                    bgImage={`url(${isUnitRor ? casteCircleRorUrl.src : casteCircleUrl.src})`}
+                    w={isUnitRor ? '46px' : '34px'}
+                    h={isUnitRor ? '43px' : '34px'}
+                    paddingTop={isUnitRor ? '5px' : '0'}
+                    marginLeft='4'
+                >
+                    <Image loader={() => iconSrc} src={iconSrc} width={22} height={22} unoptimized />
+                </Center>
+                <Text fontSize='xl' fontWeight='bold' marginLeft='3'>
                     {unitStats.caste}
                 </Text>
             </Flex>

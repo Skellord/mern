@@ -39,6 +39,7 @@ export interface Unit {
     faction: string;
     unit_portrait?: string;
     lord_portrait?: string;
+    icon: string;
 }
 
 interface UnitStats {
