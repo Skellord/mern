@@ -11,14 +11,24 @@ import {
     AccordionButton,
     AccordionPanel,
     Center,
+    Divider,
+    VStack,
 } from '@chakra-ui/react';
 import { FC } from 'react';
 import { UnitWithStats } from '../types/units.types';
 import Image from 'next/image';
 import { BASE_URL } from '../api/api';
-import styles from '../styles/styles.module.css';
+
 import casteCircleUrl from '../assets/img/unit_cat_holder_round.png';
 import casteCircleRorUrl from '../assets/img/unit_cat_holder_round_renown.png';
+import borderImage from '../assets/img/panel_back_frame.png';
+import arrowIncrease from '../assets/img/arrow_increase_1.png';
+import arrowDecrease from '../assets/img/arrow_decrease_1.png';
+import men from '../assets/img/icon_entity_small.png';
+import spCost from '../assets/img/icon_income-1-24x24.png';
+import mpCost from '../assets/img/icon_treasury.png';
+import spUpkeep from '../assets/img/icon_upkeep-1-24x24.png';
+import healthIcon from '../assets/img/icon_stat_health_noframe_16px.png';
 
 interface UnitCardProps {
     unitStats: UnitWithStats;
@@ -60,14 +70,32 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
     const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
 
     return (
-        <Box w='400px' p='4' border='1px' borderColor='gray.400' borderRadius='2xl'>
+        <Box as='section' w='400px' p='4'>
             <Heading fontSize='2xl' marginBottom='4'>
                 Unit
             </Heading>
             <Flex marginBottom='4'>
-                <Box borderRadius='4' overflow='hidden'>
-                    <Image loader={() => imgSrc} src={imgSrc} width={60} height={130} unoptimized />
-                </Box>
+                <Center
+                    display='flex'
+                    w='75px'
+                    h='140px'
+                    flexWrap='wrap'
+                    position='relative'
+                    borderRadius='4px'
+                    overflow='hidden'
+                    style={{ borderImage: `url(${borderImage.src}) 30 / 65px 135px` }}
+                >
+                    <Box w='60px' h='130px'>
+                        <Image
+                            loader={() => imgSrc}
+                            src={imgSrc}
+                            width={60}
+                            height={130}
+                            placeholder='empty'
+                            unoptimized
+                        />
+                    </Box>
+                </Center>
 
                 <Center
                     bgImage={`url(${isUnitRor ? casteCircleRorUrl.src : casteCircleUrl.src})`}
@@ -82,33 +110,81 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     {unitStats.caste}
                 </Text>
             </Flex>
-            <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4' minH='120px'>
-                {unitStats.specials?.map(item => (
-                    <WrapItem>{item}</WrapItem>
-                ))}
+
+            <Divider p='1' borderColor='crimson.400' />
+
+            <VStack
+                as='ul'
+                alignItems='flex-start'
+                p='2'
+                border='inherit'
+                borderColor='inherit'
+                borderRadius='3'
+                marginBottom='4'
+                minH='120px'
+            >
+                {unitStats.specs
+                    ?.sort((a, b) => {
+                        if (a.state > b.state) {
+                            return -1;
+                        }
+                        if (a.state < b.state) {
+                            return 1;
+                        }
+                        return 0;
+                    })
+                    .map(item => (
+                        <WrapItem color={item.state === 'positive' ? 'green.400' : 'red.400'} alignItems='flex-end'>
+                            <Image
+                                src={item.state === 'positive' ? arrowIncrease : arrowDecrease}
+                                width={16}
+                                height={18}
+                            />
+                            <Text marginLeft='1'>{item.key}</Text>
+                        </WrapItem>
+                    ))}
+            </VStack>
+
+            <Divider p='1' borderColor='crimson.400' marginBottom='1' />
+
+            <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-between'>
+                <WrapItem>
+                    <Image src={men} />
+                    {unitStats.num_men}
+                </WrapItem>
             </Wrap>
-            <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4' justify='space-evenly'>
-                <WrapItem>{unitStats.num_men}</WrapItem>
+
+            <Divider p='1' borderColor='crimson.400' marginBottom='1' />
+
+            <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-evenly'>
+                <WrapItem>
+                    <Image src={spCost} width={24} height={24} />
+                    <Text marginLeft='1'>{unitStats.recruitment_cost}</Text>
+                </WrapItem>
+                <WrapItem>
+                    <Image src={spUpkeep} width={24} height={24} />
+                    <Text marginLeft='1'>{unitStats.upkeep_cost}</Text>
+                </WrapItem>
+                <WrapItem>
+                    <Image src={mpCost} width={24} height={24} />
+                    <Text marginLeft='1'>{unitStats.multiplayer_cost}</Text>
+                </WrapItem>
             </Wrap>
-            <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4' justify='space-evenly'>
-                <WrapItem>{unitStats.recruitment_cost}</WrapItem>
-                <WrapItem>{unitStats.upkeep_cost}</WrapItem>
-                <WrapItem>{unitStats.multiplayer_cost}</WrapItem>
-            </Wrap>
+
+            <Divider p='1' borderColor='crimson.400' />
+
             <Wrap p='4' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
                 <WrapItem w='100%' justifyContent='center'>
                     <Box h='24px' w='80%' position='relative'>
-                        <Progress colorScheme='whatsapp' h='100%' value={100} className={styles.shadow} />
-                        <Text
-                            position='absolute'
-                            top='50%'
-                            left='50%'
-                            transform='translate(-50%, -50%)'
-                            fontWeight='bold'
-                            textShadow='dark-lg'
-                        >
-                            {hp}
-                        </Text>
+                        <Box h='100%' bg='gradient.health' />
+                        <Flex position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)' align='center'>
+                            <Box w='16px' h='16px'>
+                                <Image src={healthIcon} width={16} height={16} objectFit={'fill'} />
+                            </Box>
+                            <Text fontWeight='bold' textShadow='text'>
+                                {hp}
+                            </Text>
+                        </Flex>
                     </Box>
                 </WrapItem>
 

@@ -115,6 +115,11 @@ interface MissileDamage extends Damage {
     shots_per_volley: string;
 }
 
+interface Spec {
+    key: string;
+    state: string;
+}
+
 export interface UnitWithStats extends Unit {
     entity: Entity;
     mountEntity: Entity | undefined;
@@ -122,4 +127,5 @@ export interface UnitWithStats extends Unit {
     missile_damage: MissileDamage | undefined;
     stats: UnitStats;
     specials: string[];
+    specs: Spec[];
 }

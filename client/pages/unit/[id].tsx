@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Progress, Spinner, Text, Wrap, WrapItem } from '@chakra-ui/react';
+import { Flex, Divider, Heading, HStack, Progress, Spinner, Box } from '@chakra-ui/react';
 import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -60,7 +60,13 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
             <Heading as='h1' marginBottom='6'>
                 {unitStats.unit}
             </Heading>
-            <UnitCard unitStats={unitStats} />
+            <Flex w='100%' h='100%'>
+                <UnitCard unitStats={unitStats} />
+                <Divider orientation='vertical' borderColor='crimson.400' p='4' h='auto' />
+                <Box as='section' p='4'>
+                    <Heading fontSize='2xl'>Description</Heading>
+                </Box>
+            </Flex>
         </Layout>
     );
 };

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import semiCircleUrl from '../assets/img/unit_card_semicircle.png';
 import semiCircleRorUrl from '../assets/img/unit_card_semicircle_renown.png';
+import borderImage from '../assets/img/panel_back_frame.png';
 
 interface Props {
     name: string;
@@ -19,25 +20,30 @@ export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon }) => {
         <NextLink href={link} as={link}>
             <Link>
                 <Tooltip hasArrow label={name}>
-                    <Box
-                        flexBasis='60px'
-                        h='130px'
+                    <Center
+                        display='flex'
+                        w='75px'
+                        h='140px'
                         flexWrap='wrap'
                         position='relative'
                         borderRadius='4px'
                         overflow='hidden'
+                        style={{ borderImage: `url(${borderImage.src}) 30 / 65px 135px` }}
                     >
-                        <Image
-                            loader={() => imgSrc}
-                            src={imgSrc}
-                            width={60}
-                            height={130}
-                            placeholder='empty'
-                            unoptimized
-                        />
+                        <Box w='60px' h='130px'>
+                            <Image
+                                loader={() => imgSrc}
+                                src={imgSrc}
+                                width={60}
+                                height={130}
+                                placeholder='empty'
+                                unoptimized
+                            />
+                        </Box>
+
                         <Box
                             position='absolute'
-                            bottom='0'
+                            bottom='4px'
                             h='40px'
                             w='100%'
                             bgImage={`url(${isUnitRor ? semiCircleRorUrl.src : semiCircleUrl.src})`}
@@ -45,7 +51,7 @@ export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon }) => {
                             bgPosition='50%, 0%'
                             bgRepeat='no-repeat'
                         >
-                            <Box w='22px' h='22px' pos='absolute' bottom='2px' left='50%' transform='translateX(-50%)'>
+                            <Box w='22px' h='22px' pos='absolute' bottom='0' left='50%' transform='translateX(-50%)'>
                                 <Image
                                     loader={() => icon}
                                     src={icon}
@@ -56,7 +62,7 @@ export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon }) => {
                                 />
                             </Box>
                         </Box>
-                    </Box>
+                    </Center>
                 </Tooltip>
             </Link>
         </NextLink>

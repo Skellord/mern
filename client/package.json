@@ -11,6 +11,7 @@
         "@chakra-ui/react": "^1.8.3",
         "@emotion/react": "11",
         "@emotion/styled": "11",
+        "@fontsource/eb-garamond": "^4.5.4",
         "@fontsource/simonetta": "^4.5.2",
         "framer-motion": "5",
         "isomorphic-unfetch": "^3.1.0",

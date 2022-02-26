@@ -18,7 +18,7 @@ const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading, children }) => {
             <Header />
             <Box as='main'>
                 <Nav />
-                <Container maxW='container.xl' bgColor='gray.900' py='4'>
+                <Container maxW='container.xl' bgColor='black.900' py='4'>
                     {heading && (
                         <>
                             <Heading as='h1' size='2xl' marginBottom='6'>

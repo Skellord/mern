@@ -223,9 +223,25 @@ class UnitService {
                         ],
                     },
                 },
-
                 {
                     $set: { specials: { $arrayElemAt: ['$specials.specials', 0] } },
+                },
+                {
+                    $lookup: {
+                        from: 'bullet_point_list',
+                        localField: 'specials',
+                        foreignField: 'key',
+                        as: 'specs',
+                        pipeline: [
+                            {
+                                $project: {
+                                    _id: 0,
+                                    key: 1,
+                                    state: 1,
+                                },
+                            },
+                        ],
+                    },
                 },
                 {
                     $lookup: {
