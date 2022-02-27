@@ -32,16 +32,15 @@ const theme = extendTheme({
         },
         black: {
             900: '#0d0c0c',
+            300: '#433d3d',
         },
         gradient: {
             health: 'linear-gradient(180deg, #293708, #81bc12, #9ee616, #8ccc14, #7ab211, #71a510, #7ab211, #8ccc14, #9ee616, #81bc12, #293708)',
+            stats: 'linear-gradient(to right, #2a0d0a, #100c0d)',
         },
     },
     shadows: {
         text: '-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
-    },
-    colorScheme: {
-        crimson: '#3d0c0c',
     },
 });
 
