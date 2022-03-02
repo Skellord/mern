@@ -1,4 +1,4 @@
-import { background, extendTheme } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 import '@fontsource/eb-garamond';
 
 const theme = extendTheme({
@@ -9,6 +9,7 @@ const theme = extendTheme({
     styles: {
         global: {
             body: {
+                minHeight: '100vh',
                 fontSize: '16px',
                 color: 'white',
                 backgroundImage: "url('/img/tww3-background.jpg')",
@@ -41,6 +42,10 @@ const theme = extendTheme({
     },
     shadows: {
         text: '-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+    },
+    height: {
+        header: '56px',
+        footer: '112px',
     },
 });
 

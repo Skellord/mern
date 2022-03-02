@@ -1,16 +1,24 @@
-class ApiError extends Error {
-    isOperational: boolean;
-    statusCode: number;
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
-    constructor(statusCode: number, message: string, isOperational = true, stack = '') {
-        super(message);
-        this.statusCode = statusCode;
-        this.isOperational = isOperational;
-        if (stack) {
-            this.stack = stack;
-        } else {
-            Error.captureStackTrace(this, this.constructor);
-        }
+class ApiError {
+    code: number;
+    message: string;
+
+    constructor(code: number, message: string) {
+        this.code = code;
+        this.message = message;
+    }
+
+    static badRequest(msg: string) {
+        return new ApiError(StatusCodes.BAD_REQUEST, msg);
+    }
+
+    static internal(msg: string = getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR)) {
+        return new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, msg);
+    }
+
+    static notFound(msg: string = getReasonPhrase(StatusCodes.NOT_FOUND)) {
+        return new ApiError(StatusCodes.NOT_FOUND, msg);
     }
 }
 

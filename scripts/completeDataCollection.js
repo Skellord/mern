@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
@@ -6,27 +7,27 @@ const uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
 const factions = [
     {
-        name: 'skaven',
+        name: 'skavens',
         reg: 'skv',
     },
     {
-        name: 'tombKings',
+        name: 'tomb-kings',
         reg: 'tmb',
     },
     {
-        name: 'darkElves',
+        name: 'dark-elves',
         reg: 'def',
     },
     {
-        name: 'highElves',
+        name: 'high-elves',
         reg: 'hef',
     },
     {
-        name: 'vampireCoast',
+        name: 'vampire-coast',
         reg: 'cst',
     },
     {
-        name: 'vampireCounts',
+        name: 'vampire-counts',
         reg: 'vmp',
     },
     {
@@ -38,11 +39,11 @@ const factions = [
         reg: 'emp',
     },
     {
-        name: 'greenSkins',
+        name: 'green-skins',
         reg: 'grn',
     },
     {
-        name: 'woodElves',
+        name: 'wood-elves',
         reg: 'wef',
     },
     {
@@ -69,6 +70,34 @@ const factions = [
         name: 'dwarfs',
         reg: 'dwf',
     },
+    {
+        name: 'cathay',
+        reg: 'cth',
+    },
+    {
+        name: 'khorn',
+        reg: 'kho',
+    },
+    {
+        name: 'kislev',
+        reg: 'ksl',
+    },
+    {
+        name: 'nurgle',
+        reg: 'nur',
+    },
+    {
+        name: 'slaanesh',
+        reg: 'sla',
+    },
+    {
+        name: 'tzeentch',
+        reg: 'tze',
+    },
+    {
+        name: 'daemons-of-chaos',
+        reg: 'dae',
+    },
 ];
 
 const startRegex = '^(?:[^_\n]+_){2}([';
@@ -83,17 +112,6 @@ async function addFactions(collection) {
         })
     );
     return result;
-}
-
-async function deleteDuplicates(collection, removeFromCollection) {
-    // collection.forEach(function (doc) {
-    //     doc.dups.shift();
-    //     removeFromCollection.deleteMany({ _id: { $in: doc.dups } });
-    // });
-    for (const doc of collection) {
-        doc.dups.shift();
-        await removeFromCollection.deleteMany({ _id: { $in: doc.dups } });
-    }
 }
 
 async function completeData() {

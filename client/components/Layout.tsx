@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import { FC } from 'react';
-import { Container, Box, Heading, Divider } from '@chakra-ui/react';
+import { Container, Box, Heading, Divider, Grid, SimpleGrid } from '@chakra-ui/react';
 import Nav from './Nav';
 import Header from './Header';
+import { Footer } from './Footer';
 
 interface Layout {
     title?: string;
@@ -16,7 +17,7 @@ const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading, children }) => {
                 <title>{title}</title>
             </Head>
             <Header />
-            <Box as='main'>
+            <SimpleGrid as='main' minH='calc(100% - 56px - 112px)' gridTemplateRows={'min-content'}>
                 <Nav />
                 <Container maxW='container.xl' bgColor='black.900' py='4'>
                     {heading && (
@@ -30,7 +31,8 @@ const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading, children }) => {
 
                     {children}
                 </Container>
-            </Box>
+            </SimpleGrid>
+            <Footer />
         </>
     );
 };

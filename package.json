@@ -7,8 +7,8 @@
         "start": "node build/index.js",
         "build": "babel --extensions .ts ./src --out-dir build --source-maps inline",
         "dev": "concurrently \"nodemon src/index.ts\" \"cd ./client && pnpm dev\"",
-        "db:prepare": "node db_scripts/completeDataCollection.js",
-        "connect:close": "node db_scripts/closeConnection.js"
+        "db:prepare": "node scripts/completeDataCollection.js",
+        "connect:close": "node scripts/closeConnection.js"
     },
     "repository": {
         "type": "git",
@@ -60,6 +60,7 @@
         "eslint-plugin-promise": "^4.2.1 || ^5.0.0",
         "eslint-plugin-react": "^7.28.0",
         "eslint-plugin-react-hooks": "^4.3.0",
+        "fs-extra": "^10.0.1",
         "nodemon": "^2.0.15",
         "path": "^0.12.7",
         "prettier": "2.5.1",

@@ -296,12 +296,17 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                         value={missileDamageVal}
                         maxStats={maxVariables.missileDamage}
                     >
-                        <StasItem text={'Base missile damage'} value={unitStats.missile_damage.damage} />
-                        <StasItem text={'AP missile damage'} value={unitStats.missile_damage.ap_damage} />
-                        <StasItem text={'Bonus vs. infantry'} value={unitStats.missile_damage.bonus_v_infantry} />
-                        <StasItem text={'Bonus vs. cavalry'} value={unitStats.missile_damage.bonus_v_cavalry} />
-                        <StasItem text={'Bonus vs. large'} value={unitStats.missile_damage.bonus_v_large} />
-                        <StasItem text={'Can damage buildings'} value={unitStats.missile_damage.can_damage_buildings} />
+                        <SimpleGrid as='ul' gridRowGap='1'>
+                            <StasItem text={'Base missile damage'} value={unitStats.missile_damage.damage} />
+                            <StasItem text={'AP missile damage'} value={unitStats.missile_damage.ap_damage} />
+                            <StasItem text={'Bonus vs. infantry'} value={unitStats.missile_damage.bonus_v_infantry} />
+                            <StasItem text={'Bonus vs. cavalry'} value={unitStats.missile_damage.bonus_v_cavalry} />
+                            <StasItem text={'Bonus vs. large'} value={unitStats.missile_damage.bonus_v_large} />
+                            <StasItem
+                                text={'Can damage buildings'}
+                                value={unitStats.missile_damage.can_damage_buildings}
+                            />
+                        </SimpleGrid>
                     </StatsAccordion>
                 )}
 
