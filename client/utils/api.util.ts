@@ -3,4 +3,5 @@ export const apiRoutes = {
     getFactionUnits: '/units/factions/:faction',
     getUnit: '/units/unit/',
     getUnits: '/units',
+    getHistoricalDesc: '/desc/historical',
 };

@@ -3,6 +3,7 @@ import ApiError from '../utils/apiError.util';
 import { StatusCodes } from 'http-status-codes';
 import { logger } from '../utils/logger.util';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const errorHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
     if (process.env.NODE_ENV === 'development') {
         logger.error(err);

@@ -1,4 +1,4 @@
-import { Unit, UnitWithStats } from './units.types';
+import { Unit, UnitWithStats } from '../../types/units.types';
 
 export type FactionsResponse = string[];
 export type FactionsUnitsResponse = Unit[];

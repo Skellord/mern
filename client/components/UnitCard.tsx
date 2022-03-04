@@ -1,11 +1,11 @@
 import { Box, Flex, Heading, Text, Wrap, WrapItem, Center, Divider, VStack, SimpleGrid } from '@chakra-ui/react';
 import { FC } from 'react';
-import { UnitWithStats } from '../types/units.types';
+import { UnitWithStats } from '../../types/units.types';
 import Image from 'next/image';
 import { BASE_URL } from '../api/api';
 import { maxVariables } from '../utils/unitStats.util';
 import { StatsAccordion } from './StatsAccordion';
-import { StasItem } from './StatsItem';
+import { StatsItem } from './StatsItem';
 
 import casteCircleUrl from '../assets/img/unit_cat_holder_round.png';
 import casteCircleRorUrl from '../assets/img/unit_cat_holder_round_renown.png';
@@ -37,6 +37,8 @@ import apDamageIcon from '../assets/img/armour_piercing_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
 import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
 import cavalryBonusIcon from '../assets/img/cavalry.png';
+import { AttributeItem } from './attributeItem';
+import { Attributesgroup } from '../types/attributes.types';
 
 interface UnitCardProps {
     unitStats: UnitWithStats;
@@ -58,7 +60,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
     const massVal = unitStats.mountEntity ? unitStats.mountEntity.mass : unitStats.entity.mass;
     const isUnitRor = unitStats.unit.split('_').includes('ror');
     const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
-
+    console.log(unitStats);
     return (
         <Box as='section' w='400px' p='4'>
             <Heading fontSize='2xl' marginBottom='4'>
@@ -190,24 +192,24 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     maxStats={maxVariables.armour}
                 >
                     <SimpleGrid as='ul' gridRowGap='1'>
-                        <StasItem icon={shieldIcon} text='Parry chance' value={shieldVal || '0'} />
-                        <StasItem icon={wardSaveIcon} text='Ward save' value={unitStats.stats.damage_mod_all} />
-                        <StasItem
+                        <StatsItem icon={shieldIcon} text='Parry chance' value={shieldVal || '0'} />
+                        <StatsItem icon={wardSaveIcon} text='Ward save' value={unitStats.stats.damage_mod_all} />
+                        <StatsItem
                             icon={physResistanceIcon}
                             text={'Physical resistance'}
                             value={unitStats.stats.damage_mod_physical}
                         />
-                        <StasItem
+                        <StatsItem
                             icon={missileResistanceIcon}
                             text={'Missile resistance'}
                             value={unitStats.stats.damage_mod_missile}
                         />
-                        <StasItem
+                        <StatsItem
                             icon={magResistanceIcon}
                             text={'Magic resistance'}
                             value={unitStats.stats.damage_mod_magic}
                         />
-                        <StasItem
+                        <StatsItem
                             icon={fireResistanceIcon}
                             text={'Fire resistance'}
                             value={unitStats.stats.damage_mod_physical}
@@ -215,13 +217,13 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     </SimpleGrid>
                 </StatsAccordion>
 
-                <StasItem
+                <StatsItem
                     icon={moraleIcon}
                     text='Leadership'
                     value={unitStats.stats.morale}
                     maxStats={maxVariables.morale}
                 />
-                <StasItem
+                <StatsItem
                     icon={speedIcon}
                     text='Speed'
                     value={unitStats.entity.run_speed.split('.').join('')}
@@ -235,26 +237,26 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     maxStats={maxVariables.meleeAttack}
                 >
                     <SimpleGrid as='ul' gridRowGap='1'>
-                        <StasItem text={'Attack interval'} value={unitStats.melee_damage.melee_attack_interval} />
-                        <StasItem text={'Is high threat'} value={unitStats.is_high_threat} />
-                        <StasItem
+                        <StatsItem text={'Attack interval'} value={unitStats.melee_damage.melee_attack_interval} />
+                        <StatsItem text={'Is high threat'} value={unitStats.is_high_threat} />
+                        <StatsItem
                             text={'Splash target size'}
                             value={unitStats.melee_damage.splash_attack_target_size}
                         />
-                        <StasItem
+                        <StatsItem
                             text={'Splash max attacks'}
                             value={unitStats.melee_damage.splash_attack_max_attacks}
                         />
                     </SimpleGrid>
                 </StatsAccordion>
 
-                <StasItem
+                <StatsItem
                     icon={defenceIcon}
                     text='Melee defence'
                     value={unitStats.stats.melee_defence}
                     maxStats={maxVariables.defence}
                 />
-                <StasItem
+                <StatsItem
                     icon={chargeIcon}
                     text='Charge bonus'
                     value={unitStats.stats.charge_bonus}
@@ -268,24 +270,22 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     maxStats={maxVariables.damage}
                 >
                     <SimpleGrid as='ul' gridRowGap='1'>
-                        <StasItem icon={baseDamageIcon} text={'Base damage'} value={unitStats.melee_damage.damage} />
-                        <StasItem icon={apDamageIcon} text={'AP damage'} value={unitStats.melee_damage.ap_damage} />
-                        <StasItem
+                        <StatsItem icon={baseDamageIcon} text={'Base damage'} value={unitStats.melee_damage.damage} />
+                        <StatsItem icon={apDamageIcon} text={'AP damage'} value={unitStats.melee_damage.ap_damage} />
+                        <StatsItem
                             icon={infantryBonusIcon}
                             text={'Bonus vs. infantry'}
                             value={unitStats.melee_damage.bonus_v_infantry}
                         />
-                        <StasItem
-                            icon={cavalryBonusIcon}
-                            text={'Bonus vs. cavalry'}
-                            value={unitStats.melee_damage.bonus_v_cavalry}
-                        />
-                        <StasItem
+                        <StatsItem
                             icon={largeBonusIcon}
                             text={'Bonus vs. large'}
                             value={unitStats.melee_damage.bonus_v_large}
                         />
-                        <StasItem text={'Building damage'} value={unitStats.melee_damage.building_damage} />
+                        <StatsItem
+                            text={'Building damage multiplier'}
+                            value={unitStats.melee_damage.building_damage_multiplier}
+                        />
                     </SimpleGrid>
                 </StatsAccordion>
 
@@ -297,35 +297,35 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                         maxStats={maxVariables.missileDamage}
                     >
                         <SimpleGrid as='ul' gridRowGap='1'>
-                            <StasItem text={'Base missile damage'} value={unitStats.missile_damage.damage} />
-                            <StasItem text={'AP missile damage'} value={unitStats.missile_damage.ap_damage} />
-                            <StasItem text={'Bonus vs. infantry'} value={unitStats.missile_damage.bonus_v_infantry} />
-                            <StasItem text={'Bonus vs. cavalry'} value={unitStats.missile_damage.bonus_v_cavalry} />
-                            <StasItem text={'Bonus vs. large'} value={unitStats.missile_damage.bonus_v_large} />
-                            <StasItem
+                            <StatsItem text={'Base missile damage'} value={unitStats.missile_damage.damage} />
+                            <StatsItem text={'AP missile damage'} value={unitStats.missile_damage.ap_damage} />
+                            <StatsItem text={'Bonus vs. infantry'} value={unitStats.missile_damage.bonus_v_infantry} />
+                            <StatsItem text={'Bonus vs. large'} value={unitStats.missile_damage.bonus_v_large} />
+                            <StatsItem
                                 text={'Can damage buildings'}
                                 value={unitStats.missile_damage.can_damage_buildings}
                             />
+                            {unitStats.missile_damage.can_damage_buildings === 'true' && (
+                                <StatsItem
+                                    text={'Building damage multiplier'}
+                                    value={unitStats.missile_damage.building_damage_multiplier}
+                                />
+                            )}
                         </SimpleGrid>
                     </StatsAccordion>
                 )}
 
-                <StasItem text={'Mass'} value={massVal} />
+                <StatsItem text={'Mass'} value={massVal} />
             </Wrap>
 
             <Divider p='1' borderColor='crimson.400' />
 
             <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
-                {unitStats.stats.attribute_group
-                    .split('_')
-                    ?.slice(1)
-                    ?.map(item => {
-                        return (
-                            <WrapItem key={item} w='100%'>
-                                {item}
-                            </WrapItem>
-                        );
-                    })}
+                {unitStats.attributes
+                    ?.sort((a, b) => a.localeCompare(b))
+                    .map(item => (
+                        <AttributeItem key={item} item={item as Attributesgroup} />
+                    ))}
             </Wrap>
         </Box>
     );

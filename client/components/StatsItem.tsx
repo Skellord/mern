@@ -10,7 +10,7 @@ interface StatsItemProps {
     maxStats?: number;
 }
 
-export const StasItem: FC<StatsItemProps> = ({ text, value, maxStats, icon }) => {
+export const StatsItem: FC<StatsItemProps> = ({ text, value, maxStats, icon }) => {
     return (
         <WrapItem display='flex' w='100%' bg='gradient.stats'>
             {icon && <Image src={icon} width={24} height={24} />}

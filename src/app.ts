@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express, { Application } from 'express';
 import { errorHandler } from './middlewares/error.middleware';
+import descRouter from './routes/desc.routes';
 import unitRouter from './routes/unit.routes';
 
 const app: Application = express();
@@ -9,15 +10,12 @@ const app: Application = express();
 app.use(cors());
 // Routes
 app.use('/units', unitRouter);
+app.use('/desc', descRouter);
 
 // Errors handling
-// app.use(errorHandler);
+app.use(errorHandler);
 
 // Static deploy
-// app.use('/static', express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
-// if (import.meta.env.PROD) {
-//     app.listen(3000);
-// }
-
-export const viteNodeApp = app;
+export default app;

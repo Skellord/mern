@@ -1,7 +1,7 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const schema = new Schema({
-    id: { type: Types.ObjectId, required: true, unique: true },
+    id: { type: Schema.Types.ObjectId, required: true, unique: true },
     unit: { type: String },
     caste: { type: String },
     land_unit: { type: String },

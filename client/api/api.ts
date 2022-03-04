@@ -8,6 +8,7 @@ import {
 } from '../types/api.types';
 import { apiRoutes } from '../utils/api.util';
 import fetcher from './fetcher';
+import { HistoricalDescription } from '../../types/unitDesc.types';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:5000';
 
@@ -36,6 +37,12 @@ class Client {
 
     getUnits() {
         return fetcher<UnitsResponse>(`${BASE_URL}${apiRoutes.getUnits}`, { headers: this.headers });
+    }
+
+    getHistoricalDesc(params: { key: string }) {
+        return fetcher<HistoricalDescription>(`${BASE_URL}${apiRoutes.getHistoricalDesc}/${params.key}`, {
+            headers: this.headers,
+        });
     }
 }
 

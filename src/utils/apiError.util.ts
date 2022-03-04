@@ -1,8 +1,8 @@
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 class ApiError {
-    code: number;
-    message: string;
+    code!: number;
+    message!: string;
 
     constructor(code: number, message: string) {
         this.code = code;

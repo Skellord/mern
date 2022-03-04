@@ -7,7 +7,7 @@ import Layout from '../../components/Layout';
 import { UnitCardMini } from '../../components/UnitCardMini';
 import { useFetchWithCache } from '../../hooks/useFetchWithCache';
 import { FactionsUnitsResponse } from '../../types/api.types';
-import { Unit } from '../../types/units.types';
+import { Unit } from '../../../types/units.types';
 import { apiRoutes } from '../../utils/api.util';
 
 type UnitsGroup = Pick<Unit, 'unit' | '_id' | 'lord_portrait' | 'unit_portrait' | 'icon'>;
@@ -92,12 +92,14 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
                     icon: unit.icon,
                 };
             });
+    console.log(data);
+
     return (
         <Layout heading={faction}>
             {data &&
                 newGroups?.map(item => {
                     const newUnits: UnitsGroup[] = data
-                        .filter(unit => unit.campaign_exclusive === 'false')
+                        .filter(unit => unit.campaign_exclusive === 'false' || undefined)
                         .filter(unit => unit.caste === item)
                         .map(unit => {
                             return {

@@ -1,7 +1,7 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 const schema = new Schema({
-    id: { type: Types.ObjectId, required: true, unique: true },
+    id: { type: Schema.Types.ObjectId, required: true, unique: true },
     key: { type: String },
     precursor: { type: String },
     default_projectile: { type: String },

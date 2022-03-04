@@ -259,6 +259,22 @@ class UnitService {
                 {
                     $set: { icon: { $arrayElemAt: ['$icon.icon', 0] } },
                 },
+                {
+                    $lookup: {
+                        from: 'unit_attrubutes_to_group',
+                        localField: 'stats.attribute_group',
+                        foreignField: 'attribute_group',
+                        as: 'attributes',
+                        pipeline: [
+                            {
+                                $group: { _id: 0, attributes: { $addToSet: '$attribute' } },
+                            },
+                        ],
+                    },
+                },
+                {
+                    $set: { attributes: { $arrayElemAt: ['$attributes.attributes', 0] } },
+                },
             ],
             {
                 allowDiskUse: true,

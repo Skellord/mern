@@ -1,6 +1,5 @@
-import { Flex, Divider, Heading, HStack, Progress, Spinner, Box } from '@chakra-ui/react';
-import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import Image from 'next/image';
+import { Flex, Divider, Heading, Spinner, Box, Text } from '@chakra-ui/react';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { BASE_URL, client } from '../../api/api';
 import { ErrorAlert } from '../../components/ErrorAlert';
@@ -9,6 +8,7 @@ import { useFetchWithCache } from '../../hooks/useFetchWithCache';
 import { UnitResponse } from '../../types/api.types';
 import { apiRoutes } from '../../utils/api.util';
 import { UnitCard } from '../../components/UnitCard';
+import { HistoricalDescription } from '../../../types/unitDesc.types';
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const units = await client.getUnits();
@@ -28,15 +28,24 @@ export const getStaticProps: GetStaticProps = async context => {
     const data = await client.getUnitStats({
         id,
     });
+    const histDesc = await client.getHistoricalDesc({
+        key: `unit_description_historical_texts_text_${data[0].stats.historical_description_text}`,
+    });
     return {
         props: {
             data,
+            histDesc,
         },
     };
 };
 
-const UnitPage: NextPage<{ data: UnitResponse }> = props => {
-    const { data: initialData } = props;
+interface UnitPage {
+    data: UnitResponse;
+    histDesc: HistoricalDescription;
+}
+
+const UnitPage: NextPage<UnitPage> = props => {
+    const { data: initialData, histDesc } = props;
     const {
         query: { id },
     } = useRouter();
@@ -49,11 +58,20 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
         }
     );
 
+    const descKey = `unit_description_historical_texts_text_${data?.[0].stats.historical_description_text}`;
+
+    const { data: histDescData } = useFetchWithCache<HistoricalDescription>(
+        [apiRoutes.getHistoricalDesc, descKey],
+        (_: any, descKey: any) => client.getHistoricalDesc({ key: descKey }),
+        {
+            fallbackData: histDesc,
+        }
+    );
+
     if (!data) return <ErrorAlert />;
     if (isFirstLoading) return <Spinner />;
 
     const unitStats = data[0];
-    console.log(data);
 
     return (
         <Layout>
@@ -61,10 +79,19 @@ const UnitPage: NextPage<{ data: UnitResponse }> = props => {
                 {unitStats.unit}
             </Heading>
             <Flex w='100%' h='100%'>
-                <UnitCard unitStats={unitStats} />
-                <Divider orientation='vertical' borderColor='crimson.400' p='4' h='auto' />
+                <Box flexShrink='0' mr='2'>
+                    <UnitCard unitStats={unitStats} />
+                </Box>
+
+                <Divider orientation='vertical' borderColor='crimson.400' h='auto' />
+
                 <Box as='section' p='4'>
-                    <Heading fontSize='2xl'>Description</Heading>
+                    <Heading fontSize='2xl' mb='4'>
+                        Description
+                    </Heading>
+                    <Text fontStyle='italic' p='1'>
+                        {histDescData?.text}
+                    </Text>
                 </Box>
             </Flex>
         </Layout>
