@@ -6,6 +6,8 @@ import { BASE_URL } from '../api/api';
 import { maxVariables } from '../utils/unitStats.util';
 import { StatsAccordion } from './StatsAccordion';
 import { StatsItem } from './StatsItem';
+import { AttributeItem } from './attributeItem';
+import { Attributesgroup } from '../types/attributes.types';
 
 import casteCircleUrl from '../assets/img/unit_cat_holder_round.png';
 import casteCircleRorUrl from '../assets/img/unit_cat_holder_round_renown.png';
@@ -13,6 +15,7 @@ import borderImage from '../assets/img/panel_back_frame.png';
 import arrowIncrease from '../assets/img/arrow_increase_1.png';
 import arrowDecrease from '../assets/img/arrow_decrease_1.png';
 import men from '../assets/img/icon_entity_small.png';
+import bigMen from '../assets/img/icon_entity_large.png';
 import spCost from '../assets/img/icon_income-1-24x24.png';
 import mpCost from '../assets/img/icon_treasury.png';
 import spUpkeep from '../assets/img/icon_upkeep-1-24x24.png';
@@ -36,9 +39,6 @@ import baseDamageIcon from '../assets/img/icon_stat_damage_base_character.png';
 import apDamageIcon from '../assets/img/armour_piercing_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
 import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
-import cavalryBonusIcon from '../assets/img/cavalry.png';
-import { AttributeItem } from './attributeItem';
-import { Attributesgroup } from '../types/attributes.types';
 
 interface UnitCardProps {
     unitStats: UnitWithStats;
@@ -60,6 +60,9 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
     const massVal = unitStats.mountEntity ? unitStats.mountEntity.mass : unitStats.entity.mass;
     const isUnitRor = unitStats.unit.split('_').includes('ror');
     const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
+
+    const simpleSort = (a: string, b: string) => a.localeCompare(b);
+
     console.log(unitStats);
     return (
         <Box as='section' w='400px' p='4'>
@@ -145,7 +148,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
 
             <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-between'>
                 <WrapItem>
-                    <Image src={men} />
+                    <Image src={unitStats.entity.locomotion_constant === 'large_entity' ? bigMen : men} />
                     {unitStats.num_men}
                 </WrapItem>
             </Wrap>
@@ -320,12 +323,33 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
 
             <Divider p='1' borderColor='crimson.400' />
 
+            {unitStats.special_abilities && (
+                <>
+                    <Text p='2'>Special abilities</Text>
+                    <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
+                        {unitStats.special_abilities.sort(simpleSort).map(item => (
+                            <AttributeItem type='spells' key={item} item={item} />
+                        ))}
+                    </Wrap>
+                </>
+            )}
+
+            {unitStats.lore_spells && (
+                <>
+                    <Text p='2'>Spells</Text>
+                    <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
+                        {unitStats.lore_spells.sort(simpleSort).map(item => (
+                            <AttributeItem type='spells' key={item} item={item} />
+                        ))}
+                    </Wrap>
+                </>
+            )}
+
+            <Text p='2'>Passive</Text>
             <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
-                {unitStats.attributes
-                    ?.sort((a, b) => a.localeCompare(b))
-                    .map(item => (
-                        <AttributeItem key={item} item={item as Attributesgroup} />
-                    ))}
+                {unitStats.attributes?.sort(simpleSort).map(item => (
+                    <AttributeItem key={item} item={item} />
+                ))}
             </Wrap>
         </Box>
     );

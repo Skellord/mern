@@ -17,7 +17,7 @@ const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading, children }) => {
                 <title>{title}</title>
             </Head>
             <Header />
-            <Box as='main' minH='calc(100% - 56px - 112px)'>
+            <SimpleGrid gridTemplateRows='56px 1fr' as='main' minH='calc(100% - 56px - 112px)'>
                 <Nav />
                 <Container maxW='container.xl' bgColor='black.900' py='4'>
                     {heading && (
@@ -31,7 +31,7 @@ const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading, children }) => {
 
                     {children}
                 </Container>
-            </Box>
+            </SimpleGrid>
             <Footer />
         </>
     );

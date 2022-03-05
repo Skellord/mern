@@ -5,19 +5,26 @@ import { BASE_URL } from '../api/api';
 import { Attributesgroup } from '../types/attributes.types';
 
 interface AttributeItem {
-    item: Attributesgroup;
+    type?: 'spells' | 'attribute';
+    item: string;
 }
 
-export const AttributeItem: FC<AttributeItem> = ({ item }) => {
+export const AttributeItem: FC<AttributeItem> = ({ item, type = 'attribute' }) => {
     let imgSrc = '';
 
-    switch (item) {
-        case 'hide_forest':
-            imgSrc = `${BASE_URL}/effect_bundles/${item}.png`;
-            break;
-        default:
-            imgSrc = `${BASE_URL}/effect_bundles/attribute_${item}.png`;
-            break;
+    if (type === 'attribute') {
+        switch (item as Attributesgroup) {
+            case 'hide_forest':
+                imgSrc = `${BASE_URL}/effect_bundles/${item}.png`;
+                break;
+            default:
+                imgSrc = `${BASE_URL}/effect_bundles/attribute_${item}.png`;
+                break;
+        }
+    }
+
+    if (type === 'spells') {
+        imgSrc = `${BASE_URL}/ability_icons/${item}.png`;
     }
 
     return (

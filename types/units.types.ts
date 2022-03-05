@@ -82,6 +82,7 @@ interface Entity {
     walk_speed: string;
     run_speed: string;
     mass: string;
+    locomotion_constant: string;
 }
 
 interface Damage {
@@ -128,4 +129,6 @@ export interface UnitWithStats extends Unit {
     specials: string[];
     specs: Spec[];
     attributes: string[];
+    special_abilities?: string[];
+    lore_spells?: string[];
 }

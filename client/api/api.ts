@@ -9,6 +9,7 @@ import {
 import { apiRoutes } from '../utils/api.util';
 import fetcher from './fetcher';
 import { HistoricalDescription } from '../../types/unitDesc.types';
+import { UnitWithStats } from '../../types/units.types';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:5000';
 
@@ -32,7 +33,7 @@ class Client {
     }
 
     getUnitStats(params: UnitParams) {
-        return fetcher<UnitResponse>(`${BASE_URL}${apiRoutes.getUnit}${params.id}/stats`, { headers: this.headers });
+        return fetcher<UnitWithStats>(`${BASE_URL}${apiRoutes.getUnit}${params.id}/stats`, { headers: this.headers });
     }
 
     getUnits() {
