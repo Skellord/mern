@@ -101,6 +101,7 @@ interface MeleeDamage extends Damage {
     splash_attack_power_multiplier: string;
     splash_attack_target_size: string;
     weapon_length: string;
+    contact_phase?: string;
 }
 
 interface MissileDamage extends Damage {
@@ -113,6 +114,7 @@ interface MissileDamage extends Damage {
     effective_range: string;
     projectile_number: string;
     shots_per_volley: string;
+    contact_stat_effect?: string;
 }
 
 interface Spec {

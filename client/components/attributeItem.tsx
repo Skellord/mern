@@ -29,7 +29,7 @@ export const AttributeItem: FC<AttributeItem> = ({ item, type = 'attribute' }) =
 
     return (
         <WrapItem w='100%' h='24px' alignItems='center'>
-            <Image src={imgSrc} loader={() => imgSrc} width={24} height={24} />
+            <Image src={imgSrc} loader={() => imgSrc} width={24} height={24} unoptimized />
             <Text ml='2'>{item}</Text>
         </WrapItem>
     );

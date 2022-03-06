@@ -12,4 +12,6 @@ export const maxVariables = {
     chargeBonus: 100,
     damage: 900,
     missileDamage: 1000,
+    ammo: 270,
+    range: 480,
 };

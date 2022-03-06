@@ -6,8 +6,6 @@ import { BASE_URL } from '../api/api';
 import { maxVariables } from '../utils/unitStats.util';
 import { StatsAccordion } from './StatsAccordion';
 import { StatsItem } from './StatsItem';
-import { AttributeItem } from './attributeItem';
-import { Attributesgroup } from '../types/attributes.types';
 
 import casteCircleUrl from '../assets/img/unit_cat_holder_round.png';
 import casteCircleRorUrl from '../assets/img/unit_cat_holder_round_renown.png';
@@ -22,6 +20,9 @@ import spUpkeep from '../assets/img/icon_upkeep-1-24x24.png';
 import healthIcon from '../assets/img/icon_stat_health_noframe_16px.png';
 import armourIcon from '../assets/img/icon_stat_armour.png';
 import shieldIcon from '../assets/img/modifier_icon_shield.png';
+import shield1Icon from '../assets/img/modifier_icon_shield1.png';
+import shield2Icon from '../assets/img/modifier_icon_shield2.png';
+import shield3Icon from '../assets/img/modifier_icon_shield3.png';
 import attackIcon from '../assets/img/icon_stat_attack.png';
 import damageIcon from '../assets/img/icon_stat_damage.png';
 import defenceIcon from '../assets/img/icon_stat_defence.png';
@@ -39,6 +40,12 @@ import baseDamageIcon from '../assets/img/icon_stat_damage_base_character.png';
 import apDamageIcon from '../assets/img/armour_piercing_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
 import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
+import rangeIcon from '../assets/img/icon_stat_range.png';
+import missileDamageBaseIcon from '../assets/img/icon_stat_ranged_damage_base_character.png';
+import missileDamageAPIcon from '../assets/img/icon_stat_explosive_armour_piercing_damage_character.png';
+import reloadIcon from '../assets/img/icon_stat_reload_time_character.png';
+import massIcon from '../assets/img/icon_stat_mass.png';
+import { compact } from 'lodash';
 
 interface UnitCardProps {
     unitStats: UnitWithStats;
@@ -60,10 +67,34 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
     const massVal = unitStats.mountEntity ? unitStats.mountEntity.mass : unitStats.entity.mass;
     const isUnitRor = unitStats.unit.split('_').includes('ror');
     const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
+    const magicalSrc =
+        unitStats.melee_damage.is_magical === 'true' ? `${BASE_URL}/effect_bundles/magical_attacks.png` : undefined;
+    const contactPhaseResolver = unitStats.melee_damage.contact_phase
+        ? `phase_${unitStats.melee_damage.contact_phase.split('_').slice(4)?.join('_')}`
+        : undefined;
+    const contactPhaseSrc = unitStats.melee_damage.contact_phase
+        ? `${BASE_URL}/effect_bundles/${contactPhaseResolver}.png`
+        : undefined;
+    const attackAdditionalIconSrc = compact([magicalSrc, contactPhaseSrc]);
 
-    const simpleSort = (a: string, b: string) => a.localeCompare(b);
+    let shieldImage;
+    switch (shieldVal) {
+        case '20':
+        case '30':
+        case '35':
+            shieldImage = shield1Icon;
+            break;
+        case '55':
+            shieldImage = shield2Icon;
+            break;
+        case '60':
+        case '65':
+            shieldImage = shield3Icon;
+            break;
+    }
 
-    console.log(unitStats);
+    console.log(unitStats.stats.armour.split('_')?.at(-1));
+
     return (
         <Box as='section' w='400px' p='4'>
             <Heading fontSize='2xl' marginBottom='4'>
@@ -189,7 +220,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
 
                 <StatsAccordion
                     icon={armourIcon}
-                    additionalIcon={unitStats.stats.shield === 'none' ? undefined : shieldIcon}
+                    additionalIcon={unitStats.stats.shield === 'none' ? undefined : shieldImage}
                     text={'Armour'}
                     value={unitStats.stats.armour.split('_')?.at(-1) || '0'}
                     maxStats={maxVariables.armour}
@@ -238,18 +269,27 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     text={'Melee attack'}
                     value={unitStats.stats.melee_attack}
                     maxStats={maxVariables.meleeAttack}
+                    additionalIcons={attackAdditionalIconSrc}
                 >
                     <SimpleGrid as='ul' gridRowGap='1'>
+                        <StatsItem text={'Is magical'} value={unitStats.melee_damage.is_magical} />
+                        {unitStats.melee_damage.contact_phase && (
+                            <StatsItem text={'Contact phase'} value={unitStats.melee_damage.contact_phase} />
+                        )}
                         <StatsItem text={'Attack interval'} value={unitStats.melee_damage.melee_attack_interval} />
                         <StatsItem text={'Is high threat'} value={unitStats.is_high_threat} />
-                        <StatsItem
-                            text={'Splash target size'}
-                            value={unitStats.melee_damage.splash_attack_target_size}
-                        />
-                        <StatsItem
-                            text={'Splash max attacks'}
-                            value={unitStats.melee_damage.splash_attack_max_attacks}
-                        />
+                        {unitStats.is_high_threat === 'true' && (
+                            <>
+                                <StatsItem
+                                    text={'Splash target size'}
+                                    value={unitStats.melee_damage.splash_attack_target_size}
+                                />
+                                <StatsItem
+                                    text={'Splash max attacks'}
+                                    value={unitStats.melee_damage.splash_attack_max_attacks}
+                                />
+                            </>
+                        )}
                     </SimpleGrid>
                 </StatsAccordion>
 
@@ -293,64 +333,76 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                 </StatsAccordion>
 
                 {unitStats.missile_damage && missileDamageVal && (
-                    <StatsAccordion
-                        icon={missileDamageIcon}
-                        text={'Missile damage'}
-                        value={missileDamageVal}
-                        maxStats={maxVariables.missileDamage}
-                    >
-                        <SimpleGrid as='ul' gridRowGap='1'>
-                            <StatsItem text={'Base missile damage'} value={unitStats.missile_damage.damage} />
-                            <StatsItem text={'AP missile damage'} value={unitStats.missile_damage.ap_damage} />
-                            <StatsItem text={'Bonus vs. infantry'} value={unitStats.missile_damage.bonus_v_infantry} />
-                            <StatsItem text={'Bonus vs. large'} value={unitStats.missile_damage.bonus_v_large} />
-                            <StatsItem
-                                text={'Can damage buildings'}
-                                value={unitStats.missile_damage.can_damage_buildings}
-                            />
-                            {unitStats.missile_damage.can_damage_buildings === 'true' && (
+                    <>
+                        <StatsAccordion
+                            icon={missileDamageIcon}
+                            text={'Missile damage'}
+                            value={missileDamageVal}
+                            maxStats={maxVariables.missileDamage}
+                        >
+                            <SimpleGrid as='ul' gridRowGap='1'>
                                 <StatsItem
-                                    text={'Building damage multiplier'}
-                                    value={unitStats.missile_damage.building_damage_multiplier}
+                                    icon={missileDamageBaseIcon}
+                                    text={'Base missile damage'}
+                                    value={unitStats.missile_damage.damage}
                                 />
-                            )}
-                        </SimpleGrid>
-                    </StatsAccordion>
+                                <StatsItem
+                                    icon={missileDamageAPIcon}
+                                    text={'AP missile damage'}
+                                    value={unitStats.missile_damage.ap_damage}
+                                />
+                                <StatsItem
+                                    icon={infantryBonusIcon}
+                                    text={'Bonus vs. infantry'}
+                                    value={unitStats.missile_damage.bonus_v_infantry}
+                                />
+                                <StatsItem
+                                    icon={largeBonusIcon}
+                                    text={'Bonus vs. large'}
+                                    value={unitStats.missile_damage.bonus_v_large}
+                                />
+                                <StatsItem
+                                    icon={reloadIcon}
+                                    text={'Reload time'}
+                                    value={unitStats.missile_damage.base_reload_time}
+                                />
+                                {unitStats.missile_damage.contact_stat_effect && (
+                                    <StatsItem
+                                        text={'Contact effect'}
+                                        value={unitStats.missile_damage.contact_stat_effect}
+                                    />
+                                )}
+                                <StatsItem
+                                    text={'Can damage buildings'}
+                                    value={unitStats.missile_damage.can_damage_buildings}
+                                />
+                                {unitStats.missile_damage.can_damage_buildings === 'true' && (
+                                    <StatsItem
+                                        text={'Building damage multiplier'}
+                                        value={unitStats.missile_damage.building_damage_multiplier}
+                                    />
+                                )}
+                            </SimpleGrid>
+                        </StatsAccordion>
+                        <StatsItem
+                            icon={rangeIcon}
+                            text={'Range'}
+                            value={unitStats.missile_damage.effective_range}
+                            maxStats={maxVariables.range}
+                        />
+                        <StatsItem
+                            icon={ammoIcon}
+                            text={'Ammo'}
+                            value={unitStats.stats.primary_ammo}
+                            maxStats={maxVariables.ammo}
+                        />
+                    </>
                 )}
 
-                <StatsItem text={'Mass'} value={massVal} />
+                <StatsItem icon={massIcon} text={'Mass'} value={massVal} />
             </Wrap>
 
             <Divider p='1' borderColor='crimson.400' />
-
-            {unitStats.special_abilities && (
-                <>
-                    <Text p='2'>Special abilities</Text>
-                    <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
-                        {unitStats.special_abilities.sort(simpleSort).map(item => (
-                            <AttributeItem type='spells' key={item} item={item} />
-                        ))}
-                    </Wrap>
-                </>
-            )}
-
-            {unitStats.lore_spells && (
-                <>
-                    <Text p='2'>Spells</Text>
-                    <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
-                        {unitStats.lore_spells.sort(simpleSort).map(item => (
-                            <AttributeItem type='spells' key={item} item={item} />
-                        ))}
-                    </Wrap>
-                </>
-            )}
-
-            <Text p='2'>Passive</Text>
-            <Wrap p='2' border='inherit' borderColor='inherit' borderRadius='3' marginBottom='4'>
-                {unitStats.attributes?.sort(simpleSort).map(item => (
-                    <AttributeItem key={item} item={item} />
-                ))}
-            </Wrap>
         </Box>
     );
 };

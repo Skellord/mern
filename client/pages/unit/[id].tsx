@@ -1,4 +1,4 @@
-import { Flex, Divider, Heading, Spinner, Box, Text } from '@chakra-ui/react';
+import { Flex, Divider, Heading, Spinner, Box, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { BASE_URL, client } from '../../api/api';
@@ -10,6 +10,7 @@ import { apiRoutes } from '../../utils/api.util';
 import { UnitCard } from '../../components/UnitCard';
 import { HistoricalDescription } from '../../../types/unitDesc.types';
 import { UnitWithStats } from '../../../types/units.types';
+import { AttributeItem } from '../../components/attributeItem';
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const units = await client.getUnits();
@@ -72,6 +73,16 @@ const UnitPage: NextPage<UnitPage> = props => {
     if (!data) return <ErrorAlert />;
     if (isFirstLoading) return <Spinner />;
 
+    const specialAbilities = data.special_abilities?.filter(item => {
+        return !item.split('_').includes('passive');
+    });
+
+    const passiveAbilities = data.special_abilities
+        ?.filter(item => {
+            return item.split('_').includes('passive');
+        })
+        .concat(data.attributes);
+
     return (
         <Layout>
             <Heading as='h1' marginBottom='6'>
@@ -88,9 +99,52 @@ const UnitPage: NextPage<UnitPage> = props => {
                     <Heading fontSize='2xl' mb='4'>
                         Description
                     </Heading>
-                    <Text fontStyle='italic' p='1'>
+                    <Text fontStyle='italic' p='1' mb='12'>
                         {histDescData?.text}
                     </Text>
+
+                    {specialAbilities && specialAbilities.length > 0 && (
+                        <>
+                            <Heading fontSize='2xl' mb='4'>
+                                Special abilities
+                            </Heading>
+                            <Wrap mb='12'>
+                                {specialAbilities.map(item => (
+                                    <AttributeItem key={item} item={item} type='spells' />
+                                ))}
+                            </Wrap>
+                        </>
+                    )}
+
+                    {data.lore_spells && (
+                        <>
+                            <Heading fontSize='2xl' mb='4'>
+                                Spells
+                            </Heading>
+                            <Wrap mb='12'>
+                                {data?.lore_spells
+                                    .sort((a, b) => a.localeCompare(b))
+                                    .map(item => (
+                                        <AttributeItem key={item} item={item} type='spells' />
+                                    ))}
+                            </Wrap>
+                        </>
+                    )}
+
+                    {passiveAbilities && passiveAbilities.length > 0 && (
+                        <>
+                            <Heading fontSize='2xl' mb='4'>
+                                Passive effects
+                            </Heading>
+                            <Wrap mb='12'>
+                                {passiveAbilities
+                                    .sort((a, b) => a.localeCompare(b))
+                                    .map(item => (
+                                        <AttributeItem key={item} item={item} type='spells' />
+                                    ))}
+                            </Wrap>
+                        </>
+                    )}
                 </Box>
             </Flex>
         </Layout>

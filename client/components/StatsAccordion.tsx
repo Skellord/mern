@@ -12,9 +12,18 @@ interface StatsAccordion {
     value: string;
     maxStats: number;
     additionalIcon?: StaticImageData;
+    additionalIcons?: string[];
 }
 
-export const StatsAccordion: FC<StatsAccordion> = ({ icon, text, value, maxStats, additionalIcon, children }) => {
+export const StatsAccordion: FC<StatsAccordion> = ({
+    icon,
+    text,
+    value,
+    maxStats,
+    additionalIcon,
+    additionalIcons,
+    children,
+}) => {
     return (
         <Accordion as='li' w='100%' allowToggle>
             <AccordionItem border='none'>
@@ -43,7 +52,18 @@ export const StatsAccordion: FC<StatsAccordion> = ({ icon, text, value, maxStats
                             </Flex>
 
                             <Flex as='span' alignItems='center'>
-                                {additionalIcon && <Image src={additionalIcon} width={22} height={22} />}
+                                {additionalIcon && <Image src={additionalIcon} width={16} height={16} />}
+                                {additionalIcons &&
+                                    additionalIcons.map(src => (
+                                        <Image
+                                            key={src}
+                                            src={src}
+                                            loader={() => src}
+                                            width={24}
+                                            height={24}
+                                            unoptimized
+                                        />
+                                    ))}
                                 <Text marginRight='2'>{value}</Text>
                                 <Progress
                                     colorScheme='yellow'
