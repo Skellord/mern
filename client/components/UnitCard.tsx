@@ -274,7 +274,10 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     <SimpleGrid as='ul' gridRowGap='1'>
                         <StatsItem text={'Is magical'} value={unitStats.melee_damage.is_magical} />
                         {unitStats.melee_damage.contact_phase && (
-                            <StatsItem text={'Contact phase'} value={unitStats.melee_damage.contact_phase} />
+                            <StatsItem
+                                text={'Contact'}
+                                value={unitStats.melee_damage.contact_phase.split('_').slice(4)?.join(' ')}
+                            />
                         )}
                         <StatsItem text={'Attack interval'} value={unitStats.melee_damage.melee_attack_interval} />
                         <StatsItem text={'Is high threat'} value={unitStats.is_high_threat} />
@@ -401,8 +404,6 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
 
                 <StatsItem icon={massIcon} text={'Mass'} value={massVal} />
             </Wrap>
-
-            <Divider p='1' borderColor='crimson.400' />
         </Box>
     );
 };

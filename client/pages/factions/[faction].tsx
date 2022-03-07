@@ -67,7 +67,7 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
         query: { faction },
     } = useRouter();
 
-    const { data, isFirstLoading } = useFetchWithCache<FactionsUnitsResponse>(
+    const { data } = useFetchWithCache<FactionsUnitsResponse>(
         [apiRoutes.getFactionUnits, faction],
         (_: any, faction: any) => client.getFaсtionUnits({ faction }),
         {
