@@ -45,7 +45,7 @@ class UnitsController {
         const specialAbilities = await specialAbilityService.getSpecialAbilities(unitStats[0].land_unit);
         const unit = Object.assign({}, unitStats[0], loreSpells[0], specialAbilities[0]);
         if (!unitStats) {
-            next(ApiError.notFound);
+            next(ApiError.notFound());
             return;
         }
         res.json(unit);

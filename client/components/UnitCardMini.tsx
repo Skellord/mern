@@ -18,7 +18,7 @@ export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon }) => {
     const isUnitRor = name.split(' ').includes('ror');
     return (
         <NextLink href={link} as={link}>
-            <Link>
+            <Link marginInlineStart='0 !important'>
                 <Tooltip hasArrow label={name}>
                     <Center
                         display='flex'

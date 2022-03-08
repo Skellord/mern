@@ -1,11 +1,4 @@
-import {
-    FactionsResponse,
-    FactionsUnitsResponse,
-    FactionUnitsParams,
-    UnitParams,
-    UnitResponse,
-    UnitsResponse,
-} from '../types/api.types';
+import { FactionsResponse, FactionsUnitsResponse, UnitResponse, UnitsResponse } from '../types/api.types';
 import { apiRoutes } from '../utils/api.util';
 import fetcher from './fetcher';
 import { HistoricalDescription } from '../../types/unitDesc.types';
@@ -22,17 +15,17 @@ class Client {
         return fetcher<FactionsResponse>(`${BASE_URL}${apiRoutes.getFactions}`, { headers: this.headers });
     }
 
-    getFaсtionUnits(params: FactionUnitsParams) {
+    getFaсtionUnits(params: { faction: string }) {
         return fetcher<FactionsUnitsResponse>(`${BASE_URL}${apiRoutes.getFactions}/${params.faction}`, {
             headers: this.headers,
         });
     }
 
-    getUnit(params: UnitParams) {
+    getUnit(params: { id: string }) {
         return fetcher<UnitResponse>(`${BASE_URL}${apiRoutes.getUnit}${params.id}`, { headers: this.headers });
     }
 
-    getUnitStats(params: UnitParams) {
+    getUnitStats(params: { id: string }) {
         return fetcher<UnitWithStats>(`${BASE_URL}${apiRoutes.getUnit}${params.id}/stats`, { headers: this.headers });
     }
 

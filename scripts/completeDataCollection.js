@@ -39,7 +39,7 @@ const factions = [
         reg: 'emp',
     },
     {
-        name: 'green-skins',
+        name: 'greenskins',
         reg: 'grn',
     },
     {
@@ -100,6 +100,10 @@ const factions = [
     },
 ];
 
+const factionsNames = factions.map(item => {
+    return { faction: item.name };
+});
+
 const startRegex = '^(?:[^_\n]+_){2}([';
 const endRegex = ']+)(?:_[^_\n]+)*$';
 
@@ -127,6 +131,7 @@ async function completeData() {
         const entityCollection = db.collection(process.env.ENTITY_COLLECTION);
         const mountsCollection = db.collection(process.env.MOUNTS_COLLECTION);
         const permissionCollection = db.collection(process.env.PERMISSION_COLLECTION);
+        db.collection('factions').insertMany(factionsNames);
 
         await mainCollection.updateMany(
             {},

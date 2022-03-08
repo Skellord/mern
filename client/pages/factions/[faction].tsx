@@ -9,8 +9,9 @@ import { useFetchWithCache } from '../../hooks/useFetchWithCache';
 import { FactionsUnitsResponse } from '../../types/api.types';
 import { Unit } from '../../../types/units.types';
 import { apiRoutes } from '../../utils/api.util';
+import { FactionUnit } from '../../../types/faction.types';
 
-type UnitsGroup = Pick<Unit, 'unit' | '_id' | 'lord_portrait' | 'unit_portrait' | 'icon'>;
+type UnitsGroup = Omit<FactionUnit, 'land_unit' | 'caste'>;
 
 interface Props {
     units: UnitsGroup[];
@@ -20,8 +21,8 @@ interface Props {
 export const getStaticPaths: GetStaticPaths = async () => {
     const factions = await client.getFactions();
 
-    const paths = factions.map((item: string) => ({
-        params: { faction: item },
+    const paths = factions.map(item => ({
+        params: { faction: item.faction },
     }));
     return { paths, fallback: false };
 };
@@ -45,16 +46,18 @@ const UnitsGroup: FC<Props> = ({ units, title }) => {
             <Heading marginBottom='4'>{title}</Heading>
             <HStack>
                 {units?.map(item => {
-                    const newName = item.unit.split('_');
-                    const name =
-                        newName[newName.length - 1] === '0'
-                            ? newName.slice(4, newName.length - 1).join(' ')
-                            : newName.slice(4, newName.length).join(' ');
+                    // const newName = item.unit.split('_');
+                    // const name =
+                    //     newName[newName.length - 1] === '0'
+                    //         ? newName.slice(4, newName.length - 1).join(' ')
+                    //         : newName.slice(4, newName.length).join(' ');
                     const imgSrc = item.lord_portrait
                         ? `${BASE_URL}/units/${item.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
                         : `${BASE_URL}/units/${item.unit_portrait}.png`;
                     const iconSrc = `${BASE_URL}/unit_category_icons/${item.icon}.png`;
-                    return <UnitCardMini key={item.unit} name={name} imgSrc={imgSrc} href={item._id} icon={iconSrc} />;
+                    return (
+                        <UnitCardMini key={item.unit} name={item.unit} imgSrc={imgSrc} href={item._id} icon={iconSrc} />
+                    );
                 })}
             </HStack>
         </Box>
@@ -75,13 +78,13 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
         }
     );
 
-    const groups = data?.map(item => item.caste);
+    const groups = data?.units?.map(item => item.caste);
     const newGroups = ['lord', 'hero'].concat(
         [...new Set(groups)].sort((a, b) => a.localeCompare(b)).filter(item => item !== 'hero' && item !== 'lord')
     );
     const campaignUnits: UnitsGroup[] | undefined =
         data &&
-        data
+        data.units
             .filter(unit => unit.campaign_exclusive === 'true')
             .map(unit => {
                 return {
@@ -92,14 +95,14 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
                     icon: unit.icon,
                 };
             });
-    console.log(data);
+    // console.log(newGroups);
 
     return (
         <Layout heading={faction}>
             {data &&
                 newGroups?.map(item => {
-                    const newUnits: UnitsGroup[] = data
-                        .filter(unit => unit.campaign_exclusive === 'false' || undefined)
+                    const newUnits: UnitsGroup[] = data.units
+                        .filter(unit => unit?.campaign_exclusive === 'false' || undefined)
                         .filter(unit => unit.caste === item)
                         .map(unit => {
                             return {
@@ -110,6 +113,8 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
                                 icon: unit.icon,
                             };
                         });
+                    console.log(newUnits);
+
                     return newUnits.length > 0 && <UnitsGroup key={item} title={item} units={newUnits} />;
                 })}
             {campaignUnits && campaignUnits!.length > 0 && (

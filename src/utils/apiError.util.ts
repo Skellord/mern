@@ -9,7 +9,7 @@ class ApiError {
         this.message = message;
     }
 
-    static badRequest(msg: string) {
+    static badRequest(msg: string = getReasonPhrase(StatusCodes.BAD_REQUEST)) {
         return new ApiError(StatusCodes.BAD_REQUEST, msg);
     }
 

@@ -1,14 +1,7 @@
 import { Unit, UnitWithStats } from '../../types/units.types';
+import { Faction, FactionWithUnits } from '../../types/faction.types';
 
-export type FactionsResponse = string[];
-export type FactionsUnitsResponse = Unit[];
+export type FactionsResponse = Faction[];
+export type FactionsUnitsResponse = FactionWithUnits;
 export type UnitResponse = [UnitWithStats];
 export type UnitsResponse = Unit[];
-
-export interface FactionUnitsParams {
-    faction: string;
-}
-
-export interface UnitParams {
-    id: string;
-}

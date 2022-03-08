@@ -93,7 +93,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
             break;
     }
 
-    console.log(unitStats.stats.armour.split('_')?.at(-1));
+    console.log(unitStats);
 
     return (
         <Box as='section' w='400px' p='4'>

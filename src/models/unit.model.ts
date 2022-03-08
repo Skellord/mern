@@ -19,7 +19,7 @@ const schema = new Schema({
     food_cost: { type: String },
     is_monstrous: { type: String },
     multiplayer_qb_cap: { type: String },
-    faction: { type: String },
+    faction: { type: String, ref: 'Faction' },
     melee_cp: { type: String },
     missile_cp: { type: String },
     create_time: { type: String },
