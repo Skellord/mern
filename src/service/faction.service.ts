@@ -20,6 +20,7 @@ const khornUnitVariants = [
     'wh3_main_kho_cha_bloodreaper_1',
     'wh3_main_kho_cha_bloodreaper_2',
     'wh3_main_kho_cha_cultist_1',
+    'wh3_survival_kho_cha_daemon_prince_of_khorne',
 ];
 
 const kislevUnitVariants = [
@@ -53,6 +54,7 @@ const nurgleUnitVariants = [
     'wh3_main_nur_cha_plagueridden_death_2',
     'wh3_main_nur_cha_plagueridden_nurgle_1',
     'wh3_main_nur_cha_plagueridden_nurgle_2',
+    'wh3_survival_nur_cha_daemon_prince_of_nurgle',
 ];
 
 const ogresUnitVariants = ['wh3_main_ogr_cha_hunter_1'];
@@ -71,6 +73,7 @@ const slaaneshUnitVariants = [
     'wh3_main_sla_cha_alluress_slaanesh_2',
     'wh3_main_sla_cha_alluress_slaanesh_3',
     'wh3_main_sla_cha_cultist_1',
+    'wh3_survival_sla_cha_daemon_prince_of_slaanesh',
 ];
 
 const tzeentchUnitVariants = [
@@ -83,6 +86,7 @@ const tzeentchUnitVariants = [
     'wh3_main_tze_cha_iridescent_horror_metal_2',
     'wh3_main_tze_cha_iridescent_horror_tzeentch_1',
     'wh3_main_tze_cha_iridescent_horror_tzeentch_2',
+    'wh3_survival_tze_cha_daemon_prince_of_tzeentch',
 ];
 
 const beastmensUnitVariants = [

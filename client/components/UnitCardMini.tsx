@@ -5,6 +5,7 @@ import NextLink from 'next/link';
 import semiCircleUrl from '../assets/img/unit_card_semicircle.png';
 import semiCircleRorUrl from '../assets/img/unit_card_semicircle_renown.png';
 import borderImage from '../assets/img/panel_back_frame.png';
+import { isRorUnit } from '../utils/rorUnits.util';
 
 interface Props {
     name: string;
@@ -15,7 +16,7 @@ interface Props {
 
 export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon }) => {
     const link = `/unit/${href}`;
-    const isUnitRor = name.split('_').includes('ror');
+    const isUnitRor = isRorUnit(name);
     return (
         <NextLink href={link} as={link}>
             <Link marginInlineStart='0 !important'>
