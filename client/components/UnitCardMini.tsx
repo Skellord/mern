@@ -15,7 +15,7 @@ interface Props {
 
 export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon }) => {
     const link = `/unit/${href}`;
-    const isUnitRor = name.split(' ').includes('ror');
+    const isUnitRor = name.split('_').includes('ror');
     return (
         <NextLink href={link} as={link}>
             <Link marginInlineStart='0 !important'>

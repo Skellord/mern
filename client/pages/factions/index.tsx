@@ -126,14 +126,14 @@ const Units: NextPage = () => {
                 <FactionLink imgSrc={nurgleImg} link={'nurgle'} name={'Nurgle'} newImage />
                 <FactionLink imgSrc={ogreImg} link={'ogres'} name={'Ogre kingdoms'} newImage />
                 <FactionLink imgSrc={slaaneshImg} link={'slaanesh'} name={'Slaanesh'} newImage />
-                <FactionLink imgSrc={tzeenchImg} link={'tzeench'} name={'Tzeench'} newImage />
+                <FactionLink imgSrc={tzeenchImg} link={'tzeentch'} name={'Tzeentch'} newImage />
                 <FactionLink imgSrc={beastmensImg} link={'beastmens'} name={'Beastmens'} />
                 <FactionLink imgSrc={bretonniaImg} link={'bretonnia'} name={'Bretonnia'} />
                 <FactionLink imgSrc={chaosImg} link={'chaos'} name={'Chaos'} />
                 <FactionLink imgSrc={darkElvesImg} link={'dark-elves'} name={'Dark elves'} />
                 <FactionLink imgSrc={dwarfsImg} link={'dwarfs'} name={'Dwarfs'} />
                 <FactionLink imgSrc={empireImage} link={'empire'} name={'Empire'} />
-                <FactionLink imgSrc={greenskinsImg} link={'green-skins'} name={'Greenskins'} />
+                <FactionLink imgSrc={greenskinsImg} link={'greenskins'} name={'Greenskins'} />
                 <FactionLink imgSrc={highElvesImg} link={'high-elves'} name={'High elves'} />
                 <FactionLink imgSrc={lizardmensImg} link={'lizardmens'} name={'Lizardmens'} />
                 <FactionLink imgSrc={norscaImg} link={'norsca'} name={'Norsca'} />

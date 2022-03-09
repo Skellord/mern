@@ -1,4 +1,27 @@
-export const ALL_FACTIONS = ['cathay', 'khorn', 'kislev'];
+export const ALL_FACTIONS = [
+    'cathay',
+    'khorn',
+    'kislev',
+    'nurgle',
+    'ogres',
+    'slaanesh',
+    'tzeentch',
+    'beastmens',
+    'bretonnia',
+    'chaos',
+    'dark-elves',
+    'dwarfs',
+    'empire',
+    'greenskins',
+    'high-elves',
+    'lizardmens',
+    'norsca',
+    'skavens',
+    'tomb-kings',
+    'vampire-coast',
+    'vampire-counts',
+    'wood-elves',
+];
 
 export type Factions = typeof ALL_FACTIONS[number];
 
