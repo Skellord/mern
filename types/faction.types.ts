@@ -1,3 +1,5 @@
+import { UnitCaste } from './units.types';
+
 export const ALL_FACTIONS = [
     'cathay',
     'khorn',
@@ -34,11 +36,12 @@ export interface FactionUnit {
     _id: string;
     unit: string;
     land_unit: string;
-    caste: string;
+    caste: UnitCaste;
     lord_portrait?: string;
     unit_portrait: string;
     icon: string;
     campaign_exclusive?: string;
+    local_name: string;
 }
 
 export type FactionWithUnits = Faction & { units: FactionUnit[] };

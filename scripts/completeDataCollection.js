@@ -131,6 +131,8 @@ async function completeData() {
         const entityCollection = db.collection(process.env.ENTITY_COLLECTION);
         const mountsCollection = db.collection(process.env.MOUNTS_COLLECTION);
         const permissionCollection = db.collection(process.env.PERMISSION_COLLECTION);
+        const landUnitsLoc = db.collection(process.env.LAND_UNITS_LOC_COLLECTION);
+
         db.collection('factions').insertMany(factionsNames);
 
         await mainCollection.updateMany(
@@ -356,6 +358,7 @@ async function completeData() {
             },
         ]);
         await permissionCollection.deleteMany({ _id: { $in: [ids] } });
+        await landUnitsLoc.deleteMany({ text: { $exists: false } });
     } catch (e) {
         console.log(e);
     }

@@ -12,6 +12,9 @@ const cathayUnitVariants = [
     'wh3_main_cth_cha_alchemist_1',
     'wh3_main_cth_cha_astromancer_1',
     'wh3_main_cth_cha_astromancer_2',
+    'wh3_main_cth_cha_storm_dragon_1',
+    'wh3_main_cth_cha_iron_dragon_1',
+    'wh3_main_cth_cha_lord_caravan_master',
 ];
 
 const khornUnitVariants = [
@@ -21,6 +24,11 @@ const khornUnitVariants = [
     'wh3_main_kho_cha_bloodreaper_2',
     'wh3_main_kho_cha_cultist_1',
     'wh3_survival_kho_cha_daemon_prince_of_khorne',
+    'wh3_survival_kho_cha_exalted_bloodthirster_0',
+    'wh3_survival_kho_cha_exalted_bloodthirster',
+    'wh3_survival_kho_cha_bloodreaper',
+    'wh3_main_kho_inf_bloodletters_summoned_0',
+    'wh3_main_kho_mon_bloodthirster_summoned_0',
 ];
 
 const kislevUnitVariants = [
@@ -42,6 +50,18 @@ const kislevUnitVariants = [
     'wh3_main_ksl_cha_frost_maiden_tempest_2',
     'wh3_main_ksl_cha_patriarch_1',
     'wh3_main_ksl_cha_patriarch_2',
+    'wh_main_ksl_cha_general_0',
+    'wh_main_ksl_cha_general_2',
+    'wh_main_ksl_cha_general_1',
+    'wh_main_ksl_cha_captain_2',
+    'wh_main_ksl_cha_captain_1',
+    'wh_main_ksl_cha_captain_0',
+    'wh_main_ksl_cha_wizard_0',
+    'wh_main_ksl_cha_wizard_1',
+    'wh3_main_ksl_mon_snow_leopard_summoned_1',
+    'wh3_main_ksl_mon_snow_leopard_summoned_0',
+    'wh3_main_ksl_mon_snow_leopard_summoned_2',
+    'wh3_main_ksl_mon_elemental_bear_summoned_0',
 ];
 
 const nurgleUnitVariants = [
@@ -55,9 +75,20 @@ const nurgleUnitVariants = [
     'wh3_main_nur_cha_plagueridden_nurgle_1',
     'wh3_main_nur_cha_plagueridden_nurgle_2',
     'wh3_survival_nur_cha_daemon_prince_of_nurgle',
+    'wh3_survival_nur_cha_exalted_great_unclean_one_nurgle',
+    'wh3_survival_nur_cha_exalted_great_unclean_one_nurgle_0',
+    'wh3_survival_nur_cha_plagueridden_death',
+    'wh3_main_nur_mon_great_unclean_one_summoned_0',
+    'wh3_main_nur_inf_nurglings_summoned_0',
+    'wh3_main_nur_inf_plaguebearers_summoned_0',
 ];
 
-const ogresUnitVariants = ['wh3_main_ogr_cha_hunter_1'];
+const ogresUnitVariants = [
+    'wh3_main_ogr_cha_hunter_1',
+    'wh3_main_ogr_mon_gorgers_summoned_0',
+    'wh3_main_ogr_inf_maneaters_summoned_0',
+    'wh3_main_ogr_feral_manticore_summoned',
+];
 
 const slaaneshUnitVariants = [
     'wh3_main_sla_cha_herald_of_slaanesh_shadow_1',
@@ -74,6 +105,10 @@ const slaaneshUnitVariants = [
     'wh3_main_sla_cha_alluress_slaanesh_3',
     'wh3_main_sla_cha_cultist_1',
     'wh3_survival_sla_cha_daemon_prince_of_slaanesh',
+    'wh3_survival_sla_cha_alluress_shadow',
+    'wh3_survival_sla_cha_exalted_keeper_of_secrets_slaanesh',
+    'wh3_main_sla_inf_daemonette_summoned_0',
+    'wh3_main_sla_mon_keeper_of_secrets_summoned_0',
 ];
 
 const tzeentchUnitVariants = [
@@ -87,6 +122,12 @@ const tzeentchUnitVariants = [
     'wh3_main_tze_cha_iridescent_horror_tzeentch_1',
     'wh3_main_tze_cha_iridescent_horror_tzeentch_2',
     'wh3_survival_tze_cha_daemon_prince_of_tzeentch',
+    'wh3_survival_tze_cha_exalted_lord_of_change_tzeentch',
+    'wh3_main_tze_cha_kairos_fateweaver_0',
+    'wh3_survival_tze_cha_iridescent_horror_metal',
+    'wh3_main_tze_inf_blue_horrors_summoned_0',
+    'wh3_main_tze_inf_pink_horrors_summoned_0',
+    'wh3_main_tze_mon_lord_of_change_summoned_0',
 ];
 
 const beastmensUnitVariants = [
@@ -114,6 +155,16 @@ const beastmensUnitVariants = [
     'wh_dlc03_bst_cha_bray_shaman_death_1',
     'wh_dlc03_bst_cha_bray_shaman_shadows_1',
     'wh_dlc03_bst_cha_bray_shaman_wild_1',
+    'wh_dlc08_bst_mon_cygor_boss',
+    'wh_dlc05_bst_cha_morghur_0_boss',
+    'wh_dlc03_bst_cha_beastlord_0_qb',
+    'wh_dlc03_bst_cha_graktar_0',
+    'wh_dlc03_bst_cha_bray_shaman_wild_0_qb',
+    'wh_dlc03_bst_inf_cygor_0_summoned',
+    'wh_dlc03_bst_mon_chaos_spawn_0_summoned',
+    'wh_dlc05_bst_mon_chaos_spawn_0_boss',
+    'wh2_dlc17_bst_mon_ghorgon_boss_0',
+    'wh_main_bst_feral_manticore_summoned',
 ];
 
 const bretonniaUnitVariants = [
@@ -148,6 +199,9 @@ const bretonniaUnitVariants = [
     'wh_main_brt_cha_damsel_3',
     'wh_main_brt_cha_paladin_3',
     'wh_main_brt_cha_paladin_4',
+    'wh_dlc07_brt_cha_damsel_life_2',
+    'wh_dlc07_brt_cha_damsel_beasts_2',
+    'wh_main_brt_cha_damsel_2',
 ];
 
 const chaosUnitVariants = [
@@ -188,6 +242,28 @@ const chaosUnitVariants = [
     'wh_main_chs_cha_chaos_sorcerer_metal_9',
     'wh_main_chs_cha_exalted_hero_12',
     'wh_main_chs_cha_exalted_hero_13',
+    'wh_dlc01_chs_cha_chaos_sorcerer_lord_metal_7',
+    'wh_dlc01_chs_cha_chaos_sorcerer_lord_death_7',
+    'wh_dlc01_chs_cha_chaos_lord_9',
+    'wh_dlc01_chs_cha_chaos_sorcerer_lord_fire_8',
+    'wh_dlc01_chs_cha_chaos_sorcerer_lord_death_8',
+    'wh_dlc01_chs_cha_chaos_sorcerer_lord_metal_8',
+    'wh_dlc01_chs_cha_chaos_sorcerer_lord_fire_7',
+    'wh_dlc08_chs_cha_chaos_lord_2_qb',
+    'wh_dlc01_chs_cha_qb_lord_of_change_0',
+    'wh_main_chs_cha_chaos_lord_8',
+    'wh_dlc01_chs_cha_exalted_hero_8',
+    'wh_dlc01_chs_cha_chaos_sorcerer_metal_8',
+    'wh_dlc01_chs_cha_chaos_sorcerer_death_8',
+    'wh_dlc01_chs_cha_chaos_sorcerer_fire_8',
+    'wh_main_chs_cha_chaos_sorcerer_death_7',
+    'wh_main_chs_cha_exalted_hero_7',
+    'wh_main_chs_cha_chaos_sorcerer_metal_7',
+    'wh_main_chs_cha_chaos_sorcerer_fire_7',
+    'wh_main_chs_mon_chaos_spawn_summoned',
+    'wh_dlc08_chs_mon_dragon_ogre_shaggoth_minor_boss',
+    'wh_dlc08_chs_mon_dragon_ogre_shaggoth_boss',
+    'wh3_main_chs_art_hellcannon_prologue',
 ];
 
 const darkElvesVariants = [
@@ -260,9 +336,21 @@ const darkElvesVariants = [
     'wh2_main_def_cha_sorceress_shadow_1',
     'wh2_main_def_cha_sorceress_shadow_2',
     'wh2_main_def_cha_sorceress_shadow_3',
+    'wh2_dlc14_def_cha_malus_darkblade_tzarkan_0',
+    'wh2_dlc14_def_cha_malus_darkblade_tzarkan_1',
+    'wh2_dlc14_def_cha_malus_darkblade_tzarkan_0_final_battle',
+    'wh2_dlc14_def_cha_malus_darkblade_1',
+    'wh2_dlc14_def_cha_malus_darkblade_0',
+    'wh2_main_def_cha_dreadlord_0_black_ark',
+    'wh2_dlc10_def_mon_war_hydra_boss',
 ];
 
-const dwarfsUnitVariants = ['wh2_dlc17_dwf_cha_thorek_ironbrow_1', 'wh_dlc06_dwf_cha_runelord_1'];
+const dwarfsUnitVariants = [
+    'wh2_dlc17_dwf_cha_thorek_ironbrow_1',
+    'wh_dlc06_dwf_cha_runelord_1',
+    'wh2_dlc10_dwf_cha_thane_ghost_summoned_0',
+    'wh2_dlc17_dwf_cha_thane_ghost_2',
+];
 
 const empireUnitsVariants = [
     'wh_dlc03_emp_cha_boris_todbringer_1',
@@ -311,6 +399,13 @@ const empireUnitsVariants = [
     'wh_main_emp_cha_wizard_light_1',
     'wh_main_emp_cha_wizard_light_2',
     'wh_main_emp_cha_wizard_light_4',
+    'wh_dlc06_emp_cha_witch_hunter_boss',
+    'wh_dlc06_emp_cha_witch_hunter_boss',
+    'wh_dlc06_emp_cha_arch_lector_0_boss',
+    'wh_dlc06_emp_cha_arch_lector_0_boss',
+    'wh_dlc06_emp_cha_captain_0_boss',
+    'wh2_dlc17_emp_inf_prisoners_0',
+    'wh2_dlc13_emp_cav_empire_knights_ror_0',
 ];
 
 const greenskinsUnitVariants = [
@@ -328,6 +423,12 @@ const greenskinsUnitVariants = [
     'wh_main_grn_cha_goblin_big_boss_2',
     'wh_main_grn_cha_goblin_big_boss_4',
     'wh_main_grn_cha_orc_shaman_1',
+    'wh2_dlc15_grn_cha_night_goblin_warboss_0_big',
+    'wh_dlc06_grn_mon_spider_hatchlings_0_summoned',
+    'wh2_dlc15_grn_mon_rogue_idol_summoned_0',
+    'wh_dlc08_grn_mon_giant_boss',
+    'wh_main_grn_mon_giant_qb_tall_roff',
+    'wh_dlc08_grn_mon_arachnarok_spider_boss',
 ];
 
 const highElvesUnitVariants = [
@@ -442,6 +543,9 @@ const lizardmensUnitVariants = [
     'wh2_main_lzd_cha_skink_priest_heavens_1',
     'wh2_main_lzd_cha_skink_priest_heavens_2',
     'wh2_main_lzd_cha_skink_priest_heavens_3',
+    'wh2_main_lzd_cha_slann_mage_priest_campaign_0',
+    'wh2_main_lzd_cha_slann_mage_priest_life_0_qb',
+    'wh2_dlc12_lzd_cha_tiktaqto_0',
 ];
 
 const norscaUnitVariants = [
@@ -457,6 +561,12 @@ const norscaUnitVariants = [
     'wh_dlc08_nor_cha_shaman_sorcerer_fire_2',
     'wh_dlc08_nor_cha_shaman_sorcerer_metal_1',
     'wh_dlc08_nor_cha_shaman_sorcerer_metal_2',
+    'wh_dlc01_nor_cha_chaos_sorcerer_lord_1',
+    'wh_dlc01_nor_cha_chaos_sorcerer_lord_0',
+    'wh_dlc01_nor_cha_chaos_sorcerer_lord_2',
+    'wh_main_nor_cha_chaos_sorcerer_0',
+    'wh_main_nor_cha_chaos_sorcerer_1',
+    'wh_main_nor_cha_chaos_sorcerer_2',
 ];
 
 const skavensUnitVariants = [
@@ -513,6 +623,8 @@ const vampireCoastUnitVariants = [
     'wh2_dlc11_cst_cha_vampire_fleet_captain_death_1',
     'wh2_dlc11_cst_cha_vampire_fleet_captain_deeps_1',
     'wh2_dlc11_cst_cha_damned_paladin_1',
+    'wh2_dlc11_cst_cav_questing_knights_0',
+    'wh2_dlc11_cst_cav_knights_of_the_realm',
 ];
 
 const vampireCountsUnitVariants = [
@@ -558,6 +670,11 @@ const vampireCountsUnitVariants = [
     'wh_main_vmp_cha_vampire_2',
     'wh_main_vmp_cha_wight_king_1',
     'wh_main_vmp_cha_wight_king_2',
+    'wh_pro03_vmp_cha_krell_campaign_1',
+    'wh_pro03_vmp_cha_krell_campaign_3',
+    'wh_pro03_vmp_cha_krell_0',
+    'wh_pro03_vmp_cha_krell_campaign_0',
+    'wh_pro03_vmp_cha_krell_campaign_2',
 ];
 
 const woodElvesUnitVariants = [
@@ -598,6 +715,16 @@ const woodElvesUnitVariants = [
     'wh_dlc05_wef_cha_spellsinger_shadows_2',
     'wh_dlc05_wef_cha_spellsinger_shadows_3',
 ];
+
+const empireRegex = /(?:_imperial_supply\b)/g;
+const heRegex = /(?:_summoned)|(?:_boss)/g;
+const lzdRegex = /(?:_summoned)|(?:_boss)|(?:_nakai)/g;
+const norRegex = /(?:_boss)/g;
+const tmbRegex = /(?:_summoned)/g;
+const vcsRegex = /(?:_summoned)|(?:_errant)/g;
+const skvRegex = /(?:_boss\b)|(?:_flesh_lab\b)|(?:_summoned)|(?:_quest\b)/g;
+const vctRegex = /(?:_boss\b)|(?:_qb\b)|(?:_summoned)/g;
+const wefRegex = /(?:_boss\b)|(?:_qb\b)|(?:_summoned)/g;
 
 class FactionService {
     async getAllFactions(): Promise<Faction[]> {
@@ -653,7 +780,7 @@ class FactionService {
     }
 
     async getEmpire() {
-        return await factionAggregation('empire', empireUnitsVariants);
+        return await factionAggregation('empire', empireUnitsVariants, empireRegex);
     }
 
     async getGreenskins() {
@@ -661,35 +788,35 @@ class FactionService {
     }
 
     async getHighElves() {
-        return await factionAggregation('high-elves', highElvesUnitVariants);
+        return await factionAggregation('high-elves', highElvesUnitVariants, heRegex);
     }
 
     async getLizardmens() {
-        return await factionAggregation('lizardmens', lizardmensUnitVariants);
+        return await factionAggregation('lizardmens', lizardmensUnitVariants, lzdRegex);
     }
 
     async getNorsca() {
-        return await factionAggregation('norsca', norscaUnitVariants);
+        return await factionAggregation('norsca', norscaUnitVariants, norRegex);
     }
 
     async getSkavens() {
-        return await factionAggregation('skavens', skavensUnitVariants);
+        return await factionAggregation('skavens', skavensUnitVariants, skvRegex);
     }
 
     async getTombKings() {
-        return await factionAggregation('tomb-kings', tombKingsUnitVariants);
+        return await factionAggregation('tomb-kings', tombKingsUnitVariants, tmbRegex);
     }
 
     async getVampireCoast() {
-        return await factionAggregation('vampire-coast', vampireCoastUnitVariants);
+        return await factionAggregation('vampire-coast', vampireCoastUnitVariants, vcsRegex);
     }
 
     async getVampireCounts() {
-        return await factionAggregation('vampire-counts', vampireCountsUnitVariants);
+        return await factionAggregation('vampire-counts', vampireCountsUnitVariants, vctRegex);
     }
 
     async getWoodElves() {
-        return await factionAggregation('wood-elves', woodElvesUnitVariants);
+        return await factionAggregation('wood-elves', woodElvesUnitVariants, wefRegex);
     }
 }
 

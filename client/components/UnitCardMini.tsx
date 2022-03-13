@@ -7,20 +7,23 @@ import semiCircleRorUrl from '../assets/img/unit_card_semicircle_renown.png';
 import borderImage from '../assets/img/panel_back_frame.png';
 import { isRorUnit } from '../utils/rorUnits.util';
 
+import placeholderImg from '../assets/img/placeholder.png';
+
 interface Props {
     name: string;
     imgSrc: string;
     href: string;
     icon: string;
+    localName: string;
 }
 
-export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon }) => {
+export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon, localName }) => {
     const link = `/unit/${href}`;
     const isUnitRor = isRorUnit(name);
     return (
         <NextLink href={link} as={link}>
             <Link marginInlineStart='0 !important'>
-                <Tooltip hasArrow label={name}>
+                <Tooltip hasArrow label={localName} fontSize='xl'>
                     <Center
                         display='flex'
                         w='75px'
@@ -37,7 +40,8 @@ export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon }) => {
                                 src={imgSrc}
                                 width={60}
                                 height={130}
-                                placeholder='empty'
+                                placeholder='blur'
+                                blurDataURL={'/img/placeholder.png'}
                                 unoptimized
                             />
                         </Box>

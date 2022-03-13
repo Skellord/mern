@@ -1,4 +1,4 @@
-export interface HistoricalDescription {
+export interface Localization {
     _id: string;
     key: string;
     text: string;

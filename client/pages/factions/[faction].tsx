@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { FactionUnit } from '../../../types/faction.types';
 import { client } from '../../api/api';
 import Layout from '../../components/Layout';
 import { UnitsGroup } from '../../components/UnitsGroup';
@@ -7,17 +8,29 @@ import { useFetchWithCache } from '../../hooks/useFetchWithCache';
 import { FactionsUnitsResponse } from '../../types/api.types';
 import { apiRoutes } from '../../utils/api.util';
 
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { isString } from 'lodash';
+
 export const getStaticPaths: GetStaticPaths = async () => {
     const factions = await client.getFactions();
 
     const paths = factions.map(item => ({
         params: { faction: item.faction },
+        locale: 'en',
     }));
-    return { paths, fallback: false };
+    const ruPaths = factions.map(item => ({
+        params: { faction: item.faction },
+        locale: 'ru',
+    }));
+    return { paths: [...paths, ...ruPaths], fallback: false };
 };
 
 export const getStaticProps: GetStaticProps = async context => {
-    const { params } = context;
+    const { params, locale } = context;
+    const loc = locale === 'ru' ? 'ru' : 'en';
+    console.log(locale);
+
     const { faction } = params as { faction: string };
     const data = await client.getFaсtionUnits({
         faction,
@@ -25,6 +38,7 @@ export const getStaticProps: GetStaticProps = async context => {
     return {
         props: {
             data,
+            ...(await serverSideTranslations(loc, ['faction'])),
         },
     };
 };
@@ -35,6 +49,8 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
         query: { faction },
     } = useRouter();
 
+    const { t } = useTranslation('faction');
+
     const { data } = useFetchWithCache<FactionsUnitsResponse>(
         [apiRoutes.getFactionUnits, faction],
         (_: any, faction: any) => client.getFaсtionUnits({ faction }),
@@ -42,47 +58,51 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
             fallbackData: initialData,
         }
     );
+    const factionName = data?.faction ? (isString(data?.faction) ? data?.faction : 'norsca') : 'norsca';
+    const campaignUnits: FactionUnit[] | undefined =
+        data && data.units.filter(unit => unit.campaign_exclusive === 'true');
 
-    const groups = data?.units?.map(item => item.caste);
-    const newGroups = ['lord', 'hero'].concat(
-        [...new Set(groups)].sort((a, b) => a.localeCompare(b)).filter(item => item !== 'hero' && item !== 'lord')
-    );
-    const campaignUnits: UnitsGroup[] | undefined =
-        data &&
-        data.units
-            .filter(unit => unit.campaign_exclusive === 'true')
-            .map(unit => {
-                return {
-                    unit: unit.unit,
-                    _id: unit._id,
-                    lord_portrait: unit.lord_portrait,
-                    unit_portrait: unit.unit_portrait,
-                    icon: unit.icon,
-                };
-            });
-    // console.log(newGroups);
+    const nonCampaignUnits =
+        data && data.units.filter(unit => unit.campaign_exclusive === 'false' || unit.campaign_exclusive === undefined);
+
+    const lords = nonCampaignUnits?.filter(item => item.caste === 'lord');
+    const heroes = nonCampaignUnits?.filter(item => item.caste === 'hero');
+    const meleeInfantry = nonCampaignUnits?.filter(item => item.caste === 'melee_infantry');
+    const missileInfantry = nonCampaignUnits?.filter(item => item.caste === 'missile_infantry');
+    const monstrousInfantry = nonCampaignUnits?.filter(item => item.caste === 'monstrous_infantry');
+    const meleeCavalry = nonCampaignUnits?.filter(item => item.caste === 'melee_cavalry');
+    const missileCavalry = nonCampaignUnits?.filter(item => item.caste === 'missile_cavalry');
+    const monstrousCavalry = nonCampaignUnits?.filter(item => item.caste === 'monstrous_cavalry');
+    const chariot = nonCampaignUnits?.filter(item => item.caste === 'chariot');
+    const monster = nonCampaignUnits?.filter(item => item.caste === 'monster');
+    const warBeast = nonCampaignUnits?.filter(item => item.caste === 'war_beast');
+    const warMachine = nonCampaignUnits?.filter(item => item.caste === 'warmachine');
 
     return (
-        <Layout heading={faction}>
-            {data &&
-                newGroups?.map(item => {
-                    const newUnits: UnitsGroup[] = data.units
-                        .filter(unit => unit?.campaign_exclusive === 'false' || undefined)
-                        .filter(unit => unit.caste === item)
-                        .map(unit => {
-                            return {
-                                unit: unit.unit,
-                                _id: unit._id,
-                                lord_portrait: unit.lord_portrait,
-                                unit_portrait: unit.unit_portrait,
-                                icon: unit.icon,
-                            };
-                        });
-                    console.log(newUnits);
+        <Layout heading={t(factionName)}>
+            <UnitsGroup title={'Lord'} units={lords} />
+            <UnitsGroup title={'Hero'} units={heroes} />
+            {meleeInfantry && meleeInfantry.length > 0 && <UnitsGroup title={'Melee infantry'} units={meleeInfantry} />}
+            {missileInfantry && missileInfantry.length > 0 && (
+                <UnitsGroup title={'Missile infantry'} units={missileInfantry} />
+            )}
+            {monstrousInfantry && monstrousInfantry.length > 0 && (
+                <UnitsGroup title={'Monstrous infantry'} units={monstrousInfantry} />
+            )}
+            {meleeCavalry && meleeCavalry.length > 0 && <UnitsGroup title={'Melee cavalry'} units={meleeCavalry} />}
 
-                    return newUnits.length > 0 && <UnitsGroup key={item} title={item} units={newUnits} />;
-                })}
-            {campaignUnits && campaignUnits!.length > 0 && (
+            {missileCavalry && missileCavalry.length > 0 && (
+                <UnitsGroup title={'Missile cavalry'} units={missileCavalry} />
+            )}
+            {monstrousCavalry && monstrousCavalry.length > 0 && (
+                <UnitsGroup title={'Monstrous cavalry'} units={monstrousCavalry} />
+            )}
+            {chariot && chariot.length > 0 && <UnitsGroup title={'Chariot'} units={chariot} />}
+            {monster && monster.length > 0 && <UnitsGroup title={'Monster'} units={monster} />}
+            {warBeast && warBeast.length > 0 && <UnitsGroup title={'War beast'} units={warBeast} />}
+            {warMachine && warMachine.length > 0 && <UnitsGroup title={'War machine'} units={warMachine} />}
+
+            {campaignUnits && campaignUnits.length > 0 && (
                 <UnitsGroup title={'campaign_exclusive'} units={campaignUnits} />
             )}
         </Layout>

@@ -3,8 +3,14 @@ import { FactionModel } from '../models/faction.model';
 
 export const factionAggregation = async (
     faction: Factions,
-    excludedUnits: string[]
+    excludedUnits: string[],
+    excludeRegex?: RegExp
 ): Promise<FactionWithUnits[] | null> => {
+    const unitMatch = excludeRegex
+        ? {
+              $match: { unit: { $nin: excludedUnits, $not: { $regex: excludeRegex } } },
+          }
+        : { $match: { unit: { $nin: excludedUnits } } };
     return await FactionModel.aggregate(
         [
             {
@@ -19,11 +25,7 @@ export const factionAggregation = async (
                     foreignField: 'faction',
                     as: 'units',
                     pipeline: [
-                        {
-                            $match: {
-                                unit: { $nin: excludedUnits },
-                            },
-                        },
+                        unitMatch,
                         {
                             $project: {
                                 _id: 1,
@@ -98,6 +100,22 @@ export const factionAggregation = async (
                         },
                         {
                             $set: { icon: { $arrayElemAt: ['$icon.icon', 0] } },
+                        },
+                        {
+                            $set: { loc_key: { $concat: ['land_units_onscreen_name_', '$unit'] } },
+                        },
+                        {
+                            $lookup: {
+                                from: 'land_units_loc',
+                                localField: 'loc_key',
+                                foreignField: 'key',
+                                as: 'local_name',
+                            },
+                        },
+                        {
+                            $set: {
+                                local_name: { $arrayElemAt: ['$local_name.text', 0] },
+                            },
                         },
                     ],
                 },

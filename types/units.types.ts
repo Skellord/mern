@@ -10,7 +10,8 @@ export type UnitCaste =
     | 'warmachine'
     | 'missile_infantry'
     | 'missile_cavalry'
-    | 'war_beast';
+    | 'war_beast'
+    | 'chariot';
 
 export interface Unit {
     _id: string;

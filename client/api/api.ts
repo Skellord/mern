@@ -1,7 +1,7 @@
 import { FactionsResponse, FactionsUnitsResponse, UnitResponse, UnitsResponse } from '../types/api.types';
 import { apiRoutes } from '../utils/api.util';
 import fetcher from './fetcher';
-import { HistoricalDescription } from '../../types/unitDesc.types';
+import { Localization } from '../../types/localization.types';
 import { UnitWithStats } from '../../types/units.types';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:5000';
@@ -34,7 +34,7 @@ class Client {
     }
 
     getHistoricalDesc(params: { key: string }) {
-        return fetcher<HistoricalDescription>(`${BASE_URL}${apiRoutes.getHistoricalDesc}/${params.key}`, {
+        return fetcher<Localization>(`${BASE_URL}${apiRoutes.getHistoricalDesc}/${params.key}`, {
             headers: this.headers,
         });
     }

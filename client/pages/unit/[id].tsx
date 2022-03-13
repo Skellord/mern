@@ -8,7 +8,7 @@ import { useFetchWithCache } from '../../hooks/useFetchWithCache';
 import { UnitResponse } from '../../types/api.types';
 import { apiRoutes } from '../../utils/api.util';
 import { UnitCard } from '../../components/UnitCard';
-import { HistoricalDescription } from '../../../types/unitDesc.types';
+import { Localization } from '../../../types/localization.types';
 import { UnitWithStats } from '../../../types/units.types';
 import { AttributeItem } from '../../components/attributeItem';
 
@@ -43,7 +43,7 @@ export const getStaticProps: GetStaticProps = async context => {
 
 interface UnitPage {
     data: UnitWithStats;
-    histDesc: HistoricalDescription;
+    histDesc: Localization;
 }
 
 const UnitPage: NextPage<UnitPage> = props => {
@@ -62,7 +62,7 @@ const UnitPage: NextPage<UnitPage> = props => {
 
     const descKey = `unit_description_historical_texts_text_${data?.stats.historical_description_text}`;
 
-    const { data: histDescData } = useFetchWithCache<HistoricalDescription>(
+    const { data: histDescData } = useFetchWithCache<Localization>(
         [apiRoutes.getHistoricalDesc, descKey],
         (_: any, descKey: any) => client.getHistoricalDesc({ key: descKey }),
         {

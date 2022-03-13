@@ -1,5 +1,4 @@
 const rorUnits = [
-    'ror',
     'wh_dlc06_dwf_inf_warriors_dragonfire_pass_0',
     'wh_dlc06_dwf_inf_ekrund_miners_0',
     'wh_dlc06_dwf_inf_old_grumblers_0',
@@ -44,5 +43,5 @@ const rorUnits = [
 ];
 
 export const isRorUnit = (name: string): boolean => {
-    return rorUnits.some(v => name.includes(v));
+    return rorUnits.some(v => name.includes(v)) || name.split('_').includes('ror');
 };

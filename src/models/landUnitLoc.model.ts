@@ -8,4 +8,4 @@ const schema = new Schema<TypeTransformer<Localization>>({
     text: { type: String },
 });
 
-export const HistoricalDescModel = model('HistoricalDesc', schema, process.env.HISTORICAL_DESC_EN_COLLECTION);
+export const LandUnitLocModel = model('LandUnitLoc', schema, process.env.LAND_UNITS_LOC_COLLECTION);
