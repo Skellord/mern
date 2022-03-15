@@ -1,8 +1,10 @@
 import { model, Schema } from 'mongoose';
+import { TypeTransformer } from '../../types/typeTransformer';
+import { UnitStats } from '../../types/units.types';
 
-const schema = new Schema({
-    id: { type: Schema.Types.ObjectId, required: true, unique: true },
-    key: { type: String },
+const schema = new Schema<TypeTransformer<UnitStats>>({
+    _id: { type: Schema.Types.ObjectId },
+    key: { type: String, ref: 'Unit' },
     accuracy: { type: String },
     armour: { type: String },
     campaign_action_points: { type: String },
@@ -38,4 +40,4 @@ const schema = new Schema({
     primary_melee_weapon: { type: String },
 });
 
-export const StatsModel = model('Stats', schema, process.env.STATS_COLLECTION);
+export const UnitStatsModel = model('UnitStats', schema, process.env.STATS_COLLECTION);

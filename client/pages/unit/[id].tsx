@@ -1,11 +1,10 @@
 import { Flex, Divider, Heading, Spinner, Box, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { BASE_URL, client } from '../../api/api';
+import { client } from '../../api/api';
 import { ErrorAlert } from '../../components/ErrorAlert';
 import Layout from '../../components/Layout';
 import { useFetchWithCache } from '../../hooks/useFetchWithCache';
-import { UnitResponse } from '../../types/api.types';
 import { apiRoutes } from '../../utils/api.util';
 import { UnitCard } from '../../components/UnitCard';
 import { Localization } from '../../../types/localization.types';
@@ -17,18 +16,26 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     const paths = units.map(unit => ({
         params: {
-            id: unit._id,
+            id: unit.unit,
         },
+        locale: 'en',
     }));
 
-    return { paths, fallback: false };
+    const ruPaths = units.map(unit => ({
+        params: {
+            id: unit.unit,
+        },
+        locale: 'ru',
+    }));
+
+    return { paths: [...paths, ...ruPaths], fallback: false };
 };
 
 export const getStaticProps: GetStaticProps = async context => {
     const { params } = context;
     const { id } = params as { id: string };
     const data = await client.getUnitStats({
-        id,
+        name: id,
     });
     const histDesc = await client.getHistoricalDesc({
         key: `unit_description_historical_texts_text_${data.stats.historical_description_text}`,
@@ -51,10 +58,11 @@ const UnitPage: NextPage<UnitPage> = props => {
     const {
         query: { id },
     } = useRouter();
+    console.log(id);
 
     const { data, isFirstLoading } = useFetchWithCache<UnitWithStats>(
-        [apiRoutes.getUnit, id, '/stats'],
-        (_: any, _id: any) => client.getUnitStats({ id: _id }),
+        [apiRoutes.getUnits, id, '/stats'],
+        (_: any, id: any) => client.getUnitStats({ name: id }),
         {
             fallbackData: initialData,
         }

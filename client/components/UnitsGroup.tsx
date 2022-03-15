@@ -27,7 +27,7 @@ export const UnitsGroup: FC<Props> = ({ units, title }) => {
                             localName={item.local_name}
                             name={item.unit}
                             imgSrc={imgSrc}
-                            href={item._id}
+                            href={item.unit}
                             icon={iconSrc}
                         />
                     );

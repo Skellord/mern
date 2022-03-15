@@ -21,16 +21,14 @@ class Client {
         });
     }
 
-    getUnit(params: { id: string }) {
-        return fetcher<UnitResponse>(`${BASE_URL}${apiRoutes.getUnit}${params.id}`, { headers: this.headers });
-    }
-
-    getUnitStats(params: { id: string }) {
-        return fetcher<UnitWithStats>(`${BASE_URL}${apiRoutes.getUnit}${params.id}/stats`, { headers: this.headers });
-    }
-
     getUnits() {
         return fetcher<UnitsResponse>(`${BASE_URL}${apiRoutes.getUnits}`, { headers: this.headers });
+    }
+
+    getUnitStats(params: { name: string }) {
+        return fetcher<UnitWithStats>(`${BASE_URL}${apiRoutes.getUnits}/${params.name}/stats`, {
+            headers: this.headers,
+        });
     }
 
     getHistoricalDesc(params: { key: string }) {

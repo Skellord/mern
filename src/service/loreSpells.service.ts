@@ -1,8 +1,8 @@
-import { LoreSpells } from '../../types/loreSpells.types';
+import { LoreSpellsResponse } from '../../types/loreSpells.types';
 import { LoreSpellsModel } from '../models/loreSpells.model';
 
 class LoreSpellsService {
-    async getLoreSpells(key: string): Promise<LoreSpells[]> {
+    async getLoreSpells(key: string): Promise<LoreSpellsResponse[]> {
         return await LoreSpellsModel.aggregate([
             { $match: { unit: key } },
             { $project: { ability_group: 1, _id: 0 } },

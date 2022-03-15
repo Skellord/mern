@@ -58,12 +58,13 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
 
     const hp = (parseInt(unitStats.stats.bonus_hit_points, 10) * parseInt(unitStats.num_men, 10)).toString();
     const shieldVal = unitStats.stats.shield === 'none' ? '0' : unitStats.stats.shield.split('_').at(-2);
+    const missileDamage = unitStats.missile_damage?.missile_damage;
+
     const weaponStrengthVal = (
         parseInt(unitStats.melee_damage.damage, 10) + parseInt(unitStats.melee_damage.ap_damage, 10)
     ).toString();
     const missileDamageVal =
-        unitStats.missile_damage &&
-        (parseInt(unitStats.missile_damage.damage) + parseInt(unitStats.missile_damage.ap_damage, 10)).toString();
+        missileDamage && (parseInt(missileDamage.damage) + parseInt(missileDamage.ap_damage, 10)).toString();
     const massVal = unitStats.mountEntity ? unitStats.mountEntity.mass : unitStats.entity.mass;
     const isUnitRor = unitStats.unit.split('_').includes('ror');
     const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
@@ -347,42 +348,36 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                                 <StatsItem
                                     icon={missileDamageBaseIcon}
                                     text={'Base missile damage'}
-                                    value={unitStats.missile_damage.damage}
+                                    value={missileDamage.damage}
                                 />
                                 <StatsItem
                                     icon={missileDamageAPIcon}
                                     text={'AP missile damage'}
-                                    value={unitStats.missile_damage.ap_damage}
+                                    value={missileDamage.ap_damage}
                                 />
                                 <StatsItem
                                     icon={infantryBonusIcon}
                                     text={'Bonus vs. infantry'}
-                                    value={unitStats.missile_damage.bonus_v_infantry}
+                                    value={missileDamage.bonus_v_infantry}
                                 />
                                 <StatsItem
                                     icon={largeBonusIcon}
                                     text={'Bonus vs. large'}
-                                    value={unitStats.missile_damage.bonus_v_large}
+                                    value={missileDamage.bonus_v_large}
                                 />
                                 <StatsItem
                                     icon={reloadIcon}
                                     text={'Reload time'}
-                                    value={unitStats.missile_damage.base_reload_time}
+                                    value={missileDamage.base_reload_time}
                                 />
-                                {unitStats.missile_damage.contact_stat_effect && (
-                                    <StatsItem
-                                        text={'Contact effect'}
-                                        value={unitStats.missile_damage.contact_stat_effect}
-                                    />
+                                {missileDamage.contact_stat_effect && (
+                                    <StatsItem text={'Contact effect'} value={missileDamage.contact_stat_effect} />
                                 )}
-                                <StatsItem
-                                    text={'Can damage buildings'}
-                                    value={unitStats.missile_damage.can_damage_buildings}
-                                />
-                                {unitStats.missile_damage.can_damage_buildings === 'true' && (
+                                <StatsItem text={'Can damage buildings'} value={missileDamage.can_damage_buildings} />
+                                {missileDamage.can_damage_buildings === 'true' && (
                                     <StatsItem
                                         text={'Building damage multiplier'}
-                                        value={unitStats.missile_damage.building_damage_multiplier}
+                                        value={missileDamage.building_damage_multiplier}
                                     />
                                 )}
                             </SimpleGrid>
@@ -390,7 +385,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                         <StatsItem
                             icon={rangeIcon}
                             text={'Range'}
-                            value={unitStats.missile_damage.effective_range}
+                            value={missileDamage.effective_range}
                             maxStats={maxVariables.range}
                         />
                         <StatsItem

@@ -32,7 +32,7 @@ export interface Unit {
     is_high_threat: string;
     melee_cp: string;
     missile_cp: string;
-    mount: string;
+    mount?: string;
     can_siege: string;
     food_cost: string;
     is_monstrous: string;
@@ -41,9 +41,11 @@ export interface Unit {
     unit_portrait?: string;
     lord_portrait?: string;
     icon: string;
+    barrier_health: string;
 }
 
-interface UnitStats {
+export interface UnitStats {
+    _id: string;
     key: string;
     accuracy: string;
     armour: string;
@@ -77,16 +79,28 @@ interface UnitStats {
     mounted_draughts: string;
     sync_locomotion: string;
     can_brace: string;
+    primary_melee_weapon: string;
+    primary_missile_weapon?: string;
 }
 
-interface Entity {
+export interface Entity {
+    _id: string;
+    key: string;
     walk_speed: string;
     run_speed: string;
+    fly_speed?: string;
     mass: string;
     locomotion_constant: string;
 }
 
+export interface Mount {
+    _id: string;
+    key: string;
+    entity: string;
+}
+
 interface Damage {
+    key: string;
     ap_damage: string;
     bonus_v_infantry: string;
     bonus_v_large: string;
@@ -95,7 +109,7 @@ interface Damage {
     building_damage_multiplier: string;
 }
 
-interface MeleeDamage extends Damage {
+export interface MeleeDamage extends Damage {
     ignition_amount: string;
     melee_attack_interval: string;
     splash_attack_max_attacks: string;
@@ -105,7 +119,7 @@ interface MeleeDamage extends Damage {
     contact_phase?: string;
 }
 
-interface MissileDamage extends Damage {
+export interface MissileDamage extends Damage {
     base_reload_time: string;
     calibration_area: string;
     calibration_distance: string;
@@ -123,13 +137,17 @@ interface Spec {
     state: string;
 }
 
+interface MissileResponse {
+    use_secondary_ammo_pool: string;
+    missile_damage: MissileDamage;
+}
+
 export interface UnitWithStats extends Unit {
     entity: Entity;
     mountEntity: Entity | undefined;
     melee_damage: MeleeDamage;
-    missile_damage: MissileDamage | undefined;
+    missile_damage: MissileResponse | undefined;
     stats: UnitStats;
-    specials: string[];
     specs: Spec[];
     attributes: string[];
     special_abilities?: string[];

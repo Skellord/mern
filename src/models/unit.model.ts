@@ -1,10 +1,12 @@
 import { Schema, model } from 'mongoose';
+import { TypeTransformer } from '../../types/typeTransformer';
+import { Unit } from '../../types/units.types';
 
-const schema = new Schema({
-    id: { type: Schema.Types.ObjectId, required: true, unique: true },
+const schema = new Schema<TypeTransformer<Unit>>({
+    _id: { type: Schema.Types.ObjectId },
     unit: { type: String },
     caste: { type: String },
-    land_unit: { type: String },
+    land_unit: { type: String, ref: 'UnitStats' },
     num_men: { type: String },
     multiplayer_cap: { type: String },
     multiplayer_cost: { type: String },

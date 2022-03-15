@@ -1,7 +1,9 @@
 import { model, Schema } from 'mongoose';
+import { TypeTransformer } from '../../types/typeTransformer';
+import { Entity } from '../../types/units.types';
 
-const schema = new Schema({
-    id: { type: Schema.Types.ObjectId, required: true, unique: true },
+const schema = new Schema<TypeTransformer<Entity>>({
+    _id: { type: Schema.Types.ObjectId },
     key: { type: String },
     walk_speed: { type: String },
     run_speed: { type: String },

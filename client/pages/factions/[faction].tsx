@@ -7,7 +7,6 @@ import { UnitsGroup } from '../../components/UnitsGroup';
 import { useFetchWithCache } from '../../hooks/useFetchWithCache';
 import { FactionsUnitsResponse } from '../../types/api.types';
 import { apiRoutes } from '../../utils/api.util';
-
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { isString } from 'lodash';
@@ -29,7 +28,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async context => {
     const { params, locale } = context;
     const loc = locale === 'ru' ? 'ru' : 'en';
-    console.log(locale);
 
     const { faction } = params as { faction: string };
     const data = await client.getFaсtionUnits({

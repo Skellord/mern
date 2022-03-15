@@ -5,11 +5,7 @@ const unitRouter = Router();
 
 unitRouter.get('/', UnitsController.getAllUnits);
 
-unitRouter.get('/unit/:id/stats', UnitsController.getUnitStats);
-
-unitRouter.get('/factions', UnitsController.getAllFactions);
-
-unitRouter.get('/factions/:faction', UnitsController.getOneFaction);
+unitRouter.get('/:name/stats', UnitsController.getUnitStats);
 
 // unitRouter.get('/unit-stats/:key', StatsController.getUnitStats);s
 

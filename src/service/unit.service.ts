@@ -1,95 +1,22 @@
 import { Types } from 'mongoose';
+import { Unit } from '../../types/units.types';
 import { UnitModel } from '../models/unit.model';
-
-const regexZero =
-    /(?:1$)|(?:2$)|(?:4$)|(?:5$)|(?:3$)|(?:9$)|(?:10$)|(?:6$)|(?:summoned\b)|(?:summoned_0\b)|(?:_boss\b)|(?:qb\b)|(?:_boss_0\b)|(?:waaagh_0\b)|(?:_1_mp\b)/g;
+import { bulletPointAggregation } from '../utils/bulletPoint.aggregation';
+import { iconsAggregation } from '../utils/icons.aggregation';
 
 class UnitService {
     async getAllUnits() {
         return await UnitModel.find();
     }
 
-    async getAllFactions() {
-        return await UnitModel.distinct('faction');
-    }
-
-    async getOneFaction(faction: string) {
-        return await UnitModel.aggregate(
-            [
-                {
-                    $match: {
-                        faction: faction,
-                        unit: { $not: { $regex: regexZero } },
-                        caste: { $not: { $eq: 'generic' } },
-                    },
-                },
-                {
-                    $lookup: {
-                        from: 'battle_permission',
-                        localField: 'unit',
-                        foreignField: 'unit',
-                        as: 'lord_portrait',
-                        pipeline: [
-                            {
-                                $project: { general_portrait: 1 },
-                            },
-                        ],
-                    },
-                },
-                {
-                    $set: { lord_portrait: { $arrayElemAt: ['$lord_portrait.general_portrait', 0] } },
-                },
-                {
-                    $lookup: {
-                        from: 'unit_variants',
-                        localField: 'unit',
-                        foreignField: 'unit',
-                        as: 'unit_portrait',
-                        pipeline: [
-                            {
-                                $project: { unit_card: 1 },
-                            },
-                        ],
-                    },
-                },
-                {
-                    $set: { unit_portrait: { $arrayElemAt: ['$unit_portrait.unit_card', 0] } },
-                },
-                {
-                    $lookup: {
-                        from: 'battle_permission',
-                        localField: 'unit',
-                        foreignField: 'unit',
-                        as: 'campaign_exclusive',
-                        pipeline: [
-                            {
-                                $project: { campaign_exclusive: 1 },
-                            },
-                        ],
-                    },
-                },
-                {
-                    $set: { campaign_exclusive: { $arrayElemAt: ['$campaign_exclusive.campaign_exclusive', 0] } },
-                },
-                {
-                    $lookup: {
-                        from: 'ui_unit_icons',
-                        localField: 'ui_unit_group_land',
-                        foreignField: 'key',
-                        as: 'icon',
-                        pipeline: [
-                            {
-                                $project: { icon: 1 },
-                            },
-                        ],
-                    },
-                },
-                {
-                    $set: { icon: { $arrayElemAt: ['$icon.icon', 0] } },
-                },
-            ],
-            { allowDiskUse: true }
-        );
+    async getUnit(unit: string): Promise<Unit[]> {
+        return await UnitModel.aggregate([
+            {
+                $match: { unit },
+            },
+            ...iconsAggregation,
+            ...bulletPointAggregation,
+        ]);
     }
 
     async getUnitWithStats(id: Types.ObjectId) {

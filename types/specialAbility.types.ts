@@ -3,3 +3,7 @@ export interface SpecialAbility {
     ability: string;
     land_unit: string;
 }
+
+export interface SpecialAbilityResponse {
+    special_abilities: string[];
+}

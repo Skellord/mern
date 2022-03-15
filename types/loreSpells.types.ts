@@ -3,3 +3,7 @@ export interface LoreSpells {
     ability_group: string;
     unit: string;
 }
+
+export interface LoreSpellsResponse {
+    lore_spells?: string[];
+}
