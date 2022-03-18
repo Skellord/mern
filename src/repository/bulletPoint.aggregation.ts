@@ -26,10 +26,25 @@ export const bulletPointAggregation = [
             as: 'specs',
             pipeline: [
                 {
+                    $set: { loc_key: { $concat: ['ui_unit_bullet_point_enums_onscreen_name_', '$key'] } },
+                },
+                {
+                    $lookup: {
+                        from: 'ui_unit_bullet_point_enums_loc',
+                        localField: 'loc_key',
+                        foreignField: 'key',
+                        as: 'local_name',
+                    },
+                },
+                {
+                    $set: { local_name: { $arrayElemAt: ['$local_name.text', 0] } },
+                },
+                {
                     $project: {
                         _id: 0,
                         key: 1,
                         state: 1,
+                        local_name: 1,
                     },
                 },
             ],

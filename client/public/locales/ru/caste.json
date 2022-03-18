@@ -1,0 +1,14 @@
+{
+    "lord": "Лорд",
+    "hero": "Герой",
+    "melee_cavalry": "Всадники",
+    "melee_infantry": "Пехота",
+    "monster": "Чудовище",
+    "monstrous_infantry": "Чудовищная пехота",
+    "monstrous_cavalry": "Чудовищная кавалерия",
+    "warmachine": "Боевая машина",
+    "missile_infantry": "Стрелковая пехота",
+    "missile_cavalry": "Всадники дальнего боя",
+    "war_beast": "Боевой зверь",
+    "chariot": "Колесница"
+}

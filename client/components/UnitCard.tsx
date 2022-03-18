@@ -1,4 +1,16 @@
-import { Box, Flex, Heading, Text, Wrap, WrapItem, Center, Divider, VStack, SimpleGrid } from '@chakra-ui/react';
+import {
+    Box,
+    Flex,
+    Heading,
+    Text,
+    Wrap,
+    WrapItem,
+    Center,
+    Divider,
+    VStack,
+    SimpleGrid,
+    Tooltip,
+} from '@chakra-ui/react';
 import { FC } from 'react';
 import { UnitWithStats } from '../../types/units.types';
 import Image from 'next/image';
@@ -46,19 +58,22 @@ import missileDamageAPIcon from '../assets/img/icon_stat_explosive_armour_pierci
 import reloadIcon from '../assets/img/icon_stat_reload_time_character.png';
 import massIcon from '../assets/img/icon_stat_mass.png';
 import { compact } from 'lodash';
+import { useTranslation } from 'next-i18next';
 
 interface UnitCardProps {
     unitStats: UnitWithStats;
 }
 
 export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
+    const { t } = useTranslation('caste');
+
     const imgSrc = unitStats.lord_portrait
         ? `${BASE_URL}/units/${unitStats.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
         : `${BASE_URL}/units/${unitStats.unit_portrait}.png`;
 
     const hp = (parseInt(unitStats.stats.bonus_hit_points, 10) * parseInt(unitStats.num_men, 10)).toString();
     const shieldVal = unitStats.stats.shield === 'none' ? '0' : unitStats.stats.shield.split('_').at(-2);
-    const missileDamage = unitStats.missile_damage?.missile_damage;
+    const missileDamage = unitStats.missile_damage;
 
     const weaponStrengthVal = (
         parseInt(unitStats.melee_damage.damage, 10) + parseInt(unitStats.melee_damage.ap_damage, 10)
@@ -134,7 +149,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     <Image loader={() => iconSrc} src={iconSrc} width={22} height={22} unoptimized />
                 </Center>
                 <Text fontSize='xl' fontWeight='bold' marginLeft='3'>
-                    {unitStats.caste}
+                    {t(unitStats.caste)}
                 </Text>
             </Flex>
 
@@ -171,7 +186,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                                 width={16}
                                 height={18}
                             />
-                            <Text marginLeft='1'>{item.key}</Text>
+                            <Text marginLeft='1'>{item.local_name}</Text>
                         </WrapItem>
                     ))}
             </VStack>
@@ -179,27 +194,35 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
             <Divider p='1' borderColor='crimson.400' marginBottom='1' />
 
             <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-between'>
-                <WrapItem>
-                    <Image src={unitStats.entity.locomotion_constant === 'large_entity' ? bigMen : men} />
-                    {unitStats.num_men}
-                </WrapItem>
+                <Tooltip label={'Num of men'}>
+                    <WrapItem>
+                        <Image src={unitStats.entity.locomotion_constant === 'large_entity' ? bigMen : men} />
+                        {unitStats.num_men}
+                    </WrapItem>
+                </Tooltip>
             </Wrap>
 
             <Divider p='1' borderColor='crimson.400' marginBottom='1' />
 
             <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-evenly'>
-                <WrapItem>
-                    <Image src={spCost} width={24} height={24} />
-                    <Text marginLeft='1'>{unitStats.recruitment_cost}</Text>
-                </WrapItem>
-                <WrapItem>
-                    <Image src={spUpkeep} width={24} height={24} />
-                    <Text marginLeft='1'>{unitStats.upkeep_cost}</Text>
-                </WrapItem>
-                <WrapItem>
-                    <Image src={mpCost} width={24} height={24} />
-                    <Text marginLeft='1'>{unitStats.multiplayer_cost}</Text>
-                </WrapItem>
+                <Tooltip label={'Recruitment cost'}>
+                    <WrapItem>
+                        <Image src={spCost} width={24} height={24} />
+                        <Text marginLeft='1'>{unitStats.recruitment_cost}</Text>
+                    </WrapItem>
+                </Tooltip>
+                <Tooltip label={'Upkeep cost'}>
+                    <WrapItem>
+                        <Image src={spUpkeep} width={24} height={24} />
+                        <Text marginLeft='1'>{unitStats.upkeep_cost}</Text>
+                    </WrapItem>
+                </Tooltip>
+                <Tooltip label={'Multiplayer cost'}>
+                    <WrapItem>
+                        <Image src={mpCost} width={24} height={24} />
+                        <Text marginLeft='1'>{unitStats.multiplayer_cost}</Text>
+                    </WrapItem>
+                </Tooltip>
             </Wrap>
 
             <Divider p='1' borderColor='crimson.400' />

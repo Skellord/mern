@@ -1,6 +1,6 @@
 import { Faction } from '../../types/faction.types';
 import { FactionModel } from '../models/faction.model';
-import { factionAggregation } from '../utils/faction.aggregation';
+import { factionAggregation } from '../repository/faction.aggregation';
 
 const cathayUnitVariants = [
     'wh3_main_cth_cha_dragon_blooded_shugengan_lord_yang_1',

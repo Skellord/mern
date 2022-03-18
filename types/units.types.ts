@@ -135,21 +135,33 @@ export interface MissileDamage extends Damage {
 interface Spec {
     key: string;
     state: string;
+    local_name: string;
 }
 
-interface MissileResponse {
-    use_secondary_ammo_pool: string;
-    missile_damage: MissileDamage;
+export interface Attr {
+    attribute: string;
+    local_name: string;
+}
+
+export interface SpecialAbility {
+    ability: string;
+    local_name: string;
+}
+
+export interface LoreSpell {
+    unit_special_abilities: string;
+    local_name: string;
 }
 
 export interface UnitWithStats extends Unit {
     entity: Entity;
     mountEntity: Entity | undefined;
     melee_damage: MeleeDamage;
-    missile_damage: MissileResponse | undefined;
+    missile_damage: MissileDamage | undefined;
     stats: UnitStats;
     specs: Spec[];
-    attributes: string[];
-    special_abilities?: string[];
-    lore_spells?: string[];
+    attributes: Attr[];
+    special_abilities?: SpecialAbility[];
+    lore_spells?: LoreSpell[];
+    local_name: string;
 }

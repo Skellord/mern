@@ -1,0 +1,14 @@
+{
+    "lord": "Lord",
+    "hero": "Hero",
+    "melee_cavalry": "Melee cavalry",
+    "melee_infantry": "Melee infantry",
+    "monster": "Monster",
+    "monstrous_infantry": "Monstrous infantry",
+    "monstrous_cavalry": "Monstrous cavalry",
+    "warmachine": "Warmachine",
+    "missile_infantry": "Missile infantry",
+    "missile_cavalry": "Missile cavalry",
+    "war_beast": "War beast",
+    "chariot": "Chariot"
+}

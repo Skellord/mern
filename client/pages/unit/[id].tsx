@@ -10,6 +10,7 @@ import { UnitCard } from '../../components/UnitCard';
 import { Localization } from '../../../types/localization.types';
 import { UnitWithStats } from '../../../types/units.types';
 import { AttributeItem } from '../../components/attributeItem';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const units = await client.getUnits();
@@ -32,7 +33,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async context => {
-    const { params } = context;
+    const { params, locale } = context;
+    const loc = locale === 'ru' ? 'ru' : 'en';
     const { id } = params as { id: string };
     const data = await client.getUnitStats({
         name: id,
@@ -44,6 +46,7 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             data,
             histDesc,
+            ...(await serverSideTranslations(loc, ['caste'])),
         },
     };
 };
@@ -51,6 +54,11 @@ export const getStaticProps: GetStaticProps = async context => {
 interface UnitPage {
     data: UnitWithStats;
     histDesc: Localization;
+}
+
+interface Attribute {
+    name: string;
+    local_name: string;
 }
 
 const UnitPage: NextPage<UnitPage> = props => {
@@ -81,20 +89,28 @@ const UnitPage: NextPage<UnitPage> = props => {
     if (!data) return <ErrorAlert />;
     if (isFirstLoading) return <Spinner />;
 
-    const specialAbilities = data.special_abilities?.filter(item => {
-        return !item.split('_').includes('passive');
-    });
+    const attributes: Attribute[] = data.attributes.map(item => ({
+        name: item.attribute,
+        local_name: item.local_name,
+    }));
 
-    const passiveAbilities = data.special_abilities
+    const specialAbilities: Attribute[] | undefined = data.special_abilities
         ?.filter(item => {
-            return item.split('_').includes('passive');
+            return !item.ability.split('_').includes('passive');
         })
-        .concat(data.attributes);
+        .map(item => ({ name: item.ability, local_name: item.local_name }));
+
+    const passiveAbilities: Attribute[] | undefined = data.special_abilities
+        ?.filter(item => {
+            return item.ability.split('_').includes('passive');
+        })
+        .map(item => ({ name: item.ability, local_name: item.local_name }))
+        .concat(attributes);
 
     return (
         <Layout>
             <Heading as='h1' marginBottom='6'>
-                {data.unit}
+                {data.local_name}
             </Heading>
             <Flex w='100%' h='100%'>
                 <Box flexShrink='0' mr='2'>
@@ -118,7 +134,12 @@ const UnitPage: NextPage<UnitPage> = props => {
                             </Heading>
                             <Wrap mb='12'>
                                 {specialAbilities.map(item => (
-                                    <AttributeItem key={item} item={item} type='spells' />
+                                    <AttributeItem
+                                        key={item.name}
+                                        item={item.name}
+                                        name={item.local_name}
+                                        type='spells'
+                                    />
                                 ))}
                             </Wrap>
                         </>
@@ -130,11 +151,14 @@ const UnitPage: NextPage<UnitPage> = props => {
                                 Spells
                             </Heading>
                             <Wrap mb='12'>
-                                {data?.lore_spells
-                                    .sort((a, b) => a.localeCompare(b))
-                                    .map(item => (
-                                        <AttributeItem key={item} item={item} type='spells' />
-                                    ))}
+                                {data?.lore_spells.map(item => (
+                                    <AttributeItem
+                                        key={item.unit_special_abilities}
+                                        item={item.unit_special_abilities}
+                                        name={item.local_name}
+                                        type='spells'
+                                    />
+                                ))}
                             </Wrap>
                         </>
                     )}
@@ -145,11 +169,14 @@ const UnitPage: NextPage<UnitPage> = props => {
                                 Passive effects
                             </Heading>
                             <Wrap mb='12'>
-                                {passiveAbilities
-                                    .sort((a, b) => a.localeCompare(b))
-                                    .map(item => (
-                                        <AttributeItem key={item} item={item} type='spells' />
-                                    ))}
+                                {passiveAbilities.map(item => (
+                                    <AttributeItem
+                                        key={item.name}
+                                        item={item.name}
+                                        name={item.local_name}
+                                        type='spells'
+                                    />
+                                ))}
                             </Wrap>
                         </>
                     )}
