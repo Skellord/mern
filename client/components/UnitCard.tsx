@@ -18,6 +18,8 @@ import { BASE_URL } from '../api/api';
 import { maxVariables } from '../utils/unitStats.util';
 import { StatsAccordion } from './StatsAccordion';
 import { StatsItem } from './StatsItem';
+import { compact } from 'lodash';
+import { useTranslation } from 'next-i18next';
 
 import casteCircleUrl from '../assets/img/unit_cat_holder_round.png';
 import casteCircleRorUrl from '../assets/img/unit_cat_holder_round_renown.png';
@@ -39,8 +41,6 @@ import attackIcon from '../assets/img/icon_stat_attack.png';
 import damageIcon from '../assets/img/icon_stat_damage.png';
 import defenceIcon from '../assets/img/icon_stat_defence.png';
 import chargeIcon from '../assets/img/icon_stat_charge_bonus.png';
-import ammoIcon from '../assets/img/icon_stat_ammo.png';
-import missileDamageIcon from '../assets/img/icon_stat_ranged_damage.png';
 import moraleIcon from '../assets/img/icon_stat_morale.png';
 import speedIcon from '../assets/img/icon_stat_speed.png';
 import wardSaveIcon from '../assets/img/resistance_ward_save.png';
@@ -52,13 +52,8 @@ import baseDamageIcon from '../assets/img/icon_stat_damage_base_character.png';
 import apDamageIcon from '../assets/img/armour_piercing_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
 import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
-import rangeIcon from '../assets/img/icon_stat_range.png';
-import missileDamageBaseIcon from '../assets/img/icon_stat_ranged_damage_base_character.png';
-import missileDamageAPIcon from '../assets/img/icon_stat_explosive_armour_piercing_damage_character.png';
-import reloadIcon from '../assets/img/icon_stat_reload_time_character.png';
 import massIcon from '../assets/img/icon_stat_mass.png';
-import { compact } from 'lodash';
-import { useTranslation } from 'next-i18next';
+import { MissileDamageBlock } from './MissileDamageBlock';
 
 interface UnitCardProps {
     unitStats: UnitWithStats;
@@ -71,6 +66,12 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
         ? `${BASE_URL}/units/${unitStats.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
         : `${BASE_URL}/units/${unitStats.unit_portrait}.png`;
 
+    const numMen = unitStats.stats.engine
+        ? unitStats.stats.num_engines
+        : unitStats.mount
+        ? unitStats.stats.num_mounts
+        : unitStats.num_men;
+
     const hp = (parseInt(unitStats.stats.bonus_hit_points, 10) * parseInt(unitStats.num_men, 10)).toString();
     const shieldVal = unitStats.stats.shield === 'none' ? '0' : unitStats.stats.shield.split('_').at(-2);
     const missileDamage = unitStats.missile_damage;
@@ -78,9 +79,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
     const weaponStrengthVal = (
         parseInt(unitStats.melee_damage.damage, 10) + parseInt(unitStats.melee_damage.ap_damage, 10)
     ).toString();
-    const missileDamageVal =
-        missileDamage && (parseInt(missileDamage.damage) + parseInt(missileDamage.ap_damage, 10)).toString();
-    const massVal = unitStats.mountEntity ? unitStats.mountEntity.mass : unitStats.entity.mass;
+    const massVal = unitStats.mount_entity ? unitStats.mount_entity.mass : unitStats.entity.mass;
     const isUnitRor = unitStats.unit.split('_').includes('ror');
     const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
     const magicalSrc =
@@ -92,6 +91,29 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
         ? `${BASE_URL}/effect_bundles/${contactPhaseResolver}.png`
         : undefined;
     const attackAdditionalIconSrc = compact([magicalSrc, contactPhaseSrc]);
+
+    const menIcon = unitStats.mount_entity
+        ? unitStats.mount_entity?.locomotion_constant !== 'small_entity'
+            ? bigMen
+            : men
+        : unitStats.entity.locomotion_constant !== 'small_entity'
+        ? bigMen
+        : men;
+
+    let speed = '';
+    if (unitStats.mount_entity) {
+        if (unitStats.mount_entity.fly_speed !== '0.0') {
+            speed = unitStats.mount_entity.fly_speed || '';
+        } else {
+            speed = unitStats.mount_entity.run_speed;
+        }
+    } else {
+        if (unitStats.entity.fly_speed !== '0.0') {
+            speed = unitStats.entity.fly_speed || '';
+        } else {
+            speed = unitStats.entity.run_speed;
+        }
+    }
 
     let shieldImage;
     switch (shieldVal) {
@@ -194,10 +216,10 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
             <Divider p='1' borderColor='crimson.400' marginBottom='1' />
 
             <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-between'>
-                <Tooltip label={'Num of men'}>
+                <Tooltip label={'Num of unit'}>
                     <WrapItem>
-                        <Image src={unitStats.entity.locomotion_constant === 'large_entity' ? bigMen : men} />
-                        {unitStats.num_men}
+                        <Image src={menIcon} />
+                        {numMen}
                     </WrapItem>
                 </Tooltip>
             </Wrap>
@@ -284,7 +306,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                 <StatsItem
                     icon={speedIcon}
                     text='Speed'
-                    value={unitStats.entity.run_speed.split('.').join('')}
+                    value={speed.split('.').join('')}
                     maxStats={maxVariables.speed}
                 />
 
@@ -359,65 +381,8 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     </SimpleGrid>
                 </StatsAccordion>
 
-                {unitStats.missile_damage && missileDamageVal && (
-                    <>
-                        <StatsAccordion
-                            icon={missileDamageIcon}
-                            text={'Missile damage'}
-                            value={missileDamageVal}
-                            maxStats={maxVariables.missileDamage}
-                        >
-                            <SimpleGrid as='ul' gridRowGap='1'>
-                                <StatsItem
-                                    icon={missileDamageBaseIcon}
-                                    text={'Base missile damage'}
-                                    value={missileDamage.damage}
-                                />
-                                <StatsItem
-                                    icon={missileDamageAPIcon}
-                                    text={'AP missile damage'}
-                                    value={missileDamage.ap_damage}
-                                />
-                                <StatsItem
-                                    icon={infantryBonusIcon}
-                                    text={'Bonus vs. infantry'}
-                                    value={missileDamage.bonus_v_infantry}
-                                />
-                                <StatsItem
-                                    icon={largeBonusIcon}
-                                    text={'Bonus vs. large'}
-                                    value={missileDamage.bonus_v_large}
-                                />
-                                <StatsItem
-                                    icon={reloadIcon}
-                                    text={'Reload time'}
-                                    value={missileDamage.base_reload_time}
-                                />
-                                {missileDamage.contact_stat_effect && (
-                                    <StatsItem text={'Contact effect'} value={missileDamage.contact_stat_effect} />
-                                )}
-                                <StatsItem text={'Can damage buildings'} value={missileDamage.can_damage_buildings} />
-                                {missileDamage.can_damage_buildings === 'true' && (
-                                    <StatsItem
-                                        text={'Building damage multiplier'}
-                                        value={missileDamage.building_damage_multiplier}
-                                    />
-                                )}
-                            </SimpleGrid>
-                        </StatsAccordion>
-                        <StatsItem
-                            icon={rangeIcon}
-                            text={'Range'}
-                            value={missileDamage.effective_range}
-                            maxStats={maxVariables.range}
-                        />
-                        <StatsItem
-                            icon={ammoIcon}
-                            text={'Ammo'}
-                            value={unitStats.stats.primary_ammo}
-                            maxStats={maxVariables.ammo}
-                        />
-                    </>
+                {unitStats.missile_damage && (
+                    <MissileDamageBlock missileDamage={unitStats.missile_damage} ammo={unitStats.stats.primary_ammo} />
                 )}
 
                 <StatsItem icon={massIcon} text={'Mass'} value={massVal} />

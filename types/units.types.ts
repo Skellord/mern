@@ -61,7 +61,8 @@ export interface UnitStats {
     melee_defence: string;
     morale: string;
     bonus_hit_points: string;
-    mount: string;
+    mount?: string;
+    num_mounts?: string;
     shield: string;
     short_description_text: string;
     attribute_group: string;
@@ -71,6 +72,7 @@ export interface UnitStats {
     primary_ammo: string;
     damage_mod_flame: string;
     damage_mod_magic: string;
+    engine?: string;
     num_engines: string;
     damage_mod_physical: string;
     damage_mod_missile: string;
@@ -119,6 +121,11 @@ export interface MeleeDamage extends Damage {
     contact_phase?: string;
 }
 
+interface Explosion {
+    detonation_damage: string;
+    detonation_damage_ap: string;
+}
+
 export interface MissileDamage extends Damage {
     base_reload_time: string;
     calibration_area: string;
@@ -130,6 +137,7 @@ export interface MissileDamage extends Damage {
     projectile_number: string;
     shots_per_volley: string;
     contact_stat_effect?: string;
+    explosion?: Explosion;
 }
 
 interface Spec {
@@ -155,7 +163,7 @@ export interface LoreSpell {
 
 export interface UnitWithStats extends Unit {
     entity: Entity;
-    mountEntity: Entity | undefined;
+    mount_entity: Entity | undefined;
     melee_damage: MeleeDamage;
     missile_damage: MissileDamage | undefined;
     stats: UnitStats;

@@ -8,6 +8,9 @@ export const damageAggregation = [
         },
     },
     {
+        $unwind: '$melee_damage',
+    },
+    {
         $lookup: {
             from: 'missile_weapons',
             localField: 'stats.primary_missile_weapon',
@@ -24,12 +27,49 @@ export const damageAggregation = [
             localField: 'missile_damage.default_projectile',
             foreignField: 'key',
             as: 'missile_damage',
+            pipeline: [
+                {
+                    $lookup: {
+                        from: 'projectile_explosions',
+                        localField: 'explosion_type',
+                        foreignField: 'key',
+                        as: 'explosion',
+                    },
+                },
+            ],
         },
     },
     {
-        $unwind: '$melee_damage',
+        $lookup: {
+            from: 'missile_weapons',
+            localField: 'engine.missile_weapon',
+            foreignField: 'key',
+            as: 'missile_damage',
+        },
+    },
+
+    {
+        $lookup: {
+            from: 'projectiles',
+            localField: 'missile_damage.default_projectile',
+            foreignField: 'key',
+            as: 'missile_damage',
+            pipeline: [
+                {
+                    $lookup: {
+                        from: 'projectile_explosions',
+                        localField: 'explosion_type',
+                        foreignField: 'key',
+                        as: 'explosion',
+                    },
+                },
+            ],
+        },
     },
     {
         $unwind: { path: '$missile_damage', preserveNullAndEmptyArrays: true },
+    },
+    {
+        $unwind: { path: '$missile_damage.explosion', preserveNullAndEmptyArrays: true },
     },
 ];

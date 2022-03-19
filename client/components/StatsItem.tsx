@@ -8,9 +8,10 @@ interface StatsItemProps {
     text: string;
     value: string;
     maxStats?: number;
+    valueСoefficient?: number;
 }
 
-export const StatsItem: FC<StatsItemProps> = ({ text, value, maxStats, icon }) => {
+export const StatsItem: FC<StatsItemProps> = ({ text, value, maxStats, icon, valueСoefficient }) => {
     return (
         <WrapItem display='flex' w='100%' bg='gradient.stats'>
             {icon && <Image src={icon} width={24} height={24} />}
@@ -18,7 +19,7 @@ export const StatsItem: FC<StatsItemProps> = ({ text, value, maxStats, icon }) =
                 {text}
             </Text>
             <Flex as='span' alignItems='center'>
-                <Text marginRight='2'>{value}</Text>
+                <Text marginRight='2'>{valueСoefficient ? parseInt(value, 10) * valueСoefficient : value}</Text>
                 {maxStats && (
                     <Progress
                         colorScheme='yellow'

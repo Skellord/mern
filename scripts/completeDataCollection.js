@@ -190,7 +190,6 @@ async function completeData() {
                     ground_stat_effect_group: '',
                     ai_usage_group: '',
                     spot_dist_tree: '',
-                    engine: '',
                 },
             }
         );
@@ -267,7 +266,6 @@ async function completeData() {
                     height: '',
                     fire_arc_close: '',
                     turn_speed: '',
-                    hit_points: '',
                     allow_turn_to_move_anim: '',
                     allow_static_turn_anim: '',
                     min_turning_speed: '',

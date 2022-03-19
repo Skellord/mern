@@ -32,4 +32,15 @@ export const entityAggregation = [
     {
         $unwind: { path: '$mount_entity', preserveNullAndEmptyArrays: true },
     },
+    {
+        $lookup: {
+            from: 'man_entity',
+            localField: 'engine.battle_entity',
+            foreignField: 'key',
+            as: 'engine_entity',
+        },
+    },
+    {
+        $unwind: { path: '$engine_entity', preserveNullAndEmptyArrays: true },
+    },
 ];

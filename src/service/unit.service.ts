@@ -3,6 +3,7 @@ import { UnitModel } from '../models/unit.model';
 import { attributeAgregation } from '../repository/attributes.aggregation';
 import { bulletPointAggregation } from '../repository/bulletPoint.aggregation';
 import { damageAggregation } from '../repository/damage.aggregation';
+import { engineAggregation } from '../repository/engine.aggregation';
 import { entityAggregation } from '../repository/entity.aggregation';
 import { iconsAggregation } from '../repository/icons.aggregation';
 import { localNameAggregation } from '../repository/localName.aggregation';
@@ -41,6 +42,7 @@ class UnitService {
                 {
                     $unwind: '$stats',
                 },
+                ...engineAggregation,
                 ...damageAggregation,
                 ...entityAggregation,
                 ...iconsAggregation,

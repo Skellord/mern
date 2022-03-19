@@ -14,7 +14,7 @@ export const AttributeItem: FC<AttributeItem> = ({ item, type = 'attribute', nam
     let imgSrc = '';
 
     if (type === 'attribute') {
-        switch (item as Attributesgroup) {
+        switch (item) {
             case 'hide_forest':
                 imgSrc = `${BASE_URL}/effect_bundles/${item}.png`;
                 break;
@@ -35,18 +35,31 @@ export const AttributeItem: FC<AttributeItem> = ({ item, type = 'attribute', nam
             case 'wh3_main_lord_passive_soul_siphon':
                 imgSrc = `${BASE_URL}/ability_icons/wh3_main_lord_passive_soul_snare.png`;
                 break;
+            case 'wh_dlc05_lore_passive_life_bloom':
+                imgSrc = `${BASE_URL}/ability_icons/wh_dlc05_spell_life_life_bloom.png`;
+                break;
+            case 'wh3_main_unit_passive_unbinding_ancestral_warriors':
+                imgSrc = `${BASE_URL}/ability_icons/unbinding.png`;
+                break;
+            case 'wh3_main_mount_bound_celestial_comet':
+                imgSrc = `${BASE_URL}/ability_icons/wh_main_spell_heavens_comet_of_casandora.png`;
+                break;
+            case 'wh3_main_mount_bound_celestial_lightning':
+                imgSrc = `${BASE_URL}/ability_icons/wh_main_spell_heavens_urannons_thunderbolt.png`;
+                break;
             default:
                 imgSrc = `${BASE_URL}/ability_icons/${item}.png`;
                 break;
         }
     }
 
-    console.log(name?.split('['));
+    const text =
+        name === '{{tr:guerrilla_deployment}}' ? 'Guerrilla deployment' : name?.replace(/\[.*?\]\[.*?\]]/gm, '');
 
     return (
         <WrapItem w='100%' h='24px' alignItems='center'>
             <Image src={imgSrc} loader={() => imgSrc} width={24} height={24} unoptimized />
-            <Text ml='2'>{name}</Text>
+            <Text ml='2'>{text}</Text>
         </WrapItem>
     );
 };
