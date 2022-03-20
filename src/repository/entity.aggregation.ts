@@ -1,46 +1,46 @@
 export const entityAggregation = [
     {
         $lookup: {
-            from: 'man_entity',
+            from: 'battle_entities',
             localField: 'stats.man_entity',
             foreignField: 'key',
-            as: 'entity',
+            as: 'entity.man_entity',
         },
     },
     {
-        $unwind: { path: '$entity', preserveNullAndEmptyArrays: true },
+        $unwind: { path: '$entity.man_entity', preserveNullAndEmptyArrays: true },
     },
     {
         $lookup: {
             from: 'mounts',
             localField: 'stats.mount',
             foreignField: 'key',
-            as: 'mount_entity',
+            as: 'entity.mount_entity',
         },
     },
     {
-        $unwind: { path: '$mount_entity', preserveNullAndEmptyArrays: true },
+        $unwind: { path: '$entity.mount_entity', preserveNullAndEmptyArrays: true },
     },
     {
         $lookup: {
-            from: 'man_entity',
-            localField: 'mount_entity.entity',
+            from: 'battle_entities',
+            localField: 'entity.mount_entity.entity',
             foreignField: 'key',
-            as: 'mount_entity',
+            as: 'entity.mount_entity',
         },
     },
     {
-        $unwind: { path: '$mount_entity', preserveNullAndEmptyArrays: true },
+        $unwind: { path: '$entity.mount_entity', preserveNullAndEmptyArrays: true },
     },
     {
         $lookup: {
-            from: 'man_entity',
+            from: 'battle_entities',
             localField: 'engine.battle_entity',
             foreignField: 'key',
-            as: 'engine_entity',
+            as: 'entity.engine_entity',
         },
     },
     {
-        $unwind: { path: '$engine_entity', preserveNullAndEmptyArrays: true },
+        $unwind: { path: '$entity.engine_entity', preserveNullAndEmptyArrays: true },
     },
 ];

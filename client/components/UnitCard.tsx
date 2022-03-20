@@ -20,6 +20,9 @@ import { StatsAccordion } from './StatsAccordion';
 import { StatsItem } from './StatsItem';
 import { compact } from 'lodash';
 import { useTranslation } from 'next-i18next';
+import { MissileDamageBlock } from './MissileDamageBlock';
+import { MeleeDamageBlock } from './MeleeDamageBlock';
+import { hpResolver, numMenResolver, contactPhaseResolver } from '../utils/stats.resolver';
 
 import casteCircleUrl from '../assets/img/unit_cat_holder_round.png';
 import casteCircleRorUrl from '../assets/img/unit_cat_holder_round_renown.png';
@@ -38,7 +41,6 @@ import shield1Icon from '../assets/img/modifier_icon_shield1.png';
 import shield2Icon from '../assets/img/modifier_icon_shield2.png';
 import shield3Icon from '../assets/img/modifier_icon_shield3.png';
 import attackIcon from '../assets/img/icon_stat_attack.png';
-import damageIcon from '../assets/img/icon_stat_damage.png';
 import defenceIcon from '../assets/img/icon_stat_defence.png';
 import chargeIcon from '../assets/img/icon_stat_charge_bonus.png';
 import moraleIcon from '../assets/img/icon_stat_morale.png';
@@ -48,12 +50,7 @@ import physResistanceIcon from '../assets/img/resistance_physical.png';
 import missileResistanceIcon from '../assets/img/resistance_missile.png';
 import magResistanceIcon from '../assets/img/resistance_magic.png';
 import fireResistanceIcon from '../assets/img/resistance_fire.png';
-import baseDamageIcon from '../assets/img/icon_stat_damage_base_character.png';
-import apDamageIcon from '../assets/img/armour_piercing_character.png';
-import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
-import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
 import massIcon from '../assets/img/icon_stat_mass.png';
-import { MissileDamageBlock } from './MissileDamageBlock';
 
 interface UnitCardProps {
     unitStats: UnitWithStats;
@@ -66,52 +63,55 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
         ? `${BASE_URL}/units/${unitStats.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
         : `${BASE_URL}/units/${unitStats.unit_portrait}.png`;
 
-    const numMen = unitStats.stats.engine
-        ? unitStats.stats.num_engines
-        : unitStats.mount
-        ? unitStats.stats.num_mounts
-        : unitStats.num_men;
+    const numMen = numMenResolver(unitStats.num_men, unitStats.stats.num_mounts, unitStats.stats.num_engines);
 
-    const hp = (parseInt(unitStats.stats.bonus_hit_points, 10) * parseInt(unitStats.num_men, 10)).toString();
+    const hp = hpResolver(
+        unitStats.entity,
+        unitStats.stats.bonus_hit_points,
+        unitStats.caste,
+        unitStats.num_men,
+        unitStats.stats.num_mounts,
+        unitStats.stats.num_engines
+    );
+
     const shieldVal = unitStats.stats.shield === 'none' ? '0' : unitStats.stats.shield.split('_').at(-2);
-    const missileDamage = unitStats.missile_damage;
 
-    const weaponStrengthVal = (
-        parseInt(unitStats.melee_damage.damage, 10) + parseInt(unitStats.melee_damage.ap_damage, 10)
-    ).toString();
-    const massVal = unitStats.mount_entity ? unitStats.mount_entity.mass : unitStats.entity.mass;
+    const massVal = unitStats.entity.mount_entity
+        ? unitStats.entity.mount_entity.mass
+        : unitStats.entity.man_entity.mass;
     const isUnitRor = unitStats.unit.split('_').includes('ror');
     const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
     const magicalSrc =
-        unitStats.melee_damage.is_magical === 'true' ? `${BASE_URL}/effect_bundles/magical_attacks.png` : undefined;
-    const contactPhaseResolver = unitStats.melee_damage.contact_phase
-        ? `phase_${unitStats.melee_damage.contact_phase.split('_').slice(4)?.join('_')}`
-        : undefined;
-    const contactPhaseSrc = unitStats.melee_damage.contact_phase
-        ? `${BASE_URL}/effect_bundles/${contactPhaseResolver}.png`
-        : undefined;
+        unitStats.damage.melee_damage.is_magical === 'true'
+            ? `${BASE_URL}/effect_bundles/magical_attacks.png`
+            : undefined;
+
+    const contactPhaseSrc =
+        unitStats.damage.melee_damage.contact_phase &&
+        contactPhaseResolver(unitStats.damage.melee_damage.contact_phase);
+
     const attackAdditionalIconSrc = compact([magicalSrc, contactPhaseSrc]);
 
-    const menIcon = unitStats.mount_entity
-        ? unitStats.mount_entity?.locomotion_constant !== 'small_entity'
+    const menIcon = unitStats.entity.mount_entity
+        ? unitStats.entity.mount_entity.locomotion_constant !== 'small_entity'
             ? bigMen
             : men
-        : unitStats.entity.locomotion_constant !== 'small_entity'
+        : unitStats.entity.man_entity.locomotion_constant !== 'small_entity'
         ? bigMen
         : men;
 
     let speed = '';
-    if (unitStats.mount_entity) {
-        if (unitStats.mount_entity.fly_speed !== '0.0') {
-            speed = unitStats.mount_entity.fly_speed || '';
+    if (unitStats.entity.mount_entity) {
+        if (unitStats.entity.mount_entity.fly_speed !== '0.0') {
+            speed = unitStats.entity.mount_entity.fly_speed || '';
         } else {
-            speed = unitStats.mount_entity.run_speed;
+            speed = unitStats.entity.mount_entity.run_speed;
         }
     } else {
-        if (unitStats.entity.fly_speed !== '0.0') {
-            speed = unitStats.entity.fly_speed || '';
+        if (unitStats.entity.man_entity.fly_speed !== '0.0') {
+            speed = unitStats.entity.man_entity.fly_speed || '';
         } else {
-            speed = unitStats.entity.run_speed;
+            speed = unitStats.entity.man_entity.run_speed;
         }
     }
 
@@ -171,7 +171,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     <Image loader={() => iconSrc} src={iconSrc} width={22} height={22} unoptimized />
                 </Center>
                 <Text fontSize='xl' fontWeight='bold' marginLeft='3'>
-                    {t(unitStats.caste)}
+                    {unitStats.group_name}
                 </Text>
             </Flex>
 
@@ -318,24 +318,27 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     additionalIcons={attackAdditionalIconSrc}
                 >
                     <SimpleGrid as='ul' gridRowGap='1'>
-                        <StatsItem text={'Is magical'} value={unitStats.melee_damage.is_magical} />
-                        {unitStats.melee_damage.contact_phase && (
+                        <StatsItem text={'Is magical'} value={unitStats.damage.melee_damage.is_magical} />
+                        {unitStats.damage.melee_damage.contact_phase && (
                             <StatsItem
                                 text={'Contact'}
-                                value={unitStats.melee_damage.contact_phase.split('_').slice(4)?.join(' ')}
+                                value={unitStats.damage.melee_damage.contact_phase.split('_').slice(4)?.join(' ')}
                             />
                         )}
-                        <StatsItem text={'Attack interval'} value={unitStats.melee_damage.melee_attack_interval} />
+                        <StatsItem
+                            text={'Attack interval'}
+                            value={unitStats.damage.melee_damage.melee_attack_interval}
+                        />
                         <StatsItem text={'Is high threat'} value={unitStats.is_high_threat} />
                         {unitStats.is_high_threat === 'true' && (
                             <>
                                 <StatsItem
                                     text={'Splash target size'}
-                                    value={unitStats.melee_damage.splash_attack_target_size}
+                                    value={unitStats.damage.melee_damage.splash_attack_target_size}
                                 />
                                 <StatsItem
                                     text={'Splash max attacks'}
-                                    value={unitStats.melee_damage.splash_attack_max_attacks}
+                                    value={unitStats.damage.melee_damage.splash_attack_max_attacks}
                                 />
                             </>
                         )}
@@ -355,34 +358,20 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     maxStats={maxVariables.chargeBonus}
                 />
 
-                <StatsAccordion
-                    icon={damageIcon}
-                    text={'Weapon strength'}
-                    value={weaponStrengthVal}
-                    maxStats={maxVariables.damage}
-                >
-                    <SimpleGrid as='ul' gridRowGap='1'>
-                        <StatsItem icon={baseDamageIcon} text={'Base damage'} value={unitStats.melee_damage.damage} />
-                        <StatsItem icon={apDamageIcon} text={'AP damage'} value={unitStats.melee_damage.ap_damage} />
-                        <StatsItem
-                            icon={infantryBonusIcon}
-                            text={'Bonus vs. infantry'}
-                            value={unitStats.melee_damage.bonus_v_infantry}
-                        />
-                        <StatsItem
-                            icon={largeBonusIcon}
-                            text={'Bonus vs. large'}
-                            value={unitStats.melee_damage.bonus_v_large}
-                        />
-                        <StatsItem
-                            text={'Building damage multiplier'}
-                            value={unitStats.melee_damage.building_damage_multiplier}
-                        />
-                    </SimpleGrid>
-                </StatsAccordion>
+                <MeleeDamageBlock melee_damage={unitStats.damage.melee_damage} />
 
-                {unitStats.missile_damage && (
-                    <MissileDamageBlock missileDamage={unitStats.missile_damage} ammo={unitStats.stats.primary_ammo} />
+                {unitStats.damage.missile_damage && (
+                    <MissileDamageBlock
+                        missileDamage={unitStats.damage.missile_damage}
+                        ammo={unitStats.stats.primary_ammo}
+                    />
+                )}
+
+                {unitStats.damage.engine_damage && (
+                    <MissileDamageBlock
+                        missileDamage={unitStats.damage.engine_damage}
+                        ammo={unitStats.stats.primary_ammo}
+                    />
                 )}
 
                 <StatsItem icon={massIcon} text={'Mass'} value={massVal} />

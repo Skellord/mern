@@ -26,14 +26,11 @@ export const AttributeItem: FC<AttributeItem> = ({ item, type = 'attribute', nam
 
     if (type === 'spells') {
         switch (item) {
-            case 'wh3_main_unit_passive_daemonic_instability_slaanesh_ii':
-                imgSrc = `${BASE_URL}/ability_icons/wh3_main_unit_passive_daemonic_instability_ii.png`;
-                break;
-            case 'wh3_main_unit_passive_daemonic_instability_slaanesh':
-                imgSrc = `${BASE_URL}/ability_icons/wh3_main_unit_passive_daemonic_instability.png`;
-                break;
             case 'wh3_main_lord_passive_soul_siphon':
                 imgSrc = `${BASE_URL}/ability_icons/wh3_main_lord_passive_soul_snare.png`;
+                break;
+            case 'wh2_main_character_passive_grand_arcane_conduit':
+                imgSrc = `${BASE_URL}/ability_icons/wh_main_character_abilities_arcane_conduit.png`;
                 break;
             case 'wh_dlc05_lore_passive_life_bloom':
                 imgSrc = `${BASE_URL}/ability_icons/wh_dlc05_spell_life_life_bloom.png`;
@@ -50,6 +47,12 @@ export const AttributeItem: FC<AttributeItem> = ({ item, type = 'attribute', nam
             default:
                 imgSrc = `${BASE_URL}/ability_icons/${item}.png`;
                 break;
+        }
+        if (item.includes('daemonic_instability')) {
+            imgSrc = `${BASE_URL}/ability_icons/wh3_main_unit_passive_daemonic_instability.png`;
+            if (item.includes('_ii')) {
+                imgSrc = `${BASE_URL}/ability_icons/wh3_main_unit_passive_daemonic_instability_ii.png`;
+            }
         }
     }
 

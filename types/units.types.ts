@@ -73,7 +73,7 @@ export interface UnitStats {
     damage_mod_flame: string;
     damage_mod_magic: string;
     engine?: string;
-    num_engines: string;
+    num_engines?: string;
     damage_mod_physical: string;
     damage_mod_missile: string;
     damage_mod_all: string;
@@ -93,6 +93,7 @@ export interface Entity {
     fly_speed?: string;
     mass: string;
     locomotion_constant: string;
+    hit_points: string;
 }
 
 export interface Mount {
@@ -161,15 +162,26 @@ export interface LoreSpell {
     local_name: string;
 }
 
-export interface UnitWithStats extends Unit {
-    entity: Entity;
-    mount_entity: Entity | undefined;
+interface UnitDamage {
     melee_damage: MeleeDamage;
-    missile_damage: MissileDamage | undefined;
+    missile_damage?: MissileDamage;
+    engine_damage?: MissileDamage;
+}
+
+export interface UnitEntity {
+    man_entity: Entity;
+    mount_entity?: Entity;
+    engine_entity?: Entity;
+}
+
+export interface UnitWithStats extends Unit {
+    entity: UnitEntity;
+    damage: UnitDamage;
     stats: UnitStats;
     specs: Spec[];
     attributes: Attr[];
     special_abilities?: SpecialAbility[];
     lore_spells?: LoreSpell[];
     local_name: string;
+    group_name: string;
 }

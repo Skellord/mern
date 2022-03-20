@@ -123,7 +123,7 @@ const tzeentchUnitVariants = [
     'wh3_main_tze_cha_iridescent_horror_tzeentch_2',
     'wh3_survival_tze_cha_daemon_prince_of_tzeentch',
     'wh3_survival_tze_cha_exalted_lord_of_change_tzeentch',
-    'wh3_main_tze_cha_kairos_fateweaver_0',
+    'wh3_main_tze_cha_kairos_fateweaver_custom_battle_0',
     'wh3_survival_tze_cha_iridescent_horror_metal',
     'wh3_main_tze_inf_blue_horrors_summoned_0',
     'wh3_main_tze_inf_pink_horrors_summoned_0',

@@ -13,6 +13,7 @@ import missileDamageAPIcon from '../assets/img/icon_stat_explosive_armour_pierci
 import reloadIcon from '../assets/img/icon_stat_reload_time_character.png';
 import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
+import { round } from 'lodash';
 
 interface MissileDamageBlock {
     missileDamage: MissileDamage;
@@ -23,8 +24,9 @@ export const MissileDamageBlock: FC<MissileDamageBlock> = ({ missileDamage, ammo
     const dmg = parseInt(missileDamage.damage);
     const apDmg = parseInt(missileDamage.ap_damage);
     const shots = parseInt(missileDamage.shots_per_volley);
-    const reload = parseInt(missileDamage.base_reload_time) * 0.9;
+    const reload = round(parseInt(missileDamage.base_reload_time) * 0.9, 1);
     const projNumber = parseInt(missileDamage.projectile_number);
+    const ammoVal = Math.ceil(parseInt(ammo) / shots / projNumber);
 
     const missileDamageVal = missileDamage.explosion
         ? Math.floor(
@@ -59,7 +61,10 @@ export const MissileDamageBlock: FC<MissileDamageBlock> = ({ missileDamage, ammo
                     <StatsItem text={'Shots per volley'} value={missileDamage.shots_per_volley} />
                     <StatsItem text={'Projectile number'} value={missileDamage.projectile_number} />
                     {missileDamage.contact_stat_effect && (
-                        <StatsItem text={'Contact effect'} value={missileDamage.contact_stat_effect} />
+                        <StatsItem
+                            text={'Contact effect'}
+                            value={missileDamage.contact_stat_effect.split('_').slice(4)?.join(' ')}
+                        />
                     )}
                     <StatsItem text={'Can damage buildings'} value={missileDamage.can_damage_buildings} />
                     {missileDamage.can_damage_buildings === 'true' && (
@@ -76,7 +81,7 @@ export const MissileDamageBlock: FC<MissileDamageBlock> = ({ missileDamage, ammo
                 value={missileDamage.effective_range}
                 maxStats={maxVariables.range}
             />
-            <StatsItem icon={ammoIcon} text={'Ammo'} value={ammo} maxStats={maxVariables.ammo} />
+            <StatsItem icon={ammoIcon} text={'Ammo'} value={ammoVal.toString()} maxStats={maxVariables.ammo} />
         </>
     );
 };

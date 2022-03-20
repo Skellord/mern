@@ -171,7 +171,6 @@ async function completeData() {
                 $unset: {
                     man_animation: '',
                     num_animals: '',
-                    num_mounts: '',
                     spacing: '',
                     supports_first_person: '',
                     training_level: '',

@@ -9,6 +9,7 @@ import { iconsAggregation } from '../repository/icons.aggregation';
 import { localNameAggregation } from '../repository/localName.aggregation';
 import { loreSpellsAggregation } from '../repository/loreSpells.aggregation';
 import { specialAbilitiesAggregation } from '../repository/specialAbilities.aggregation';
+import { unitGroupingsAggregation } from '../repository/unitGroupings.aggragation';
 
 class UnitService {
     async getAllUnits() {
@@ -33,7 +34,7 @@ class UnitService {
                 },
                 {
                     $lookup: {
-                        from: 'unit_stats',
+                        from: 'land_units',
                         localField: 'land_unit',
                         foreignField: 'key',
                         as: 'stats',
@@ -42,6 +43,7 @@ class UnitService {
                 {
                     $unwind: '$stats',
                 },
+                ...unitGroupingsAggregation,
                 ...engineAggregation,
                 ...damageAggregation,
                 ...entityAggregation,
