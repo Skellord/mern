@@ -9,7 +9,7 @@ import { apiRoutes } from '../../utils/api.util';
 import { UnitCard } from '../../components/UnitCard';
 import { Localization } from '../../../types/localization.types';
 import { UnitWithStats } from '../../../types/units.types';
-import { AttributeItem } from '../../components/AttributeItem';
+import { AttributeItem } from '../../components/attributeItem';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const getStaticPaths: GetStaticPaths = async () => {

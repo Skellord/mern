@@ -56,7 +56,7 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
             fallbackData: initialData,
         }
     );
-    const factionName = data?.faction ? (isString(data?.faction) ? data?.faction : 'norsca') : 'norsca';
+    const factionName = data?.faction ? (isString(data?.faction) ? data?.faction : 'norsca') : '';
     const campaignUnits: FactionUnit[] | undefined =
         data && data.units.filter(unit => unit.campaign_exclusive === 'true');
 

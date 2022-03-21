@@ -53,3 +53,5 @@ export const contactPhaseResolver = (contactPhase: string) => {
     }
     return `${BASE_URL}/effect_bundles/${phaseName}.png`;
 };
+
+export const magicalDmgSrc = `${BASE_URL}/effect_bundles/magical_attacks.png`;

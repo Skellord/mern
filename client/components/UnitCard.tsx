@@ -22,7 +22,7 @@ import { compact } from 'lodash';
 import { useTranslation } from 'next-i18next';
 import { MissileDamageBlock } from './MissileDamageBlock';
 import { MeleeDamageBlock } from './MeleeDamageBlock';
-import { hpResolver, numMenResolver, contactPhaseResolver } from '../utils/stats.resolver';
+import { hpResolver, numMenResolver, contactPhaseResolver, magicalDmgSrc } from '../utils/stats.util';
 
 import casteCircleUrl from '../assets/img/unit_cat_holder_round.png';
 import casteCircleRorUrl from '../assets/img/unit_cat_holder_round_renown.png';
@@ -81,10 +81,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
         : unitStats.entity.man_entity.mass;
     const isUnitRor = unitStats.unit.split('_').includes('ror');
     const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
-    const magicalSrc =
-        unitStats.damage.melee_damage.is_magical === 'true'
-            ? `${BASE_URL}/effect_bundles/magical_attacks.png`
-            : undefined;
+    const magicalSrc = unitStats.damage.melee_damage.is_magical === 'true' ? magicalDmgSrc : undefined;
 
     const contactPhaseSrc =
         unitStats.damage.melee_damage.contact_phase &&

@@ -1,3 +1,8 @@
 {
-    "change-locale": "Переключиться на русский"
+    "change-locale": "Переключиться на русский",
+    "mainPage": "Main page",
+    "factionPage": "Factions",
+    "news": "News",
+    "releases": "Release notes",
+    "toReleases": "To release notes"
 }

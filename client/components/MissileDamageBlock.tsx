@@ -13,7 +13,8 @@ import missileDamageAPIcon from '../assets/img/icon_stat_explosive_armour_pierci
 import reloadIcon from '../assets/img/icon_stat_reload_time_character.png';
 import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
-import { round } from 'lodash';
+import { compact, round } from 'lodash';
+import { contactPhaseResolver, magicalDmgSrc } from '../utils/stats.util';
 
 interface MissileDamageBlock {
     missileDamage: MissileDamage;
@@ -27,6 +28,10 @@ export const MissileDamageBlock: FC<MissileDamageBlock> = ({ missileDamage, ammo
     const reload = round(parseInt(missileDamage.base_reload_time) * 0.9, 1);
     const projNumber = parseInt(missileDamage.projectile_number);
     const ammoVal = Math.ceil(parseInt(ammo) / shots / projNumber);
+    const magicalMissileSrc = missileDamage.is_magical === 'true' ? magicalDmgSrc : undefined;
+    const contactPhaseSrc =
+        missileDamage.contact_stat_effect && contactPhaseResolver(missileDamage.contact_stat_effect);
+    const attackAdditionalIconSrc = compact([magicalMissileSrc, contactPhaseSrc]);
 
     const missileDamageVal = missileDamage.explosion
         ? Math.floor(
@@ -47,6 +52,7 @@ export const MissileDamageBlock: FC<MissileDamageBlock> = ({ missileDamage, ammo
                 text={'Missile damage'}
                 value={missileDamageVal.toString()}
                 maxStats={maxVariables.missileDamage}
+                additionalIcons={attackAdditionalIconSrc}
             >
                 <SimpleGrid as='ul' gridRowGap='1'>
                     <StatsItem icon={missileDamageBaseIcon} text={'Base missile damage'} value={missileDamage.damage} />

@@ -1,5 +1,5 @@
 import { SimpleGrid, Box, Link, Text, Flex, keyframes, usePrefersReducedMotion, useBoolean } from '@chakra-ui/react';
-import { NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import NextLink from 'next/link';
 import Layout from '../../components/Layout';
 import { FC } from 'react';
@@ -27,6 +27,19 @@ import nurgleImg from '../../assets/factions/wh3_main_nur_nurgle.png';
 import ogreImg from '../../assets/factions/wh3_main_ogr_ogre_kingdoms.png';
 import slaaneshImg from '../../assets/factions/wh3_main_sla_slaanesh.png';
 import tzeenchImg from '../../assets/factions/wh3_main_tze_tzeentch.png';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+
+export const getStaticProps: GetStaticProps = async context => {
+    const { locale } = context;
+    const loc = locale === 'ru' ? 'ru' : 'en';
+
+    return {
+        props: {
+            ...(await serverSideTranslations(loc, ['faction', 'common', 'nav'])),
+        },
+    };
+};
 
 const animation = keyframes`
     from { transform: translate(0, 0) scale(1); }
@@ -108,8 +121,9 @@ const FactionLink: FC<FactionLink> = ({ link, name, imgSrc, newImage }) => {
 };
 
 const Units: NextPage = () => {
+    const { t } = useTranslation('faction');
     return (
-        <Layout heading='Factions'>
+        <Layout heading={t('factionPage')}>
             <SimpleGrid
                 gridTemplateColumns={'550px 550px'}
                 gridAutoRows={'90px'}
@@ -120,28 +134,28 @@ const Units: NextPage = () => {
                 mx='auto'
                 w='fit-content'
             >
-                <FactionLink imgSrc={cathayImg} link={'cathay'} name={'Cathay'} newImage />
-                <FactionLink imgSrc={khornImg} link={'khorn'} name={'Khorn'} newImage />
-                <FactionLink imgSrc={kislevImg} link={'kislev'} name={'Kislev'} newImage />
-                <FactionLink imgSrc={nurgleImg} link={'nurgle'} name={'Nurgle'} newImage />
-                <FactionLink imgSrc={ogreImg} link={'ogres'} name={'Ogre kingdoms'} newImage />
-                <FactionLink imgSrc={slaaneshImg} link={'slaanesh'} name={'Slaanesh'} newImage />
-                <FactionLink imgSrc={tzeenchImg} link={'tzeentch'} name={'Tzeentch'} newImage />
-                <FactionLink imgSrc={beastmensImg} link={'beastmens'} name={'Beastmens'} />
-                <FactionLink imgSrc={bretonniaImg} link={'bretonnia'} name={'Bretonnia'} />
-                <FactionLink imgSrc={chaosImg} link={'chaos'} name={'Chaos'} />
-                <FactionLink imgSrc={darkElvesImg} link={'dark-elves'} name={'Dark elves'} />
-                <FactionLink imgSrc={dwarfsImg} link={'dwarfs'} name={'Dwarfs'} />
-                <FactionLink imgSrc={empireImage} link={'empire'} name={'Empire'} />
-                <FactionLink imgSrc={greenskinsImg} link={'greenskins'} name={'Greenskins'} />
-                <FactionLink imgSrc={highElvesImg} link={'high-elves'} name={'High elves'} />
-                <FactionLink imgSrc={lizardmensImg} link={'lizardmens'} name={'Lizardmens'} />
-                <FactionLink imgSrc={norscaImg} link={'norsca'} name={'Norsca'} />
-                <FactionLink imgSrc={skavenImg} link={'skavens'} name={'Skavens'} />
-                <FactionLink imgSrc={tombKingsImg} link={'tomb-kings'} name={'Tomb kings'} />
-                <FactionLink imgSrc={vampireCoastImg} link={'vampire-coast'} name={'Vampire coast'} />
-                <FactionLink imgSrc={vampireCountsImg} link={'vampire-counts'} name={'Vampire counts'} />
-                <FactionLink imgSrc={woodElvesImg} link={'wood-elves'} name={'Wood elves'} />
+                <FactionLink imgSrc={cathayImg} link={'cathay'} name={t('cathay')} newImage />
+                <FactionLink imgSrc={khornImg} link={'khorn'} name={t('khorn')} newImage />
+                <FactionLink imgSrc={kislevImg} link={'kislev'} name={t('kislev')} newImage />
+                <FactionLink imgSrc={nurgleImg} link={'nurgle'} name={t('nurgle')} newImage />
+                <FactionLink imgSrc={ogreImg} link={'ogres'} name={t('ogres')} newImage />
+                <FactionLink imgSrc={slaaneshImg} link={'slaanesh'} name={t('slaanesh')} newImage />
+                <FactionLink imgSrc={tzeenchImg} link={'tzeentch'} name={t('tzeentch')} newImage />
+                <FactionLink imgSrc={beastmensImg} link={'beastmens'} name={t('beastmens')} />
+                <FactionLink imgSrc={bretonniaImg} link={'bretonnia'} name={t('bretonnia')} />
+                <FactionLink imgSrc={chaosImg} link={'chaos'} name={t('chaos')} />
+                <FactionLink imgSrc={darkElvesImg} link={'dark-elves'} name={t('dark-elves')} />
+                <FactionLink imgSrc={dwarfsImg} link={'dwarfs'} name={t('dwarfs')} />
+                <FactionLink imgSrc={empireImage} link={'empire'} name={t('empire')} />
+                <FactionLink imgSrc={greenskinsImg} link={'greenskins'} name={t('greenskins')} />
+                <FactionLink imgSrc={highElvesImg} link={'high-elves'} name={t('high-elves')} />
+                <FactionLink imgSrc={lizardmensImg} link={'lizardmens'} name={t('lizardmens')} />
+                <FactionLink imgSrc={norscaImg} link={'norsca'} name={t('norsca')} />
+                <FactionLink imgSrc={skavenImg} link={'skavens'} name={t('skavens')} />
+                <FactionLink imgSrc={tombKingsImg} link={'tomb-kings'} name={t('tomb-kings')} />
+                <FactionLink imgSrc={vampireCoastImg} link={'vampire-coast'} name={t('vampire-coast')} />
+                <FactionLink imgSrc={vampireCountsImg} link={'vampire-counts'} name={t('vampire-counts')} />
+                <FactionLink imgSrc={woodElvesImg} link={'wood-elves'} name={t('wood-elves')} />
             </SimpleGrid>
         </Layout>
     );

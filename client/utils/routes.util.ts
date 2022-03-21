@@ -1,12 +1,12 @@
 import { Route } from '../types/routes.types';
 
 export const mainRoute: Route = {
-    name: 'Main',
+    name: 'main',
     href: '/',
 };
 
 export const unitsRoute: Route = {
-    name: 'Factions',
+    name: 'factions',
     href: '/factions',
 };
 
