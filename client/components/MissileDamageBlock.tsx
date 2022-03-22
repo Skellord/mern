@@ -15,6 +15,7 @@ import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
 import { compact, round } from 'lodash';
 import { contactPhaseResolver, magicalDmgSrc } from '../utils/stats.util';
+import { useTranslation } from 'next-i18next';
 
 interface MissileDamageBlock {
     missileDamage: MissileDamage;
@@ -22,6 +23,7 @@ interface MissileDamageBlock {
 }
 
 export const MissileDamageBlock: FC<MissileDamageBlock> = ({ missileDamage, ammo }) => {
+    const { t } = useTranslation('unit');
     const dmg = parseInt(missileDamage.damage);
     const apDmg = parseInt(missileDamage.ap_damage);
     const shots = parseInt(missileDamage.shots_per_volley);
@@ -49,45 +51,38 @@ export const MissileDamageBlock: FC<MissileDamageBlock> = ({ missileDamage, ammo
         <>
             <StatsAccordion
                 icon={missileDamageIcon}
-                text={'Missile damage'}
+                text={t('damageMiss')}
                 value={missileDamageVal.toString()}
                 maxStats={maxVariables.missileDamage}
                 additionalIcons={attackAdditionalIconSrc}
             >
                 <SimpleGrid as='ul' gridRowGap='1'>
-                    <StatsItem icon={missileDamageBaseIcon} text={'Base missile damage'} value={missileDamage.damage} />
-                    <StatsItem icon={missileDamageAPIcon} text={'AP missile damage'} value={missileDamage.ap_damage} />
-                    <StatsItem
-                        icon={infantryBonusIcon}
-                        text={'Bonus vs. infantry'}
-                        value={missileDamage.bonus_v_infantry}
-                    />
-                    <StatsItem icon={largeBonusIcon} text={'Bonus vs. large'} value={missileDamage.bonus_v_large} />
-                    <StatsItem icon={reloadIcon} text={'Reload time'} value={reload.toString()} />
-                    <StatsItem text={'Shots per volley'} value={missileDamage.shots_per_volley} />
-                    <StatsItem text={'Projectile number'} value={missileDamage.projectile_number} />
+                    <StatsItem icon={missileDamageBaseIcon} text={t('damageBaseMiss')} value={missileDamage.damage} />
+                    <StatsItem icon={missileDamageAPIcon} text={t('damageAPMiss')} value={missileDamage.ap_damage} />
+                    <StatsItem icon={infantryBonusIcon} text={t('bonusInf')} value={missileDamage.bonus_v_infantry} />
+                    <StatsItem icon={largeBonusIcon} text={t('bonusLarge')} value={missileDamage.bonus_v_large} />
+                    <StatsItem icon={reloadIcon} text={t('reload')} value={reload.toString()} />
+                    <StatsItem text={t('shots')} value={missileDamage.shots_per_volley} />
+                    <StatsItem text={t('projectile')} value={missileDamage.projectile_number} />
                     {missileDamage.contact_stat_effect && (
                         <StatsItem
-                            text={'Contact effect'}
+                            text={t('contact')}
                             value={missileDamage.contact_stat_effect.split('_').slice(4)?.join(' ')}
                         />
                     )}
-                    <StatsItem text={'Can damage buildings'} value={missileDamage.can_damage_buildings} />
+                    <StatsItem text={t('buildingsDamage')} value={missileDamage.can_damage_buildings} />
                     {missileDamage.can_damage_buildings === 'true' && (
-                        <StatsItem
-                            text={'Building damage multiplier'}
-                            value={missileDamage.building_damage_multiplier}
-                        />
+                        <StatsItem text={t('building')} value={missileDamage.building_damage_multiplier} />
                     )}
                 </SimpleGrid>
             </StatsAccordion>
             <StatsItem
                 icon={rangeIcon}
-                text={'Range'}
+                text={t('range')}
                 value={missileDamage.effective_range}
                 maxStats={maxVariables.range}
             />
-            <StatsItem icon={ammoIcon} text={'Ammo'} value={ammoVal.toString()} maxStats={maxVariables.ammo} />
+            <StatsItem icon={ammoIcon} text={t('ammo')} value={ammoVal.toString()} maxStats={maxVariables.ammo} />
         </>
     );
 };

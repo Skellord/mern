@@ -54,6 +54,9 @@ export const AttributeItem: FC<AttributeItem> = ({ item, type = 'attribute', nam
                 imgSrc = `${BASE_URL}/ability_icons/wh3_main_unit_passive_daemonic_instability_ii.png`;
             }
         }
+        if (item.includes('apocalyptic_charge')) {
+            imgSrc = `${BASE_URL}/ability_icons/wh_dlc08_nor_apocalyptic_charge.png`;
+        }
     }
 
     const text =

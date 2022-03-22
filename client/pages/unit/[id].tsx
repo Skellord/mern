@@ -9,8 +9,9 @@ import { apiRoutes } from '../../utils/api.util';
 import { UnitCard } from '../../components/UnitCard';
 import { Localization } from '../../../types/localization.types';
 import { UnitWithStats } from '../../../types/units.types';
-import { AttributeItem } from '../../components/attributeItem';
+import { AttributeItem } from '../../components/AttributeItem';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const units = await client.getUnits();
@@ -46,7 +47,7 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             data,
             histDesc,
-            ...(await serverSideTranslations(loc, ['caste'])),
+            ...(await serverSideTranslations(loc, ['caste', 'nav', 'common', 'unit'])),
         },
     };
 };
@@ -85,6 +86,7 @@ const UnitPage: NextPage<UnitPage> = props => {
             fallbackData: histDesc,
         }
     );
+    const { t } = useTranslation('unit');
 
     if (!data) return <ErrorAlert />;
     if (isFirstLoading) return <Spinner />;
@@ -121,7 +123,7 @@ const UnitPage: NextPage<UnitPage> = props => {
 
                 <Box as='section' p='4'>
                     <Heading fontSize='2xl' mb='4'>
-                        Description
+                        {t('desc')}
                     </Heading>
                     <Text fontStyle='italic' p='1' mb='12'>
                         {histDescData?.text}
@@ -130,7 +132,7 @@ const UnitPage: NextPage<UnitPage> = props => {
                     {specialAbilities && specialAbilities.length > 0 && (
                         <>
                             <Heading fontSize='2xl' mb='4'>
-                                Special abilities
+                                {t('abilities')}
                             </Heading>
                             <Wrap mb='12'>
                                 {specialAbilities.map(item => (
@@ -148,7 +150,7 @@ const UnitPage: NextPage<UnitPage> = props => {
                     {data.lore_spells && (
                         <>
                             <Heading fontSize='2xl' mb='4'>
-                                Spells
+                                {t('spells')}
                             </Heading>
                             <Wrap mb='12'>
                                 {data?.lore_spells.map(item => (
@@ -166,7 +168,7 @@ const UnitPage: NextPage<UnitPage> = props => {
                     {passiveAbilities && passiveAbilities.length > 0 && (
                         <>
                             <Heading fontSize='2xl' mb='4'>
-                                Passive effects
+                                {t('passive')}
                             </Heading>
                             <Wrap mb='12'>
                                 {passiveAbilities.map(item => (

@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps = async context => {
     return {
         props: {
             data,
-            ...(await serverSideTranslations(loc, ['faction'])),
+            ...(await serverSideTranslations(loc, ['caste', 'faction', 'nav', 'common'])),
         },
     };
 };
@@ -47,7 +47,7 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
         query: { faction },
     } = useRouter();
 
-    const { t } = useTranslation('faction');
+    const { t } = useTranslation(['caste', 'faction', 'nav', 'common']);
 
     const { data } = useFetchWithCache<FactionsUnitsResponse>(
         [apiRoutes.getFactionUnits, faction],
@@ -56,7 +56,8 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
             fallbackData: initialData,
         }
     );
-    const factionName = data?.faction ? (isString(data?.faction) ? data?.faction : 'norsca') : '';
+
+    const factionName = data?.faction ? (isString(data?.faction) ? data?.faction : '') : '';
     const campaignUnits: FactionUnit[] | undefined =
         data && data.units.filter(unit => unit.campaign_exclusive === 'true');
 
@@ -77,31 +78,33 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
     const warMachine = nonCampaignUnits?.filter(item => item.caste === 'warmachine');
 
     return (
-        <Layout heading={t(factionName)}>
-            <UnitsGroup title={'Lord'} units={lords} />
-            <UnitsGroup title={'Hero'} units={heroes} />
-            {meleeInfantry && meleeInfantry.length > 0 && <UnitsGroup title={'Melee infantry'} units={meleeInfantry} />}
+        <Layout heading={t(`faction:${factionName}`)}>
+            <UnitsGroup title={t('lord')} units={lords} />
+            <UnitsGroup title={t('hero')} units={heroes} />
+            {meleeInfantry && meleeInfantry.length > 0 && (
+                <UnitsGroup title={t('melee_infantry')} units={meleeInfantry} />
+            )}
             {missileInfantry && missileInfantry.length > 0 && (
-                <UnitsGroup title={'Missile infantry'} units={missileInfantry} />
+                <UnitsGroup title={t('missile_infantry')} units={missileInfantry} />
             )}
             {monstrousInfantry && monstrousInfantry.length > 0 && (
-                <UnitsGroup title={'Monstrous infantry'} units={monstrousInfantry} />
+                <UnitsGroup title={t('monstrous_infantry')} units={monstrousInfantry} />
             )}
-            {meleeCavalry && meleeCavalry.length > 0 && <UnitsGroup title={'Melee cavalry'} units={meleeCavalry} />}
+            {meleeCavalry && meleeCavalry.length > 0 && <UnitsGroup title={t('melee_cavalry')} units={meleeCavalry} />}
 
             {missileCavalry && missileCavalry.length > 0 && (
-                <UnitsGroup title={'Missile cavalry'} units={missileCavalry} />
+                <UnitsGroup title={t('missile_cavalry')} units={missileCavalry} />
             )}
             {monstrousCavalry && monstrousCavalry.length > 0 && (
-                <UnitsGroup title={'Monstrous cavalry'} units={monstrousCavalry} />
+                <UnitsGroup title={t('monstrous_cavalry')} units={monstrousCavalry} />
             )}
-            {chariot && chariot.length > 0 && <UnitsGroup title={'Chariot'} units={chariot} />}
-            {monster && monster.length > 0 && <UnitsGroup title={'Monster'} units={monster} />}
-            {warBeast && warBeast.length > 0 && <UnitsGroup title={'War beast'} units={warBeast} />}
-            {warMachine && warMachine.length > 0 && <UnitsGroup title={'War machine'} units={warMachine} />}
+            {chariot && chariot.length > 0 && <UnitsGroup title={t('chariot')} units={chariot} />}
+            {monster && monster.length > 0 && <UnitsGroup title={t('monster')} units={monster} />}
+            {warBeast && warBeast.length > 0 && <UnitsGroup title={t('war_beast')} units={warBeast} />}
+            {warMachine && warMachine.length > 0 && <UnitsGroup title={t('war_machine')} units={warMachine} />}
 
             {campaignUnits && campaignUnits.length > 0 && (
-                <UnitsGroup title={'campaign_exclusive'} units={campaignUnits} />
+                <UnitsGroup title={t('campaign_exclusive')} units={campaignUnits} />
             )}
         </Layout>
     );

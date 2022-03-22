@@ -10,5 +10,7 @@
     "missile_infantry": "Missile infantry",
     "missile_cavalry": "Missile cavalry",
     "war_beast": "War beast",
-    "chariot": "Chariot"
+    "war_machine": "War machine",
+    "chariot": "Chariot",
+    "campaign_exclusive": "Campaign exclusive"
 }

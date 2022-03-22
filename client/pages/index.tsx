@@ -1,13 +1,13 @@
 import { Heading, VStack, Text, Flex, Box, SimpleGrid, Grid, Center, Button } from '@chakra-ui/react';
 import type { GetStaticProps, NextPage } from 'next';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Image from 'next/image';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import katarinaSrc from '../public/img/totalwarwarhammer3.jpg';
 import { useRouter } from 'next/router';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps: GetStaticProps = async context => {
     const { locale } = context;

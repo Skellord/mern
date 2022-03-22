@@ -10,5 +10,7 @@
     "missile_infantry": "Стрелковая пехота",
     "missile_cavalry": "Всадники дальнего боя",
     "war_beast": "Боевой зверь",
-    "chariot": "Колесница"
+    "war_machine": "Боевая машина",
+    "chariot": "Колесница",
+    "campaign_exclusive": "Только в кампании"
 }

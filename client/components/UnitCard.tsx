@@ -57,7 +57,7 @@ interface UnitCardProps {
 }
 
 export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
-    const { t } = useTranslation('caste');
+    const { t } = useTranslation('unit');
 
     const imgSrc = unitStats.lord_portrait
         ? `${BASE_URL}/units/${unitStats.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
@@ -133,7 +133,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
     return (
         <Box as='section' w='400px' p='4'>
             <Heading fontSize='2xl' marginBottom='4'>
-                Unit
+                {t('unit')}
             </Heading>
             <Flex marginBottom='4'>
                 <Center
@@ -213,7 +213,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
             <Divider p='1' borderColor='crimson.400' marginBottom='1' />
 
             <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-between'>
-                <Tooltip label={'Num of unit'}>
+                <Tooltip label={t('num')}>
                     <WrapItem>
                         <Image src={menIcon} />
                         {numMen}
@@ -224,19 +224,19 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
             <Divider p='1' borderColor='crimson.400' marginBottom='1' />
 
             <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-evenly'>
-                <Tooltip label={'Recruitment cost'}>
+                <Tooltip label={t('rcost')}>
                     <WrapItem>
                         <Image src={spCost} width={24} height={24} />
                         <Text marginLeft='1'>{unitStats.recruitment_cost}</Text>
                     </WrapItem>
                 </Tooltip>
-                <Tooltip label={'Upkeep cost'}>
+                <Tooltip label={t('ucost')}>
                     <WrapItem>
                         <Image src={spUpkeep} width={24} height={24} />
                         <Text marginLeft='1'>{unitStats.upkeep_cost}</Text>
                     </WrapItem>
                 </Tooltip>
-                <Tooltip label={'Multiplayer cost'}>
+                <Tooltip label={t('mcost')}>
                     <WrapItem>
                         <Image src={mpCost} width={24} height={24} />
                         <Text marginLeft='1'>{unitStats.multiplayer_cost}</Text>
@@ -264,31 +264,31 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                 <StatsAccordion
                     icon={armourIcon}
                     additionalIcon={unitStats.stats.shield === 'none' ? undefined : shieldImage}
-                    text={'Armour'}
+                    text={t('armour')}
                     value={unitStats.stats.armour.split('_')?.at(-1) || '0'}
                     maxStats={maxVariables.armour}
                 >
                     <SimpleGrid as='ul' gridRowGap='1'>
-                        <StatsItem icon={shieldIcon} text='Parry chance' value={shieldVal || '0'} />
-                        <StatsItem icon={wardSaveIcon} text='Ward save' value={unitStats.stats.damage_mod_all} />
+                        <StatsItem icon={shieldIcon} text={t('parry')} value={shieldVal || '0'} />
+                        <StatsItem icon={wardSaveIcon} text={t('ward')} value={unitStats.stats.damage_mod_all} />
                         <StatsItem
                             icon={physResistanceIcon}
-                            text={'Physical resistance'}
+                            text={t('phys')}
                             value={unitStats.stats.damage_mod_physical}
                         />
                         <StatsItem
                             icon={missileResistanceIcon}
-                            text={'Missile resistance'}
+                            text={t('miss')}
                             value={unitStats.stats.damage_mod_missile}
                         />
                         <StatsItem
                             icon={magResistanceIcon}
-                            text={'Magic resistance'}
+                            text={t('magical')}
                             value={unitStats.stats.damage_mod_magic}
                         />
                         <StatsItem
                             icon={fireResistanceIcon}
-                            text={'Fire resistance'}
+                            text={t('fire')}
                             value={unitStats.stats.damage_mod_physical}
                         />
                     </SimpleGrid>
@@ -296,45 +296,45 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
 
                 <StatsItem
                     icon={moraleIcon}
-                    text='Leadership'
+                    text={t('lead')}
                     value={unitStats.stats.morale}
                     maxStats={maxVariables.morale}
                 />
                 <StatsItem
                     icon={speedIcon}
-                    text='Speed'
+                    text={t('speed')}
                     value={speed.split('.').join('')}
                     maxStats={maxVariables.speed}
                 />
 
                 <StatsAccordion
                     icon={attackIcon}
-                    text={'Melee attack'}
+                    text={t('melee')}
                     value={unitStats.stats.melee_attack}
                     maxStats={maxVariables.meleeAttack}
                     additionalIcons={attackAdditionalIconSrc}
                 >
                     <SimpleGrid as='ul' gridRowGap='1'>
-                        <StatsItem text={'Is magical'} value={unitStats.damage.melee_damage.is_magical} />
+                        <StatsItem text={t('isMagical')} value={unitStats.damage.melee_damage.is_magical} />
                         {unitStats.damage.melee_damage.contact_phase && (
                             <StatsItem
-                                text={'Contact'}
+                                text={t('contact')}
                                 value={unitStats.damage.melee_damage.contact_phase.split('_').slice(4)?.join(' ')}
                             />
                         )}
                         <StatsItem
-                            text={'Attack interval'}
+                            text={t('attackInter')}
                             value={unitStats.damage.melee_damage.melee_attack_interval}
                         />
-                        <StatsItem text={'Is high threat'} value={unitStats.is_high_threat} />
+                        <StatsItem text={t('isHT')} value={unitStats.is_high_threat} />
                         {unitStats.is_high_threat === 'true' && (
                             <>
                                 <StatsItem
-                                    text={'Splash target size'}
+                                    text={t('splashSize')}
                                     value={unitStats.damage.melee_damage.splash_attack_target_size}
                                 />
                                 <StatsItem
-                                    text={'Splash max attacks'}
+                                    text={t('splashAttack')}
                                     value={unitStats.damage.melee_damage.splash_attack_max_attacks}
                                 />
                             </>
@@ -344,13 +344,13 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
 
                 <StatsItem
                     icon={defenceIcon}
-                    text='Melee defence'
+                    text={t('defence')}
                     value={unitStats.stats.melee_defence}
                     maxStats={maxVariables.defence}
                 />
                 <StatsItem
                     icon={chargeIcon}
-                    text='Charge bonus'
+                    text={t('charge')}
                     value={unitStats.stats.charge_bonus}
                     maxStats={maxVariables.chargeBonus}
                 />
@@ -371,7 +371,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     />
                 )}
 
-                <StatsItem icon={massIcon} text={'Mass'} value={massVal} />
+                <StatsItem icon={massIcon} text={t('mass')} value={massVal} />
             </Wrap>
         </Box>
     );

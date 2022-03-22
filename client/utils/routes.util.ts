@@ -10,4 +10,9 @@ export const unitsRoute: Route = {
     href: '/factions',
 };
 
-export const mainNavRoutes: Route[] = [mainRoute, unitsRoute];
+export const releasesRoute: Route = {
+    name: 'releases',
+    href: '/releases',
+};
+
+export const mainNavRoutes: Route[] = [mainRoute, unitsRoute, releasesRoute];
