@@ -23,6 +23,7 @@ export const ALL_FACTIONS = [
     'vampire-coast',
     'vampire-counts',
     'wood-elves',
+    'daemons-of-chaos',
 ];
 
 export type Factions = typeof ALL_FACTIONS[number];

@@ -1,6 +1,6 @@
 import { Box, Heading, HStack } from '@chakra-ui/react';
 import { FC } from 'react';
-import { FactionUnit } from '../../types/faction.types';
+import { FactionUnit } from '../types/faction.types';
 import { BASE_URL } from '../api/api';
 import { UnitCardMini } from './UnitCardMini';
 

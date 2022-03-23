@@ -1,9 +1,12 @@
 import { SimpleGrid } from '@chakra-ui/react';
 import { FC } from 'react';
-import { MissileDamage } from '../../types/units.types';
+import { MissileDamage } from '../types/units.types';
 import { maxVariables } from '../utils/unitStats.util';
 import { StatsAccordion } from './StatsAccordion';
 import { StatsItem } from './StatsItem';
+import { compact, round } from 'lodash';
+import { contactPhaseResolver, magicalDmgSrc } from '../utils/stats.util';
+import { useTranslation } from 'next-i18next';
 
 import ammoIcon from '../assets/img/icon_stat_ammo.png';
 import missileDamageIcon from '../assets/img/icon_stat_ranged_damage.png';
@@ -13,9 +16,6 @@ import missileDamageAPIcon from '../assets/img/icon_stat_explosive_armour_pierci
 import reloadIcon from '../assets/img/icon_stat_reload_time_character.png';
 import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
-import { compact, round } from 'lodash';
-import { contactPhaseResolver, magicalDmgSrc } from '../utils/stats.util';
-import { useTranslation } from 'next-i18next';
 
 interface MissileDamageBlock {
     missileDamage: MissileDamage;

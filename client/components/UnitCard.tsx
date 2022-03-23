@@ -12,7 +12,7 @@ import {
     Tooltip,
 } from '@chakra-ui/react';
 import { FC } from 'react';
-import { UnitWithStats } from '../../types/units.types';
+import { UnitWithStats } from '../types/units.types';
 import Image from 'next/image';
 import { BASE_URL } from '../api/api';
 import { maxVariables } from '../utils/unitStats.util';

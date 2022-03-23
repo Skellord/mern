@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { FactionUnit } from '../../../types/faction.types';
+import { FactionUnit } from '../../types/faction.types';
 import { client } from '../../api/api';
 import Layout from '../../components/Layout';
 import { UnitsGroup } from '../../components/UnitsGroup';

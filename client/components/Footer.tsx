@@ -1,5 +1,4 @@
 import { Box, Container, Flex, List, ListItem, Text, Link } from '@chakra-ui/react';
-import Image from 'next/image';
 import { FC } from 'react';
 import { DiscordIcon } from './CustomIcons';
 

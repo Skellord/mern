@@ -2,7 +2,6 @@ import { WrapItem, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import React, { FC } from 'react';
 import { BASE_URL } from '../api/api';
-import { Attributesgroup } from '../types/attributes.types';
 
 interface AttributeItem {
     type?: 'spells' | 'attribute';
@@ -64,7 +63,7 @@ export const AttributeItem: FC<AttributeItem> = ({ item, type = 'attribute', nam
 
     return (
         <WrapItem w='100%' h='24px' alignItems='center'>
-            <Image src={imgSrc} loader={() => imgSrc} width={24} height={24} unoptimized />
+            <Image src={imgSrc} loader={() => imgSrc} width={24} height={24} unoptimized alt='attribute' />
             <Text ml='2'>{text}</Text>
         </WrapItem>
     );

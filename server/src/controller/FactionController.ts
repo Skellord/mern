@@ -97,6 +97,10 @@ const factionData = async (faction: string) => {
             const woodElvesData = await factionService.getWoodElves();
             return woodElvesData;
         }
+        case 'daemons-of-chaos': {
+            const daeData = [{ faction: 'dae', units: [] }];
+            return daeData;
+        }
         default:
             return;
     }

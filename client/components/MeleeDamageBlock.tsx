@@ -1,17 +1,17 @@
 import { SimpleGrid } from '@chakra-ui/react';
 import React from 'react';
 import { FC } from 'react';
-import { MeleeDamage } from '../../types/units.types';
+import { MeleeDamage } from '../types/units.types';
 import { maxVariables } from '../utils/unitStats.util';
 import { StatsAccordion } from './StatsAccordion';
 import { StatsItem } from './StatsItem';
+import { useTranslation } from 'next-i18next';
 
 import baseDamageIcon from '../assets/img/icon_stat_damage_base_character.png';
 import apDamageIcon from '../assets/img/armour_piercing_character.png';
 import largeBonusIcon from '../assets/img/bonus_vs_large_character.png';
 import infantryBonusIcon from '../assets/img/bonus_vs_small_character.png';
 import damageIcon from '../assets/img/icon_stat_damage.png';
-import { useTranslation } from 'next-i18next';
 
 interface MeleeDamageBlock {
     melee_damage: MeleeDamage;

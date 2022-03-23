@@ -7,8 +7,6 @@ import semiCircleRorUrl from '../assets/img/unit_card_semicircle_renown.png';
 import borderImage from '../assets/img/panel_back_frame.png';
 import { isRorUnit } from '../utils/rorUnits.util';
 
-import placeholderImg from '../assets/img/placeholder.png';
-
 interface Props {
     name: string;
     imgSrc: string;

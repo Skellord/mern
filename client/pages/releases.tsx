@@ -19,7 +19,6 @@ export const getStaticProps: GetStaticProps = async context => {
 const ReleasesPage: NextPage = () => {
     const { t } = useTranslation('common');
     const { locale } = useRouter();
-    const title = locale === 'ru' ? 'Выход версии 0.0.1' : 'Release of version 0.0.1 ';
     const text =
         locale === 'ru' ? 'Состоялся выход альфа версии сайта' : 'The alpha version of the site has been released';
     return (

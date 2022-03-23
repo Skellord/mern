@@ -4,9 +4,9 @@
     "description": "mern-project",
     "main": "index.ts",
     "scripts": {
-        "start": "node build/index.js",
+        "start": "cross-env NODE_ENV=production node build/index.js",
         "build": "node scripts/esbuild.js",
-        "dev": "concurrently \"nodemon src/index.ts\" \"cd ./client && pnpm dev\"",
+        "dev": "cross-env NODE_ENV=development concurrently \"nodemon src/index.ts\" \"cd ../client && pnpm dev\"",
         "db:prepare": "node scripts/completeDataCollection.js",
         "connect:close": "node scripts/closeConnection.js"
     },
@@ -24,7 +24,6 @@
     },
     "homepage": "https://github.com/Skellord/mern#readme",
     "dependencies": {
-        "@chakra-ui/icons": "^1.1.7",
         "concurrently": "^7.0.0",
         "cors": "^2.8.5",
         "express": "^4.17.2",

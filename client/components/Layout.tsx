@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { FC } from 'react';
-import { Container, Box, Heading, Divider, Grid, SimpleGrid } from '@chakra-ui/react';
+import { Container, Box, Heading, Divider, SimpleGrid } from '@chakra-ui/react';
 import Nav from './Nav';
 import Header from './Header';
 import { Footer } from './Footer';

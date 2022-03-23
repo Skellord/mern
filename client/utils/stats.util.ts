@@ -1,4 +1,4 @@
-import { UnitCaste, UnitEntity } from '../../types/units.types';
+import { UnitCaste, UnitEntity } from '../types/units.types';
 import { BASE_URL } from '../api/api';
 
 export const hpResolver = (
