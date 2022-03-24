@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const esbuild = require('esbuild');
 const copyStaticFiles = require('esbuild-copy-static-files');
+const path = require('path');
 
 esbuild.build({
-    entryPoints: ['.//src/index.ts'],
+    entryPoints: [path.join(__dirname, '../src/index.ts')],
     bundle: true,
     platform: 'node',
     target: 'node12.19.0',
     minify: true,
-    outfile: '/build/index.js',
+    outfile: path.join(__dirname, '../build/index.js'),
     plugins: [
         copyStaticFiles({
             src: './/src/public',
