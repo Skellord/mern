@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
-import { TypeTransformer } from '../../client/types/typeTransformer';
-import { Localization } from '../../client/types/localization.types';
+import { TypeTransformer } from '../../types/typeTransformer';
+import { Localization } from '../../types/localization.types';
 
 const schema = new Schema<TypeTransformer<Localization>>({
     _id: { type: Schema.Types.ObjectId },

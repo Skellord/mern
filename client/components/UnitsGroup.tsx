@@ -1,7 +1,7 @@
 import { Box, Heading, HStack } from '@chakra-ui/react';
 import { FC } from 'react';
 import { FactionUnit } from '../types/faction.types';
-import { BASE_URL } from '../api/api';
+import { BASE_URL, STATIC_URL } from '../api/api';
 import { UnitCardMini } from './UnitCardMini';
 
 interface Props {
@@ -16,11 +16,11 @@ export const UnitsGroup: FC<Props> = ({ units, title }) => {
             <HStack wrap='wrap'>
                 {units?.map(item => {
                     const imgSrc = item.lord_portrait
-                        ? `${BASE_URL}/units/${item.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
+                        ? `${STATIC_URL}/units/${item.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
                         : item.unit_portrait
-                        ? `${BASE_URL}/units/${item.unit_portrait}.png`
-                        : `${BASE_URL}/units/${item.unit}.png`;
-                    const iconSrc = `${BASE_URL}/unit_category_icons/${item.icon}.png`;
+                        ? `${STATIC_URL}/units/${item.unit_portrait}.png`
+                        : `${STATIC_URL}/units/${item.unit}.png`;
+                    const iconSrc = `${STATIC_URL}/unit_category_icons/${item.icon}.png`;
                     return (
                         <UnitCardMini
                             key={item.unit}

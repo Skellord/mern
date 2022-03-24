@@ -1,5 +1,5 @@
 import { WrapItem, Flex, Progress, Text } from '@chakra-ui/react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import React, { FC } from 'react';
 import { valueResolver } from '../utils/unitStats.util';
 
@@ -14,7 +14,7 @@ interface StatsItemProps {
 export const StatsItem: FC<StatsItemProps> = ({ text, value, maxStats, icon, valueСoefficient }) => {
     return (
         <WrapItem display='flex' w='100%' bg='gradient.stats'>
-            {icon && <Image src={icon} width={24} height={24} />}
+            {icon && <Image src={icon} width={24} height={24} alt='icon' />}
             <Text marginLeft='2' marginRight='auto'>
                 {text}
             </Text>

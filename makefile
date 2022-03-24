@@ -22,3 +22,6 @@ start-frontend:
 prepare-prod:
 	cd ./client/ && npm install --force \
 	&& cd ../server/ && npm install --force
+
+start-dev:
+	cd ./server/ && npm run dev

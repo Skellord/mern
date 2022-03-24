@@ -18,6 +18,6 @@ app.use('/factions', factionRouter);
 app.use(errorHandler);
 
 // Static deploy
-app.use(express.static(__dirname + '/public'));
+app.use('/static', express.static(__dirname + '/public'));
 
 export default app;

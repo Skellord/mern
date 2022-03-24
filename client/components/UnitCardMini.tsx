@@ -40,6 +40,7 @@ export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon, localName })
                                 height={130}
                                 placeholder='blur'
                                 blurDataURL={'/img/placeholder.png'}
+                                alt='type'
                                 unoptimized
                             />
                         </Box>
@@ -62,6 +63,7 @@ export const UnitCardMini: FC<Props> = ({ name, imgSrc, href, icon, localName })
                                     height={22}
                                     placeholder='empty'
                                     unoptimized
+                                    alt='circle'
                                 />
                             </Box>
                         </Box>

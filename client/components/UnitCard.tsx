@@ -14,7 +14,7 @@ import {
 import { FC } from 'react';
 import { UnitWithStats } from '../types/units.types';
 import Image from 'next/image';
-import { BASE_URL } from '../api/api';
+import { STATIC_URL } from '../api/api';
 import { maxVariables } from '../utils/unitStats.util';
 import { StatsAccordion } from './StatsAccordion';
 import { StatsItem } from './StatsItem';
@@ -60,8 +60,8 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
     const { t } = useTranslation('unit');
 
     const imgSrc = unitStats.lord_portrait
-        ? `${BASE_URL}/units/${unitStats.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
-        : `${BASE_URL}/units/${unitStats.unit_portrait}.png`;
+        ? `${STATIC_URL}/units/${unitStats.lord_portrait?.split('/')?.slice(-2)?.join('/')}`
+        : `${STATIC_URL}/units/${unitStats.unit_portrait}.png`;
 
     const numMen = numMenResolver(unitStats.num_men, unitStats.stats.num_mounts, unitStats.stats.num_engines);
 
@@ -80,7 +80,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
         ? unitStats.entity.mount_entity.mass
         : unitStats.entity.man_entity.mass;
     const isUnitRor = unitStats.unit.split('_').includes('ror');
-    const iconSrc = `${BASE_URL}/unit_category_icons/${unitStats.icon}.png`;
+    const iconSrc = `${STATIC_URL}/unit_category_icons/${unitStats.icon}.png`;
     const magicalSrc = unitStats.damage.melee_damage.is_magical === 'true' ? magicalDmgSrc : undefined;
 
     const contactPhaseSrc =
@@ -154,6 +154,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                             height={130}
                             placeholder='empty'
                             unoptimized
+                            alt='unit_portrait'
                         />
                     </Box>
                 </Center>
@@ -165,7 +166,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                     paddingTop={isUnitRor ? '5px' : '0'}
                     marginLeft='4'
                 >
-                    <Image loader={() => iconSrc} src={iconSrc} width={22} height={22} unoptimized />
+                    <Image loader={() => iconSrc} src={iconSrc} width={22} height={22} unoptimized alt='unit_icon' />
                 </Center>
                 <Text fontSize='xl' fontWeight='bold' marginLeft='3'>
                     {unitStats.group_name}
@@ -204,6 +205,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                                 src={item.state === 'positive' ? arrowIncrease : arrowDecrease}
                                 width={16}
                                 height={18}
+                                alt='arrow'
                             />
                             <Text marginLeft='1'>{item.local_name}</Text>
                         </WrapItem>
@@ -215,7 +217,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
             <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-between'>
                 <Tooltip label={t('num')}>
                     <WrapItem>
-                        <Image src={menIcon} />
+                        <Image src={menIcon} alt='men' />
                         {numMen}
                     </WrapItem>
                 </Tooltip>
@@ -226,19 +228,19 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
             <Wrap p='1' border='inherit' borderColor='inherit' borderRadius='3' justify='space-evenly'>
                 <Tooltip label={t('rcost')}>
                     <WrapItem>
-                        <Image src={spCost} width={24} height={24} />
+                        <Image src={spCost} width={24} height={24} alt='gold' />
                         <Text marginLeft='1'>{unitStats.recruitment_cost}</Text>
                     </WrapItem>
                 </Tooltip>
                 <Tooltip label={t('ucost')}>
                     <WrapItem>
-                        <Image src={spUpkeep} width={24} height={24} />
+                        <Image src={spUpkeep} width={24} height={24} alt='gold' />
                         <Text marginLeft='1'>{unitStats.upkeep_cost}</Text>
                     </WrapItem>
                 </Tooltip>
                 <Tooltip label={t('mcost')}>
                     <WrapItem>
-                        <Image src={mpCost} width={24} height={24} />
+                        <Image src={mpCost} width={24} height={24} alt='treasure' />
                         <Text marginLeft='1'>{unitStats.multiplayer_cost}</Text>
                     </WrapItem>
                 </Tooltip>
@@ -252,7 +254,7 @@ export const UnitCard: FC<UnitCardProps> = ({ unitStats }) => {
                         <Box h='100%' bg='gradient.health' />
                         <Flex position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)' align='center'>
                             <Box w='16px' h='16px'>
-                                <Image src={healthIcon} width={16} height={16} objectFit={'fill'} />
+                                <Image src={healthIcon} width={16} height={16} objectFit={'fill'} alt='hp' />
                             </Box>
                             <Text fontWeight='bold' textShadow='text'>
                                 {hp}

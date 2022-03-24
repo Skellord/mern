@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button, Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,7 +13,7 @@ const Header: FC = () => {
         <Flex as='header' w='100%' h='14' bgColor='gray.900' px='3'>
             <Link href={'/'}>
                 <a style={{ display: 'flex', marginRight: 'auto' }}>
-                    <Image src={Logo} width='100px' />
+                    <Image src={Logo} width='100px' alt='logo' />
                 </a>
             </Link>
             <Link href={asPath} locale={locale === 'en' ? 'ru' : 'en'}>
