@@ -1,0 +1,12 @@
+version: '3'
+services:
+    server:
+        container_name: backend
+        image: backend
+        build: ./
+        restart: unless-stopped
+        env_file: ./.env
+        environment:
+            - MONGO_URI=mongodb://host.docker.internal:27017/tww?retryWrites=true
+        ports:
+            - '5000:5000'

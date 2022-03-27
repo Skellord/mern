@@ -1,26 +1,18 @@
 version: "3"
 services:
-    mongo:
-        container_name: mongo
-        image: mongo
-        env_file: ./server/.env
-        ports:
-            - "27017:27017"
-        volumes:
-            - db:/data/db
-    server:
-        depends_on:
-            - mongo
-        container_name: backend
-        image: backend
-        build: ./server
+    client:
+        container_name: frontend
+        image: frontend:latest
+        build: ./client
         restart: unless-stopped
-        env_file: ./server/.env
+        env_file: ./client/.env
         environment:
-            - MONGO_URI=mongodb://mongo:27017/tww?retryWrites=true
+            - NEXT_PUBLIC_BASE_URL=host.docker.internal:5000
         ports:
-            - "5000:5000"
-        stdin_open: true
-        tty: true
-volumes:
-    db:
+            - "3000:3000"
+    nginx:
+        container_name: nginx
+        image: nginx
+        build: ./nginx
+        ports:
+            - 80:80

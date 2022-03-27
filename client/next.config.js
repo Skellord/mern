@@ -7,7 +7,7 @@ const nextConfig = {
     },
     i18n,
     experimental: {
-        esmExternals: false,
+        outputStandalone: true,
     },
 };
 
