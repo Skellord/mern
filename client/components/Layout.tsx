@@ -10,7 +10,7 @@ interface Layout {
     heading?: string | string[];
 }
 
-const Layout: FC<Layout> = ({ title = 'TWW Datebase', heading, children }) => {
+const Layout: FC<Layout> = ({ title = 'TWW Database', heading, children }) => {
     return (
         <>
             <Head>

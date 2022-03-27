@@ -13,6 +13,9 @@ build-backend:
 build-frontend:
 	cd ./client/ && npm run build
 
+build-nginx:
+	cd ./nginx/ && docker build -t nginx:1.0.0 .
+
 start-backend:
 	cd ./server/build && pm2 start index.js
 

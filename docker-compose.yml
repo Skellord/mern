@@ -1,0 +1,26 @@
+version: "3"
+services:
+    mongo:
+        container_name: mongo
+        image: mongo
+        env_file: ./server/.env
+        ports:
+            - "27017:27017"
+        volumes:
+            - db:/data/db
+    server:
+        depends_on:
+            - mongo
+        container_name: backend
+        image: backend
+        build: ./server
+        restart: unless-stopped
+        env_file: ./server/.env
+        environment:
+            - MONGO_URI=mongodb://mongo:27017/tww?retryWrites=true
+        ports:
+            - "5000:5000"
+        stdin_open: true
+        tty: true
+volumes:
+    db:
