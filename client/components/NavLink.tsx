@@ -1,4 +1,4 @@
-import { Center, GridItem, Link } from '@chakra-ui/react';
+import { Link } from '@chakra-ui/react';
 import { FC } from 'react';
 import NextLink from 'next/link';
 
@@ -9,13 +9,11 @@ interface Props {
 
 const NavLink: FC<Props> = ({ name, href }) => {
     return (
-        <GridItem>
-            <Center>
-                <NextLink href={href} as={href}>
-                    <Link>{name}</Link>
-                </NextLink>
-            </Center>
-        </GridItem>
+        <NextLink href={href} as={href}>
+            <Link p='2' mr='20'>
+                {name}
+            </Link>
+        </NextLink>
     );
 };
 

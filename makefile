@@ -35,4 +35,7 @@ clean:
 	docker-compose down \
 	&& cd ./server && docker-compose down
 
+create-network:
+	docker network create tww-network
+
 start-prod: start-backend start-frontend
