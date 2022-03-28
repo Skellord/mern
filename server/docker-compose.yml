@@ -2,7 +2,7 @@ version: '3'
 services:
     server:
         container_name: backend
-        image: backend
+        image: skellord/tww:backend
         build: ./
         restart: unless-stopped
         env_file: ./.env

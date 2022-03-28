@@ -22,7 +22,7 @@ start-backend:
 	cd ./server && docker-compose up -d
 
 start-frontend:
-	cd ./client/ && pm2 start npm --name "next" -- start
+	docker-compose up -d
 
 prepare-prod:
 	cd ./client/ && npm install --force \
@@ -34,3 +34,5 @@ start-dev:
 clean:
 	docker-compose down \
 	&& cd ./server && docker-compose down
+
+start-prod: start-backend start-frontend

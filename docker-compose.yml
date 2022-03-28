@@ -2,17 +2,22 @@ version: "3"
 services:
     client:
         container_name: frontend
-        image: frontend:latest
+        image: skellord/tww:frontend
         build: ./client
         restart: unless-stopped
         env_file: ./client/.env
         environment:
             - NEXT_PUBLIC_BASE_URL=host.docker.internal:5000
+            - NEXT_PUBLIC_STATIC_URL=backend:5000/static/
         ports:
             - "3000:3000"
     nginx:
         container_name: nginx
-        image: nginx
+        image: skellord/tww:nginx
         build: ./nginx
         ports:
             - 80:80
+networks: 
+  default: 
+    external: 
+      name: tww-network
