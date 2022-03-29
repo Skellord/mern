@@ -6,10 +6,10 @@ import { Footer } from './Footer';
 
 interface Layout {
     title?: string;
-    heading?: string | string[];
+    bgColor?: string;
 }
 
-const Layout: FC<Layout> = ({ title = 'TWW Database', heading, children }) => {
+const Layout: FC<Layout> = ({ title = 'TWW Database', bgColor = 'black.900', children }) => {
     return (
         <>
             <Head>
@@ -17,7 +17,7 @@ const Layout: FC<Layout> = ({ title = 'TWW Database', heading, children }) => {
             </Head>
             <Header />
             <SimpleGrid as='main' minH='calc(100% - 56px - 112px)'>
-                <Container maxW='container.xl' bgColor='black.900' py='4'>
+                <Container maxW='container.xl' bgColor={bgColor} py='4'>
                     {children}
                 </Container>
             </SimpleGrid>

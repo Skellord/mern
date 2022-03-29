@@ -15,8 +15,8 @@ const Header: FC = () => {
         <Flex as='header' w='100%' h='20' bgColor='gray.900' px='3' pos='relative' zIndex='base'>
             <Nav />
             <Flex px='3' pos='absolute' top='0' left='0' justifyContent='space-between' w='100%' h='100%' zIndex='-1'>
-                <Nextlink href={'/'}>
-                    <Link display='flex' alignItems='center'>
+                <Nextlink href={'https://warhammer3.totalwar.com/'} passHref>
+                    <Link display='flex' alignItems='center' isExternal>
                         <Image src={Logo} width={100} height={56} alt='logo' />
                     </Link>
                 </Nextlink>

@@ -1,5 +1,5 @@
 import { UnitCaste, UnitEntity } from '../types/units.types';
-import { BASE_URL } from '../api/api';
+import { STATIC_URL } from '../api/api';
 
 export const hpResolver = (
     entity: UnitEntity,
@@ -49,9 +49,9 @@ export const numMenResolver = (numMen: string, numMounts?: string, numEngines?: 
 export const contactPhaseResolver = (contactPhase: string) => {
     const phaseName = `phase_${contactPhase.split('_').slice(4)?.join('_')}`;
     if (contactPhase === 'wh3_main_unit_contact_warpflame') {
-        return `${BASE_URL}/ability_icons/${contactPhase}.png`;
+        return `${STATIC_URL}/ability_icons/${contactPhase}.png`;
     }
-    return `${BASE_URL}/effect_bundles/${phaseName}.png`;
+    return `${STATIC_URL}/effect_bundles/${phaseName}.png`;
 };
 
-export const magicalDmgSrc = `${BASE_URL}/effect_bundles/magical_attacks.png`;
+export const magicalDmgSrc = `${STATIC_URL}/effect_bundles/magical_attacks.png`;

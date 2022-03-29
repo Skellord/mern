@@ -47,6 +47,11 @@ const animation = keyframes`
     to { transform: translate(-20px, -5px) scale(0.9); }
 `;
 
+const animationBig = keyframes`
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(-20px, -10px) scale(0.9); }
+`;
+
 const shine = keyframes`
     from {
         mask-position: 150%;
@@ -68,7 +73,10 @@ const FactionLink: FC<FactionLink> = ({ link, name, imgSrc, newImage }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
     const [hover, setHover] = useBoolean(false);
     const anim = prefersReducedMotion ? `${animation} infinite 10s linear` : undefined;
+    const animBig = prefersReducedMotion ? `${animationBig} infinite 10s linear` : undefined;
     const shineAnim = prefersReducedMotion ? `${shine} infinite 2s linear` : undefined;
+    const imageAnimation = newImage ? animBig : anim;
+
     return (
         <NextLink href={`factions/${link}`} as={`factions/${link}`}>
             <Link
@@ -77,9 +85,32 @@ const FactionLink: FC<FactionLink> = ({ link, name, imgSrc, newImage }) => {
                 display='flex'
                 pl='1'
                 zIndex='docked'
-                _hover={{ textDecor: 'none' }}
+                _hover={{ textDecor: 'none', border: '1px solid var(--chakra-colors-blue-800)' }}
                 onMouseEnter={setHover.on}
                 onMouseLeave={setHover.off}
+                _before={{
+                    content: '""',
+                    bgColor: 'black',
+                    position: 'absolute',
+                    width: '500px',
+                    height: '500px',
+                    top: '-300px',
+                    left: '-280px',
+                    transform: 'rotate(140deg)',
+                    zIndex: '10',
+                }}
+                _after={{
+                    content: '""',
+                    bgColor: 'black',
+                    position: 'absolute',
+                    width: '500px',
+                    height: '500px',
+                    top: '-300px',
+                    left: '-290px',
+                    transform: 'rotate(140deg)',
+                    boxShadow: '0 0 20px 20px black',
+                    zIndex: '9',
+                }}
             >
                 <Flex
                     position='absolute'
@@ -87,23 +118,15 @@ const FactionLink: FC<FactionLink> = ({ link, name, imgSrc, newImage }) => {
                     top='0'
                     w={newImage ? '747px' : '600px'}
                     h={newImage ? '163px' : '100px'}
-                    animation={hover ? anim : undefined}
-                    _before={{
-                        content: '""',
-                        position: 'absolute',
-                        top: '0',
-                        left: '0',
-                        right: '0',
-                        bottom: '0',
-                        zIndex: '1',
-                        boxShadow: newImage ? '160px 0px 120px -10px rgba(0, 0, 0, 1) inset' : '',
-                    }}
+                    animation={hover ? imageAnimation : undefined}
                 >
                     <ChakraImage src={imgSrc} width={newImage ? 747 : 600} height={newImage ? 163 : 100} />
                 </Flex>
                 <Text
                     display='inline-flex'
                     mt='auto'
+                    mb='auto'
+                    ml='2'
                     fontSize='2xl'
                     zIndex='docked'
                     sx={{
@@ -124,7 +147,7 @@ const FactionLink: FC<FactionLink> = ({ link, name, imgSrc, newImage }) => {
 const Units: NextPage = () => {
     const { t } = useTranslation('faction');
     return (
-        <Layout heading={t('factionPage')}>
+        <Layout bgColor='transparent'>
             <SimpleGrid
                 gridTemplateColumns={'550px 550px'}
                 gridAutoRows={'90px'}

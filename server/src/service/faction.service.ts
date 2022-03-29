@@ -128,6 +128,7 @@ const tzeentchUnitVariants = [
     'wh3_main_tze_inf_blue_horrors_summoned_0',
     'wh3_main_tze_inf_pink_horrors_summoned_0',
     'wh3_main_tze_mon_lord_of_change_summoned_0',
+    'wh3_main_tze_mon_exalted_flamers_0',
 ];
 
 const beastmensUnitVariants = [
@@ -202,6 +203,7 @@ const bretonniaUnitVariants = [
     'wh_dlc07_brt_cha_damsel_life_2',
     'wh_dlc07_brt_cha_damsel_beasts_2',
     'wh_main_brt_cha_damsel_2',
+    'wh_dlc07_brt_peasant_mob_0',
 ];
 
 const chaosUnitVariants = [
@@ -343,6 +345,7 @@ const darkElvesVariants = [
     'wh2_dlc14_def_cha_malus_darkblade_0',
     'wh2_main_def_cha_dreadlord_0_black_ark',
     'wh2_dlc10_def_mon_war_hydra_boss',
+    'wh2_main_def_mon_war_hydra',
 ];
 
 const dwarfsUnitVariants = [
@@ -429,6 +432,7 @@ const greenskinsUnitVariants = [
     'wh_dlc08_grn_mon_giant_boss',
     'wh_main_grn_mon_giant_qb_tall_roff',
     'wh_dlc08_grn_mon_arachnarok_spider_boss',
+    'wh_dlc15_grn_mon_arachnarok_spider_waaagh_0',
 ];
 
 const highElvesUnitVariants = [
@@ -567,6 +571,8 @@ const norscaUnitVariants = [
     'wh_main_nor_cha_chaos_sorcerer_0',
     'wh_main_nor_cha_chaos_sorcerer_1',
     'wh_main_nor_cha_chaos_sorcerer_2',
+    'wh_dlc08_nor_veh_marauder_warwolves_chariot_0',
+    'wh_dlc08_nor_mon_warwolves_0',
 ];
 
 const skavensUnitVariants = [
@@ -582,6 +588,7 @@ const skavensUnitVariants = [
     'wh2_dlc16_skv_cha_chieftain_1',
     'wh2_dlc16_skv_cha_packmaster_2',
     'wh2_main_skv_cha_plague_priest_2',
+    'wh2_dlc14_skv_cha_deathmaster_snikch_tzarkan_0',
 ];
 
 const tombKingsUnitVariants = [
@@ -605,6 +612,7 @@ const tombKingsUnitVariants = [
     'wh2_dlc09_tmb_cha_necrotect_1',
     'wh2_dlc09_tmb_cha_tomb_prince_1',
     'wh2_dlc09_tmb_cha_tomb_prince_2',
+    'wh2_dlc09_tmb_veh_khemrian_warsphinx_0',
 ];
 
 const vampireCoastUnitVariants = [

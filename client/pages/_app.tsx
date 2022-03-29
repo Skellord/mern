@@ -2,9 +2,10 @@ import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
 import NextNProgress from 'nextjs-progressbar';
-import '../styles/styles.css';
-import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
+import '../styles/styles.css';
+import 'focus-visible/dist/focus-visible';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
