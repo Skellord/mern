@@ -1,17 +1,17 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Heading, Button, Text, Flex, Grid } from '@chakra-ui/react';
 import Link from 'next/link';
-import Image, { StaticImageData } from 'next/image';
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Slider, { Settings } from 'react-slick';
 
+import { ArrowForwardIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import 'slick-carousel/slick/slick.css';
 
 const katarinaSrc = 'img/totalwarwarhammer3.jpg';
 const khornSrc = 'img/menu_image_1.jpg';
 const kislevSrc = 'img/menu_image_2.jpg';
+const battleSrc = 'img/menu_image_3.jpg';
 
 interface Slide {
     image: string;
@@ -44,20 +44,20 @@ const slides: Slide[] = [
     },
     {
         image: kislevSrc,
-        title: 'Список рас, доступный для просмотра',
+        title: 'List of races available for viewing ',
         titleRu: 'Список рас, доступный для просмотра',
         text: 'Complete (almost) list of units of each faction from TWW',
         textRu: 'Полный (почти) список юнитов каждой фракции из TWW',
         href: '/factions',
-        hrefText: 'toNews',
+        hrefText: 'follow',
     },
     {
-        image: kislevSrc,
-        title: 'Список рас, доступный для просмотра',
-        titleRu: 'Список рас, доступный для просмотра',
-        text: 'Complete (almost) list of units of each faction from TWW',
-        textRu: 'Полный (почти) список юнитов каждой фракции из TWW',
-        href: '/factions',
+        image: battleSrc,
+        title: 'The ALT+Tab Crash fixes Steam Beta Branch',
+        titleRu: 'Исправление ALT+Tab crash в бета версии игры',
+        text: 'Available Now: The ALT+Tab Crash Steam Beta Branch',
+        textRu: 'Уже доступно исправления ALT+Tab crash в бета версии игры',
+        href: 'https://www.totalwar.com/blog/wh3-steam-beta-20220322/',
         hrefText: 'toNews',
     },
 ];
@@ -130,15 +130,10 @@ const SlideSmall: FC<Slide & { locale: 'ru' | 'en' }> = ({ image, text, textRu, 
 };
 
 export const News = () => {
-    const { t } = useTranslation('common');
     const { locale } = useRouter();
-    const mainSliderRef = useRef<Slider>(null);
-    const secondSliderRef = useRef<Slider>(null);
     const loc = locale === 'ru' ? 'ru' : 'en';
     const [nav1, setNav1] = useState<any>();
     const [nav2, setNav2] = useState<any>();
-    const slider1 = useRef();
-    const slider2 = useRef();
 
     const mainSliderProps: Settings = {
         arrows: false,
@@ -153,6 +148,14 @@ export const News = () => {
         focusOnSelect: true,
         autoplay: true,
         autoplaySpeed: 4000,
+    };
+
+    const onClickNext = () => {
+        nav1.slickNext();
+    };
+
+    const onClickPrev = () => {
+        nav1.slickPrev();
     };
 
     return (
@@ -188,6 +191,21 @@ export const News = () => {
                         />
                     ))}
                 </Slider>
+                <Flex pos='absolute' top='-12' left='50%' transform='translateX(-50%)'>
+                    <Button
+                        borderRadius='none'
+                        colorScheme='blackAlpha'
+                        h='10'
+                        w='10'
+                        mr='2'
+                        onClick={() => onClickPrev()}
+                    >
+                        <ArrowBackIcon />
+                    </Button>
+                    <Button borderRadius='none' colorScheme='blackAlpha' h='10' w='10' onClick={() => onClickNext()}>
+                        <ArrowForwardIcon />
+                    </Button>
+                </Flex>
             </Box>
         </Box>
     );

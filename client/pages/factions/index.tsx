@@ -147,7 +147,7 @@ const FactionLink: FC<FactionLink> = ({ link, name, imgSrc, newImage }) => {
 const Units: NextPage = () => {
     const { t } = useTranslation('faction');
     return (
-        <Layout bgColor='transparent'>
+        <Layout>
             <SimpleGrid
                 gridTemplateColumns={'550px 550px'}
                 gridAutoRows={'90px'}

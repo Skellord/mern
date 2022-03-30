@@ -78,7 +78,7 @@ const FactionPage: NextPage<{ data: FactionsUnitsResponse }> = props => {
     const warMachine = nonCampaignUnits?.filter(item => item.caste === 'warmachine');
 
     return (
-        <Layout heading={t(`faction:${factionName}`)}>
+        <Layout>
             <UnitsGroup title={t('lord')} units={lords} />
             <UnitsGroup title={t('hero')} units={heroes} />
             {meleeInfantry && meleeInfantry.length > 0 && (

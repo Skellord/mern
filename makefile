@@ -10,10 +10,11 @@ git-fetch:
 	git fetch && git reset --hard origin/master
 
 build-backend:
-	cd ./server/ && docker build -t backend$(VERSION) .
+	cd ./server/ && docker build -t skellord/tww:backend .
 
 build-frontend:
-	cd ./client/ && npm run build
+	cd ./server/ && docker-compose up -d \
+	&& cd ../client/ && docker build -t skellord/tww:frontend .
 
 build-nginx:
 	cd ./nginx/ && docker build -t nginx:1.0.0 .
@@ -39,3 +40,9 @@ create-network:
 	docker network create tww-network
 
 start-prod: start-backend start-frontend
+
+docker-push:
+	docker push skellord/tww -a
+
+docker-pull:
+	docker pull skellord/tww -a
