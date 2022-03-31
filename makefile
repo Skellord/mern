@@ -17,10 +17,10 @@ build-frontend:
 	&& cd ../client/ && docker build -t skellord/tww:frontend .
 
 build-nginx:
-	cd ./nginx/ && docker build -t nginx:1.0.0 .
+	cd ./nginx/ && docker build -t skellord/tww:nginx .
 
 start-backend:
-	cd ./server && docker-compose up -d
+	cd ./server && pm2 start npm --name "server" -- start
 
 start-frontend:
 	docker-compose up -d
@@ -46,3 +46,5 @@ docker-push:
 
 docker-pull:
 	docker pull skellord/tww -a
+
+restart: clean start-prod
