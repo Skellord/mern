@@ -21,7 +21,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NEXT_PUBLIC_BASE_URL=http://host.docker.internal:5000
-ENV NEXT_PUBLIC_STATIC_URL=http://host.docker.internal:5000/static
+ENV NEXT_PUBLIC_STATIC_URL=https://tww-database.online/img
 RUN npm run build
 
 # Production image, copy all the files and run next

@@ -10,6 +10,3 @@ services:
             - MONGO_URI=mongodb://host.docker.internal:27017/tww?retryWrites=true
         ports:
             - '5000:5000'
-        extra_hosts:
-            - 'host.docker.internal:172.22.0.1'
-
